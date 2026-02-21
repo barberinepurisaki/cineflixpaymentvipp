@@ -17,8 +17,8 @@ interface AshleyChatProps {
 type ChatStep = 'greeting' | 'name' | 'gender' | 'recommendations' | 'plans' | 'upsell' | 'checkout' | 'recovery' | 'freeChat';
 type UserGender = 'male' | 'female' | null;
 
-const TYPING_DELAY = 4000; // 4 seconds typing indicator
-const MESSAGE_INTERVAL = 15000; // 15 seconds between messages
+const TYPING_DELAY = 1500; // 1.5 seconds typing indicator
+const MESSAGE_INTERVAL = 3000; // 3 seconds between messages
 
 // Function to clean AI response from Markdown formatting
 const cleanAIResponse = (text: string): string => {
