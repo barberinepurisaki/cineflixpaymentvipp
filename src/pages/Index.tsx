@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import TMDBGallery from '@/components/TMDBGallery';
@@ -7,6 +8,7 @@ import PlansSection from '@/components/PlansSection';
 import Footer from '@/components/Footer';
 import ChatFAB from '@/components/ChatFAB';
 import AshleyChat from '@/components/AshleyChat';
+import ContentLock from '@/components/ContentLock';
 import { 
   useTrendingMovies, 
   useTrendingSeries, 
@@ -18,6 +20,7 @@ import {
 } from '@/hooks/useTMDB';
 
 const Index = () => {
+  const { user } = useAuth();
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatInitialMessage, setChatInitialMessage] = useState<string | undefined>(undefined);
   const [selectedMovie, setSelectedMovie] = useState<TMDBMovie | null>(null);
@@ -63,14 +66,25 @@ const Index = () => {
       <Header />
       <main>
         <HeroSection onOpenChat={() => openChatWithMessage()} onPlayTrailer={() => trendingMovies?.results?.[0] && handlePlayTrailer(trendingMovies.results[0])} />
-        <div className="space-y-4 pb-10">
+        
+        {/* Preview: first 2 galleries visible to all */}
+        <div className="space-y-4 pb-4">
           <TMDBGallery title="🔥 Em Alta" movies={trendingMovies?.results} isLoading={trendingLoading} onPlayTrailer={handlePlayTrailer} />
-          <TMDBGallery title="📺 Séries Populares" movies={trendingSeries?.results} isLoading={seriesLoading} onPlayTrailer={handlePlayTrailer} />
-          <TMDBGallery title="⚡ Ação" movies={actionMovies?.results} isLoading={actionLoading} onPlayTrailer={handlePlayTrailer} />
-          <TMDBGallery title="🌸 K-Dramas" movies={koreanDramas?.results} isLoading={koreanLoading} onPlayTrailer={handlePlayTrailer} />
-          <TMDBGallery title="💕 Romance" movies={romanceMovies?.results} isLoading={romanceLoading} onPlayTrailer={handlePlayTrailer} />
-          <TMDBGallery title="🎬 Populares" movies={popularMovies?.results} isLoading={popularLoading} onPlayTrailer={handlePlayTrailer} />
+          <TMDBGallery title="📺 Séries Populares" movies={trendingSeries?.results?.slice(0, 6)} isLoading={seriesLoading} onPlayTrailer={handlePlayTrailer} />
         </div>
+
+        {/* Locked content for non-authenticated users */}
+        {!user ? (
+          <ContentLock />
+        ) : (
+          <div className="space-y-4 pb-10">
+            <TMDBGallery title="⚡ Ação" movies={actionMovies?.results} isLoading={actionLoading} onPlayTrailer={handlePlayTrailer} />
+            <TMDBGallery title="🌸 K-Dramas" movies={koreanDramas?.results} isLoading={koreanLoading} onPlayTrailer={handlePlayTrailer} />
+            <TMDBGallery title="💕 Romance" movies={romanceMovies?.results} isLoading={romanceLoading} onPlayTrailer={handlePlayTrailer} />
+            <TMDBGallery title="🎬 Populares" movies={popularMovies?.results} isLoading={popularLoading} onPlayTrailer={handlePlayTrailer} />
+          </div>
+        )}
+
         <PlansSection onOpenChatWithPlan={openChatWithMessage} />
       </main>
       <Footer />

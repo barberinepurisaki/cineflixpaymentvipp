@@ -118,11 +118,11 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
             <div className="bg-cinema-panel border border-cinema-red/30 rounded-2xl p-6 mb-8">
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-xl bg-cinema-red/20 flex items-center justify-center overflow-hidden">
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center overflow-hidden">
                     <img 
                       src={getIcon(selectedPlan.id)} 
                       alt={selectedPlan.name} 
-                      className="w-10 h-10 object-contain"
+                      className="w-16 h-16 object-contain"
                     />
                   </div>
                   <div>
@@ -238,11 +238,11 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                 <div className="p-8">
                   {/* Icon and name */}
                   <div className="flex flex-col items-center mb-6">
-                    <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-4 overflow-hidden bg-cinema-red/20">
+                    <div className="w-24 h-24 rounded-2xl flex items-center justify-center mb-4 overflow-hidden">
                       <img 
                         src={getIcon(plan.id)} 
                         alt={plan.name} 
-                        className="w-16 h-16 object-contain"
+                        className="w-24 h-24 object-contain"
                       />
                     </div>
                     <h3 className="text-xl font-bold text-white text-center">{plan.name}</h3>
