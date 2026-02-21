@@ -65,7 +65,7 @@ const Index = () => {
     <div className="min-h-screen bg-cinema-dark text-white">
       <Header />
       <main>
-        <HeroSection onOpenChat={() => openChatWithMessage()} onPlayTrailer={() => trendingMovies?.results?.[0] && handlePlayTrailer(trendingMovies.results[0])} />
+        <HeroSection onOpenChat={() => openChatWithMessage()} onPlayTrailer={trendingMovies?.results?.[0] ? () => handlePlayTrailer(trendingMovies.results[0]) : undefined} />
         
         {/* Preview: first 2 galleries visible to all */}
         <div className="space-y-4 pb-4">

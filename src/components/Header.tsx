@@ -1,5 +1,6 @@
 import { useAuth } from '@/hooks/useAuth';
 import { LogOut, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import cineflixLogo from '@/assets/cineflix-logo.png';
 
 const Header = () => {
@@ -9,7 +10,7 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-30 bg-gradient-to-b from-black via-black/80 to-transparent">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-2 md:gap-3">
+        <Link to="/" className="flex items-center gap-2 md:gap-3">
           <img 
             src={cineflixLogo} 
             alt="CineflixPayment" 
@@ -18,7 +19,7 @@ const Header = () => {
           <span className="font-cinema text-sm sm:text-xl md:text-2xl text-white">
             CINEFLIX<span className="text-cinema-red">PAYMENT</span>
           </span>
-        </a>
+        </Link>
 
         {/* Nav */}
         <nav className="hidden md:flex items-center gap-8">
@@ -46,18 +47,18 @@ const Header = () => {
             </>
           ) : (
             <>
-              <a
-                href="/auth"
+              <Link
+                to="/auth"
                 className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-all duration-300"
               >
                 Entrar
-              </a>
-              <a
-                href="/auth"
+              </Link>
+              <Link
+                to="/auth"
                 className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-cinema-red to-cinema-glow text-white font-bold hover:shadow-glow transition-all duration-300 hover:scale-105"
               >
                 Cadastrar
-              </a>
+              </Link>
             </>
           )}
         </div>

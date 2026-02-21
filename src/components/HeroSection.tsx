@@ -1,15 +1,13 @@
 import { Play, Info, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Movie } from '@/types';
 import heroBanner from '@/assets/hero-banner.jpg';
 
 interface HeroSectionProps {
-  featuredMovie?: Movie;
   onOpenChat: () => void;
-  onPlayTrailer: (movie: Movie) => void;
+  onPlayTrailer?: () => void;
 }
 
-const HeroSection = ({ featuredMovie, onOpenChat, onPlayTrailer }: HeroSectionProps) => {
+const HeroSection = ({ onOpenChat, onPlayTrailer }: HeroSectionProps) => {
   return (
     <section className="relative h-[85vh] min-h-[600px] flex items-end overflow-hidden">
       {/* Background image */}
@@ -76,11 +74,11 @@ const HeroSection = ({ featuredMovie, onOpenChat, onPlayTrailer }: HeroSectionPr
               ASSINAR AGORA
             </Button>
             
-            {featuredMovie && (
+            {onPlayTrailer && (
               <Button
                 variant="cinema-outline"
                 size="xl"
-                onClick={() => onPlayTrailer(featuredMovie)}
+                onClick={onPlayTrailer}
               >
                 <Info className="w-5 h-5" />
                 VER TRAILER
