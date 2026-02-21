@@ -1,4 +1,5 @@
 import { Lock, UserPlus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const ContentLock = () => {
   return (
@@ -26,16 +27,16 @@ const ContentLock = () => {
           Cadastre-se gratuitamente para desbloquear o catálogo completo com milhares de filmes, séries e muito mais!
         </p>
         
-        <a
-          href="/auth"
+        <Link
+          to="/auth"
           className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-cinema-red hover:bg-cinema-glow text-white font-bold text-lg shadow-glow hover:shadow-glow-lg transition-all duration-300 hover:scale-105"
         >
           <UserPlus className="w-6 h-6" />
           Criar Conta Grátis
-        </a>
+        </Link>
         
         <p className="text-white/40 text-sm mt-4">
-          Já tem conta? <a href="/auth" className="text-cinema-red hover:text-cinema-glow transition-colors">Entrar</a>
+          Já tem conta? <Link to="/auth" className="text-cinema-red hover:text-cinema-glow transition-colors">Entrar</Link>
         </p>
       </div>
     </div>
