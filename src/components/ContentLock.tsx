@@ -20,11 +20,11 @@ const ContentLock = () => {
         </div>
         
         <h3 className="font-cinema text-3xl md:text-4xl text-white mb-3">
-          CONTEÚDO <span className="text-cinema-red">EXCLUSIVO</span>
+          PLANOS <span className="text-cinema-red">EXCLUSIVOS</span>
         </h3>
         
         <p className="text-white/60 text-lg max-w-md mb-8">
-          Cadastre-se gratuitamente para desbloquear o catálogo completo com milhares de filmes, séries e muito mais!
+          Cadastre-se gratuitamente para ter acesso aos nossos planos de assinatura e aproveitar todo o conteúdo!
         </p>
         
         <Link
