@@ -37,16 +37,16 @@ const TMDBGallery = ({ title, movies, isLoading, onPlayTrailer }: TMDBGalleryPro
   }
 
   return (
-    <section className="py-8 relative group/gallery">
-      <div className="flex items-center justify-between mb-6 px-4 md:px-8">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
+    <section className="py-4 md:py-8 relative group/gallery">
+      <div className="flex items-center justify-between mb-4 md:mb-6 px-4 md:px-8">
+        <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
           {title}
         </h2>
         <div className="flex gap-2">
           <Button
             variant="ghost"
             size="icon"
-            className="opacity-0 group-hover/gallery:opacity-100 transition-opacity bg-white/5 hover:bg-white/10"
+            className="hidden md:flex opacity-0 group-hover/gallery:opacity-100 transition-opacity bg-white/5 hover:bg-white/10"
             onClick={() => scroll('left')}
           >
             <ChevronLeft className="w-5 h-5" />
@@ -54,7 +54,7 @@ const TMDBGallery = ({ title, movies, isLoading, onPlayTrailer }: TMDBGalleryPro
           <Button
             variant="ghost"
             size="icon"
-            className="opacity-0 group-hover/gallery:opacity-100 transition-opacity bg-white/5 hover:bg-white/10"
+            className="hidden md:flex opacity-0 group-hover/gallery:opacity-100 transition-opacity bg-white/5 hover:bg-white/10"
             onClick={() => scroll('right')}
           >
             <ChevronRight className="w-5 h-5" />
@@ -64,11 +64,11 @@ const TMDBGallery = ({ title, movies, isLoading, onPlayTrailer }: TMDBGalleryPro
 
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide px-4 md:px-8 pb-4"
+        className="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide px-4 md:px-8 pb-4 snap-x snap-mandatory"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {movies.map((movie) => (
-          <div key={movie.id} className="flex-shrink-0 w-[180px] md:w-[200px]">
+          <div key={movie.id} className="flex-shrink-0 w-[140px] md:w-[200px] snap-start">
             <TMDBMovieCard movie={movie} onPlayTrailer={onPlayTrailer} />
           </div>
         ))}

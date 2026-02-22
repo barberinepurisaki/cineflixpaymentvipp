@@ -121,6 +121,22 @@ export const plans: Plan[] = [
       'Acesso antecipado a lançamentos',
     ],
   },
+  {
+    id: 'apk',
+    name: 'APK VITALÍCIO',
+    price: 97.90,
+    period: 'único',
+    icon: '🤖',
+    discount: 'VITALÍCIO',
+    features: [
+      'Pagamento único — sem mensalidade',
+      'Compatível com Android',
+      'Sem senhas e sem travamentos',
+      'Zero anúncios',
+      'Atualizações futuras de lançamentos',
+      'Garantia de 360 dias',
+    ],
+  },
 ];
 
 export const upsells: Upsell[] = [
@@ -150,4 +166,5 @@ export const KIRVANO_LINKS: Record<string, string> = {
   mensal: 'https://pay.kirvano.com/90f879cc-111a-49df-aefe-6ec83ffcac37',
   trimestral: 'https://pay.kirvano.com/96b90dc1-dd98-49c9-9524-1ed68f2aaa2d',
   anual: 'https://pay.kirvano.com/5d43cc3c-301c-43ea-8cb5-6021eae434e9',
+  apk: 'https://pay.cakto.com.br/n8rrwfq_735392',
 };

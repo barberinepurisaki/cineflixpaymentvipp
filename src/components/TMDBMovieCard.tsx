@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, Star, Info } from 'lucide-react';
+import { Play, Star } from 'lucide-react';
 import { TMDBMovie, getTMDBImageUrl } from '@/hooks/useTMDB';
 import { cn } from '@/lib/utils';
 
@@ -53,21 +53,16 @@ const TMDBMovieCard = ({ movie, onPlayTrailer }: TMDBMovieCardProps) => {
           </div>
         )}
         
-        {/* Hover overlay with actions */}
+        {/* Play button - always visible on mobile, hover on desktop */}
         <div className={cn(
           'absolute inset-0 flex flex-col items-center justify-center gap-3 transition-opacity duration-300',
-          isHovered ? 'opacity-100' : 'opacity-0'
+          isHovered ? 'opacity-100' : 'md:opacity-0 opacity-100'
         )}>
           <button
             onClick={() => onPlayTrailer?.(movie)}
-            className="w-16 h-16 rounded-full bg-cinema-red/90 hover:bg-cinema-red flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-2xl"
+            className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cinema-red/90 hover:bg-cinema-red flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-2xl"
           >
-            <Play className="w-7 h-7 text-white fill-white ml-1" />
-          </button>
-          
-          <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full transition-all duration-300">
-            <Info className="w-4 h-4" />
-            <span className="text-sm font-medium">Mais Info</span>
+            <Play className="w-6 h-6 md:w-7 md:h-7 text-white fill-white ml-1" />
           </button>
         </div>
         

@@ -6,6 +6,7 @@ import { Plan, Upsell } from '@/types';
 import planMensalIcon from '@/assets/plan-mensal-new.png';
 import planTrimestralIcon from '@/assets/plan-trimestral-new.png';
 import planAnualIcon from '@/assets/plan-anual-new.png';
+import planApkIcon from '@/assets/plan-apk-icon.png';
 
 interface PlansSectionProps {
   onOpenChatWithPlan?: (message?: string) => void;
@@ -81,6 +82,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
       case 'mensal': return planMensalIcon;
       case 'trimestral': return planTrimestralIcon;
       case 'anual': return planAnualIcon;
+      case 'apk': return planApkIcon;
       default: return planMensalIcon;
     }
   };
@@ -219,7 +221,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
 
         {/* Plans Grid - Hidden when showing upsells */}
         {!showUpsells && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
             {plans.map((plan) => (
               <div
                 key={plan.id}
@@ -235,33 +237,33 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                   </div>
                 )}
 
-                <div className="p-8">
+                <div className="p-4 md:p-8">
                   {/* Icon and name */}
-                  <div className="flex flex-col items-center mb-6">
-                    <div className="w-24 h-24 rounded-2xl flex items-center justify-center mb-4 overflow-hidden">
+                  <div className="flex flex-col items-center mb-3 md:mb-6">
+                    <div className="w-16 h-16 md:w-24 md:h-24 rounded-2xl flex items-center justify-center mb-2 md:mb-4 overflow-hidden">
                       <img 
                         src={getIcon(plan.id)} 
                         alt={plan.name} 
-                        className="w-24 h-24 object-contain"
+                        className="w-16 h-16 md:w-24 md:h-24 object-contain"
                       />
                     </div>
-                    <h3 className="text-xl font-bold text-white text-center">{plan.name}</h3>
+                    <h3 className="text-sm md:text-xl font-bold text-white text-center leading-tight">{plan.name}</h3>
                   </div>
 
                   {/* Price */}
-                  <div className="text-center mb-8">
-                    <div className="flex items-baseline justify-center gap-1">
-                      <span className="text-white/60 text-lg">R$</span>
-                      <span className="text-5xl font-bold text-white">
+                  <div className="text-center mb-3 md:mb-8">
+                    <div className="flex items-baseline justify-center gap-0.5 md:gap-1">
+                      <span className="text-white/60 text-xs md:text-lg">R$</span>
+                      <span className="text-2xl md:text-5xl font-bold text-white">
                         {plan.price.toFixed(2).split('.')[0]}
                       </span>
-                      <span className="text-white/60">,{plan.price.toFixed(2).split('.')[1]}</span>
+                      <span className="text-white/60 text-xs md:text-base">,{plan.price.toFixed(2).split('.')[1]}</span>
                     </div>
-                    <span className="text-white/50 text-sm">{plan.period}</span>
+                    <span className="text-white/50 text-xs md:text-sm">{plan.period}</span>
                   </div>
 
-                  {/* Features */}
-                  <ul className="space-y-4 mb-8">
+                  {/* Features - hidden on mobile, visible on desktop */}
+                  <ul className="hidden md:block space-y-4 mb-8">
                     {plan.features.map((feature, index) => (
                       <li key={index} className="flex items-start gap-3">
                         <div className="w-5 h-5 rounded-full bg-cinema-red/20 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -278,9 +280,9 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                       e.stopPropagation();
                       handleSelectPlan(plan);
                     }}
-                    className="w-full py-4 rounded-xl font-bold transition-all duration-300 bg-cinema-red hover:bg-cinema-glow text-white shadow-glow hover:shadow-glow-lg"
+                    className="w-full py-2.5 md:py-4 rounded-xl text-sm md:text-base font-bold transition-all duration-300 bg-cinema-red hover:bg-cinema-glow text-white shadow-glow hover:shadow-glow-lg"
                   >
-                    Assinar Agora
+                    {plan.id === 'apk' ? 'Comprar APK' : 'Assinar Agora'}
                   </button>
                 </div>
               </div>
