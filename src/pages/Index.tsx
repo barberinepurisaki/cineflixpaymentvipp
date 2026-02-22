@@ -67,25 +67,22 @@ const Index = () => {
       <main>
         <HeroSection onOpenChat={() => openChatWithMessage()} onPlayTrailer={trendingMovies?.results?.[0] ? () => handlePlayTrailer(trendingMovies.results[0]) : undefined} />
         
-        {/* Preview: first 2 galleries visible to all */}
+        {/* All galleries visible to everyone */}
         <div className="space-y-4 pb-4">
           <TMDBGallery title="🔥 Em Alta" movies={trendingMovies?.results} isLoading={trendingLoading} onPlayTrailer={handlePlayTrailer} />
           <TMDBGallery title="📺 Séries Populares" movies={trendingSeries?.results?.slice(0, 6)} isLoading={seriesLoading} onPlayTrailer={handlePlayTrailer} />
+          <TMDBGallery title="⚡ Ação" movies={actionMovies?.results} isLoading={actionLoading} onPlayTrailer={handlePlayTrailer} />
+          <TMDBGallery title="🌸 K-Dramas" movies={koreanDramas?.results} isLoading={koreanLoading} onPlayTrailer={handlePlayTrailer} />
+          <TMDBGallery title="💕 Romance" movies={romanceMovies?.results} isLoading={romanceLoading} onPlayTrailer={handlePlayTrailer} />
+          <TMDBGallery title="🎬 Populares" movies={popularMovies?.results} isLoading={popularLoading} onPlayTrailer={handlePlayTrailer} />
         </div>
 
-        {/* Locked content for non-authenticated users */}
-        {!user ? (
-          <ContentLock />
+        {/* Plans: only visible after signup */}
+        {user ? (
+          <PlansSection onOpenChatWithPlan={openChatWithMessage} />
         ) : (
-          <div className="space-y-4 pb-10">
-            <TMDBGallery title="⚡ Ação" movies={actionMovies?.results} isLoading={actionLoading} onPlayTrailer={handlePlayTrailer} />
-            <TMDBGallery title="🌸 K-Dramas" movies={koreanDramas?.results} isLoading={koreanLoading} onPlayTrailer={handlePlayTrailer} />
-            <TMDBGallery title="💕 Romance" movies={romanceMovies?.results} isLoading={romanceLoading} onPlayTrailer={handlePlayTrailer} />
-            <TMDBGallery title="🎬 Populares" movies={popularMovies?.results} isLoading={popularLoading} onPlayTrailer={handlePlayTrailer} />
-          </div>
+          <ContentLock />
         )}
-
-        <PlansSection onOpenChatWithPlan={openChatWithMessage} />
       </main>
       <Footer />
       <ChatFAB onClick={() => openChatWithMessage()} />
