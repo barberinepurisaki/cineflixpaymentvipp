@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Check, ArrowLeft, Plus, Minus } from 'lucide-react';
 import { plans, upsells, WHATSAPP_NUMBER, KIRVANO_LINKS } from '@/data/cineflix';
+import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { Plan, Upsell } from '@/types';
 import planMensalIcon from '@/assets/plan-mensal-new.png';
@@ -13,6 +15,8 @@ interface PlansSectionProps {
 }
 
 const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [selectedUpsells, setSelectedUpsells] = useState<string[]>([]);
   const [showUpsells, setShowUpsells] = useState(false);
@@ -43,6 +47,9 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
   const handleCheckout = () => {
     if (!selectedPlan) return;
     
+    const nome = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Cliente';
+    const email = user?.email || '';
+
     if (selectedUpsells.length > 0) {
       // Com upsells -> WhatsApp VIP
       const selectedUpsellNames = selectedUpsells
@@ -54,11 +61,8 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
       const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
     } else {
-      // Sem upsells -> Kirvano direto
-      const kirvanoLink = KIRVANO_LINKS[selectedPlan.id];
-      if (kirvanoLink) {
-        window.open(kirvanoLink, '_blank');
-      }
+      // Sem upsells -> Comprovante antes do pagamento
+      navigate(`/comprovante?plano=${selectedPlan.id}&nome=${encodeURIComponent(nome)}&email=${encodeURIComponent(email)}`);
     }
     
     // Abrir chat com mensagem de confirmação
