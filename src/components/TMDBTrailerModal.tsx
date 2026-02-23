@@ -126,9 +126,27 @@ const TMDBTrailerModal = ({ movie, isOpen, onClose }: TMDBTrailerModalProps) => 
           )}
         </div>
 
-        {/* Movie info */}
-        <div className="mt-6 text-center">
+        {/* Movie info + CTA */}
+        <div className="mt-6 text-center space-y-4">
           <p className="text-white/70 max-w-2xl mx-auto line-clamp-2">{movie.overview}</p>
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a
+              href="#planos"
+              onClick={(e) => { e.preventDefault(); onClose(); setTimeout(() => document.getElementById('planos')?.scrollIntoView({ behavior: 'smooth' }), 300); }}
+              className="px-6 py-3 rounded-xl bg-cinema-red hover:bg-cinema-glow text-white font-bold transition-all duration-300 hover:scale-105"
+            >
+              🎬 Assinar e Assistir
+            </a>
+            <a
+              href="https://pay.cakto.com.br/n8rrwfq_735392"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3 rounded-xl bg-green-500 hover:bg-green-400 text-white font-bold transition-all duration-300 hover:scale-105"
+            >
+              🤖 APK Vitalício — R$ 97,90
+            </a>
+          </div>
         </div>
       </div>
     </div>

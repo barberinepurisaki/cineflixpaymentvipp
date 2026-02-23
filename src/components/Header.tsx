@@ -26,6 +26,7 @@ const Header = () => {
           <a href="#" className="text-white/80 hover:text-white transition-colors font-medium">Início</a>
           <a href="#filmes" className="text-white/80 hover:text-white transition-colors font-medium">Filmes</a>
           <a href="#series" className="text-white/80 hover:text-white transition-colors font-medium">Séries</a>
+          <a href="#app" className="text-white/80 hover:text-white transition-colors font-medium">App</a>
           <a href="#planos" className="text-white/80 hover:text-white transition-colors font-medium">Planos</a>
         </nav>
 
