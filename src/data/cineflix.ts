@@ -141,6 +141,12 @@ export const plans: Plan[] = [
 
 export const upsells: Upsell[] = [
   {
+    id: 'canal_adulto',
+    name: '🔞 Canal Adulto',
+    description: 'Conteúdo adulto exclusivo +18',
+    price: 8.99,
+  },
+  {
     id: 'acesso_extra',
     name: '+1 Acesso Extra',
     description: 'Assista em 2 telas simultâneas',

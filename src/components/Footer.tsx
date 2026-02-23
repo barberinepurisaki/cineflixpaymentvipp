@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Mail, Phone, Instagram, Youtube, MessageCircle } from 'lucide-react';
 import cineflixLogo from '@/assets/cineflix-logo.png';
 import { WHATSAPP_NUMBER } from '@/data/cineflix';
@@ -37,10 +38,9 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Suporte</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-white/60 hover:text-cinema-red transition-colors text-sm">Central de Ajuda</a></li>
-              <li><a href="#" className="text-white/60 hover:text-cinema-red transition-colors text-sm">Termos de Uso</a></li>
-              <li><a href="#" className="text-white/60 hover:text-cinema-red transition-colors text-sm">Política de Privacidade</a></li>
-              <li><a href="#" className="text-white/60 hover:text-cinema-red transition-colors text-sm">FAQ</a></li>
+              <li><Link to="/faq" className="text-white/60 hover:text-cinema-red transition-colors text-sm">Central de Ajuda / FAQ</Link></li>
+              <li><Link to="/termos" className="text-white/60 hover:text-cinema-red transition-colors text-sm">Termos de Uso</Link></li>
+              <li><Link to="/privacidade" className="text-white/60 hover:text-cinema-red transition-colors text-sm">Política de Privacidade</Link></li>
             </ul>
           </div>
 
