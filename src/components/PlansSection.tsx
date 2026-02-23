@@ -50,20 +50,9 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
     const nome = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Cliente';
     const email = user?.email || '';
 
-    if (selectedUpsells.length > 0) {
-      // Com upsells -> WhatsApp VIP
-      const selectedUpsellNames = selectedUpsells
-        .map(id => upsells.find(u => u.id === id)?.name)
-        .filter(Boolean)
-        .join(', ');
-      
-      const message = `Olá! Quero assinar o ${selectedPlan.name} + ${selectedUpsellNames}. Total: R$ ${calculateTotal().toFixed(2)}`;
-      const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank');
-    } else {
-      // Sem upsells -> Comprovante antes do pagamento
-      navigate(`/comprovante?plano=${selectedPlan.id}&nome=${encodeURIComponent(nome)}&email=${encodeURIComponent(email)}`);
-    }
+    // Always go to receipt first
+    const upsellParam = selectedUpsells.length > 0 ? `&upsells=${selectedUpsells.join(',')}` : '';
+    navigate(`/comprovante?plano=${selectedPlan.id}&nome=${encodeURIComponent(nome)}&email=${encodeURIComponent(email)}${upsellParam}`);
     
     // Abrir chat com mensagem de confirmação
     const confirmationMessage = `Você tomou uma ótima decisão escolhendo o ${selectedPlan.name}! 🎉 Abaixo você vai seguir para o próximo passo para ter acesso a todo nosso catálogo... Deus abençoe! 🙏`;
@@ -151,7 +140,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
               <h3 className="text-2xl font-bold text-white mb-2">🎁 Ofertas Exclusivas</h3>
               <p className="text-white/60 mb-6">Adicione extras ao seu plano com desconto especial!</p>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {upsells.map((upsell) => {
                   const isSelected = selectedUpsells.includes(upsell.id);
                   return (
@@ -207,7 +196,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                   onClick={handleCheckout}
                   className="flex-1 py-4 rounded-xl font-bold bg-cinema-red hover:bg-cinema-glow text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
                 >
-                  {selectedUpsells.length > 0 ? '🎯 Finalizar via WhatsApp VIP' : '💳 Seguir para pagamento'}
+                  🧾 GERAR COMPROVANTE E FINALIZAR
                 </button>
                 <button
                   onClick={() => {
