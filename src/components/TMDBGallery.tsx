@@ -36,8 +36,17 @@ const TMDBGallery = ({ title, movies, isLoading, onPlayTrailer }: TMDBGalleryPro
     return null;
   }
 
+  // Derive anchor id from title
+  const sectionId = title.includes('Alta') ? 'filmes' 
+    : title.includes('Séries') ? 'series' 
+    : title.includes('K-Drama') ? 'kdramas' 
+    : title.includes('Romance') ? 'romance'
+    : title.includes('Ação') ? 'acao'
+    : title.includes('Popular') ? 'populares'
+    : undefined;
+
   return (
-    <section className="py-4 md:py-8 relative group/gallery">
+    <section id={sectionId} className="py-4 md:py-8 relative group/gallery">
       <div className="flex items-center justify-between mb-4 md:mb-6 px-4 md:px-8">
         <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
           {title}

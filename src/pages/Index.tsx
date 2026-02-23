@@ -6,6 +6,7 @@ import HeroSection from '@/components/HeroSection';
 import TMDBGallery from '@/components/TMDBGallery';
 import TMDBTrailerModal from '@/components/TMDBTrailerModal';
 import PlansSection from '@/components/PlansSection';
+import AppPromoSection from '@/components/AppPromoSection';
 import Footer from '@/components/Footer';
 import ChatFAB from '@/components/ChatFAB';
 import AshleyChat from '@/components/AshleyChat';
@@ -94,12 +95,17 @@ const Index = () => {
           )}
         </div>
 
+        {/* APK Promo — visible to everyone */}
+        <AppPromoSection />
+
         {/* Plans: only visible after signup */}
-        {user ? (
-          <PlansSection onOpenChatWithPlan={openChatWithMessage} />
-        ) : (
-          <ContentLock />
-        )}
+        <div id="planos">
+          {user ? (
+            <PlansSection onOpenChatWithPlan={openChatWithMessage} />
+          ) : (
+            <ContentLock />
+          )}
+        </div>
       </main>
       <Footer />
       <ChatFAB onClick={() => openChatWithMessage()} />
