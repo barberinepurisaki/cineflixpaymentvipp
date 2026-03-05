@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { motion } from 'framer-motion';
 import Header from '@/components/Header';
+import CountdownBanner from '@/components/CountdownBanner';
 import HeroSection from '@/components/HeroSection';
 import TMDBGallery from '@/components/TMDBGallery';
 import TMDBTrailerModal from '@/components/TMDBTrailerModal';
+import SocialProof from '@/components/SocialProof';
 import PlansSection from '@/components/PlansSection';
 import AppPromoSection from '@/components/AppPromoSection';
 import Footer from '@/components/Footer';
@@ -51,7 +54,7 @@ const Index = () => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsChatOpen(true), 5000);
+    const timer = setTimeout(() => setIsChatOpen(true), 8000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -64,41 +67,57 @@ const Index = () => {
   }, [isChatOpen]);
 
   return (
-    <div className="min-h-screen bg-cinema-dark text-white">
+    <div className="min-h-screen bg-background text-foreground">
+      <CountdownBanner />
       <Header />
       <main>
-        <HeroSection onOpenChat={() => openChatWithMessage()} onPlayTrailer={trendingMovies?.results?.[0] ? () => handlePlayTrailer(trendingMovies.results[0]) : undefined} />
+        <HeroSection 
+          onOpenChat={() => openChatWithMessage()} 
+          onPlayTrailer={handlePlayTrailer}
+          movies={trendingMovies?.results}
+        />
         
-        {/* All galleries visible to everyone */}
-        <div className="space-y-2 md:space-y-4 pb-4">
+        {/* Galleries */}
+        <div className="space-y-1 pb-4">
           <TMDBGallery title="🔥 Em Alta" movies={trendingMovies?.results} isLoading={trendingLoading} onPlayTrailer={handlePlayTrailer} />
-          <TMDBGallery title="📺 Séries Populares" movies={trendingSeries?.results?.slice(0, 6)} isLoading={seriesLoading} onPlayTrailer={handlePlayTrailer} />
+          <TMDBGallery title="📺 Séries Populares" movies={trendingSeries?.results?.slice(0, 12)} isLoading={seriesLoading} onPlayTrailer={handlePlayTrailer} />
           <TMDBGallery title="⚡ Ação" movies={actionMovies?.results} isLoading={actionLoading} onPlayTrailer={handlePlayTrailer} />
           <TMDBGallery title="🌸 K-Dramas" movies={koreanDramas?.results} isLoading={koreanLoading} onPlayTrailer={handlePlayTrailer} />
           <TMDBGallery title="💕 Romance" movies={romanceMovies?.results} isLoading={romanceLoading} onPlayTrailer={handlePlayTrailer} />
           <TMDBGallery title="🎬 Populares" movies={popularMovies?.results} isLoading={popularLoading} onPlayTrailer={handlePlayTrailer} />
           
-          {/* Upsell CTA between galleries */}
+          {/* Upsell CTA */}
           {!user && (
-            <div className="px-4 md:px-8 py-6">
-              <div className="bg-gradient-to-r from-cinema-red/20 to-cinema-panel border border-cinema-red/30 rounded-2xl p-6 text-center">
-                <p className="text-lg md:text-xl font-bold text-white mb-2">🔥 Quer assistir tudo sem limites?</p>
-                <p className="text-white/60 text-sm mb-4">Crie sua conta e conheça nossos planos a partir de R$ 29,90</p>
-                <Link
-                  to="/auth"
-                  className="inline-block px-6 py-3 rounded-xl font-bold bg-cinema-red hover:bg-cinema-glow text-white transition-all duration-300"
-                >
-                  Criar Conta Grátis
-                </Link>
+            <motion.div 
+              className="px-4 md:px-8 py-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="bg-gradient-to-r from-cinema-red/10 via-cinema-panel to-cinema-red/10 border border-cinema-red/20 rounded-2xl p-6 md:p-8 text-center relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cinema-red/5 to-transparent animate-shimmer" />
+                <div className="relative z-10">
+                  <p className="text-xl md:text-2xl font-bold text-white mb-2">🔥 Quer assistir tudo sem limites?</p>
+                  <p className="text-white/50 text-sm mb-5">Crie sua conta e conheça nossos planos a partir de R$ 29,90/mês</p>
+                  <Link
+                    to="/auth"
+                    className="inline-block px-8 py-3.5 rounded-xl font-bold bg-cinema-red hover:bg-cinema-glow text-white transition-all duration-300 hover:scale-105 shadow-button"
+                  >
+                    Criar Conta Grátis
+                  </Link>
+                </div>
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
 
-        {/* APK Promo — visible to everyone */}
+        {/* Social proof */}
+        <SocialProof />
+
+        {/* APK Promo */}
         <AppPromoSection />
 
-        {/* Plans: only visible after signup */}
+        {/* Plans */}
         <div id="planos">
           {user ? (
             <PlansSection onOpenChatWithPlan={openChatWithMessage} />

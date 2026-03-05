@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import cineflixLogo from '@/assets/cineflix-logo.png';
 
 interface ChatFABProps {
@@ -5,26 +7,52 @@ interface ChatFABProps {
 }
 
 const ChatFAB = ({ onClick }: ChatFABProps) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowTooltip(true), 3000);
+    const hide = setTimeout(() => setShowTooltip(false), 8000);
+    return () => { clearTimeout(timer); clearTimeout(hide); };
+  }, []);
+
   return (
-    <button
-      onClick={onClick}
-      className="fixed bottom-6 right-6 z-40 w-16 h-16 rounded-full bg-gradient-to-r from-cinema-red to-cinema-glow flex items-center justify-center shadow-button animate-pulse-glow hover:scale-110 transition-transform duration-300 group"
-      aria-label="Abrir chat"
-    >
-      <img 
-        src={cineflixLogo} 
-        alt="CineflixPayment" 
-        className="w-10 h-10 object-contain group-hover:scale-110 transition-transform"
-      />
-      
-      {/* Notification badge */}
-      <span className="absolute -top-1 -right-1 w-5 h-5 bg-white text-cinema-red text-xs font-bold rounded-full flex items-center justify-center">
-        1
-      </span>
-      
-      {/* Ripple effect */}
-      <span className="absolute inset-0 rounded-full border-2 border-cinema-red animate-ping opacity-30" />
-    </button>
+    <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2">
+      {/* Tooltip */}
+      <AnimatePresence>
+        {showTooltip && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.9 }}
+            className="bg-white text-cinema-dark px-4 py-2.5 rounded-xl shadow-xl text-sm font-medium max-w-[200px] relative"
+          >
+            Oi! Precisa de ajuda? 😊
+            <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-white rotate-45" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.button
+        onClick={onClick}
+        className="w-14 h-14 rounded-full bg-gradient-to-r from-cinema-red to-cinema-glow flex items-center justify-center shadow-button group relative"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        animate={{ boxShadow: ['0 0 20px hsl(357 91% 47% / 0.4)', '0 0 35px hsl(357 91% 47% / 0.6)', '0 0 20px hsl(357 91% 47% / 0.4)'] }}
+        transition={{ boxShadow: { duration: 2, repeat: Infinity } }}
+        aria-label="Abrir chat"
+      >
+        <img 
+          src={cineflixLogo} 
+          alt="CineflixPayment" 
+          className="w-9 h-9 object-contain group-hover:scale-110 transition-transform"
+        />
+        
+        {/* Notification badge */}
+        <span className="absolute -top-1 -right-1 w-5 h-5 bg-white text-cinema-red text-xs font-bold rounded-full flex items-center justify-center shadow-sm">
+          1
+        </span>
+      </motion.button>
+    </div>
   );
 };
 

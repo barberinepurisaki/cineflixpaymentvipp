@@ -1,26 +1,33 @@
 import { useState } from 'react';
-import { Play, Star } from 'lucide-react';
+import { Play, Star, Plus } from 'lucide-react';
 import { TMDBMovie, getTMDBImageUrl } from '@/hooks/useTMDB';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 interface TMDBMovieCardProps {
   movie: TMDBMovie;
   onPlayTrailer?: (movie: TMDBMovie) => void;
+  index?: number;
 }
 
-const TMDBMovieCard = ({ movie, onPlayTrailer }: TMDBMovieCardProps) => {
+const TMDBMovieCard = ({ movie, onPlayTrailer, index = 0 }: TMDBMovieCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [imageError, setImageError] = useState(false);
   
   const title = movie.title || movie.name || 'Sem título';
   const year = movie.release_date?.substring(0, 4) || movie.first_air_date?.substring(0, 4) || '';
-  const rating = movie.vote_average.toFixed(1);
+  const rating = movie.vote_average?.toFixed(1) || '0';
+  const ratingColor = parseFloat(rating) >= 7 ? 'text-green-400' : parseFloat(rating) >= 5 ? 'text-yellow-400' : 'text-red-400';
 
   return (
-    <div
-      className="movie-card group relative overflow-hidden rounded-xl bg-cinema-panel border border-white/5 transition-all duration-500"
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      className="group relative overflow-hidden rounded-xl bg-cinema-panel border border-white/5 transition-all duration-500 hover:border-cinema-red/30 hover:shadow-glow cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={() => onPlayTrailer?.(movie)}
     >
       <div className="relative aspect-[2/3] overflow-hidden">
         <img
@@ -36,47 +43,55 @@ const TMDBMovieCard = ({ movie, onPlayTrailer }: TMDBMovieCardProps) => {
         
         {/* Gradient overlay */}
         <div className={cn(
-          'absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent transition-opacity duration-300',
-          isHovered ? 'opacity-100' : 'opacity-60'
+          'absolute inset-0 transition-all duration-500',
+          isHovered 
+            ? 'bg-gradient-to-t from-black via-black/60 to-black/20' 
+            : 'bg-gradient-to-t from-black/80 via-transparent to-transparent'
         )} />
         
         {/* Rating badge */}
-        <div className="absolute top-3 right-3 flex items-center gap-1 bg-black/70 backdrop-blur-sm px-2 py-1 rounded-lg">
-          <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-          <span className="text-xs font-bold text-white">{rating}</span>
+        <div className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-black/70 backdrop-blur-sm px-2 py-1 rounded-lg">
+          <Star className="w-3 h-3 text-cinema-gold fill-cinema-gold" />
+          <span className={cn("text-xs font-bold", ratingColor)}>{rating}</span>
         </div>
         
         {/* Year badge */}
         {year && (
-          <div className="absolute top-3 left-3 bg-cinema-red/90 px-2 py-1 rounded-lg">
-            <span className="text-xs font-bold text-white">{year}</span>
+          <div className="absolute top-2.5 left-2.5 bg-cinema-red/90 backdrop-blur-sm px-2 py-1 rounded-lg">
+            <span className="text-[10px] font-bold text-white">{year}</span>
           </div>
         )}
         
-        {/* Play button - always visible on mobile, hover on desktop */}
+        {/* Play button */}
         <div className={cn(
-          'absolute inset-0 flex flex-col items-center justify-center gap-3 transition-opacity duration-300',
-          isHovered ? 'opacity-100' : 'md:opacity-0 opacity-100'
+          'absolute inset-0 flex flex-col items-center justify-center gap-2 transition-all duration-300',
+          isHovered ? 'opacity-100' : 'md:opacity-0 opacity-80'
         )}>
-          <button
-            onClick={() => onPlayTrailer?.(movie)}
-            className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-cinema-red/90 hover:bg-cinema-red flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-2xl"
+          <motion.button
+            whileHover={{ scale: 1.15 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-cinema-red/90 hover:bg-cinema-red flex items-center justify-center shadow-2xl shadow-cinema-red/40 backdrop-blur-sm"
           >
-            <Play className="w-6 h-6 md:w-7 md:h-7 text-white fill-white ml-1" />
-          </button>
+            <Play className="w-5 h-5 md:w-6 md:h-6 text-white fill-white ml-0.5" />
+          </motion.button>
+          <span className="text-[10px] text-white/80 font-medium tracking-wider uppercase">Assistir Trailer</span>
         </div>
         
         {/* Title and info at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <h3 className="font-bold text-white text-sm line-clamp-2 mb-1">{title}</h3>
+        <div className="absolute bottom-0 left-0 right-0 p-3">
+          <h3 className="font-bold text-white text-sm line-clamp-2 mb-1 drop-shadow-lg">{title}</h3>
           {isHovered && movie.overview && (
-            <p className="text-xs text-white/70 line-clamp-2 animate-fade-in">
+            <motion.p 
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-[11px] text-white/70 line-clamp-2"
+            >
               {movie.overview}
-            </p>
+            </motion.p>
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
