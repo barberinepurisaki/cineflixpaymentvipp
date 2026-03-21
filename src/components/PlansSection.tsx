@@ -214,55 +214,58 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
 
         {/* Plans Grid - Hidden when showing upsells */}
         {!showUpsells && (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className="relative rounded-2xl border transition-all duration-500 hover:scale-105 cursor-pointer bg-gradient-to-b from-cinema-red/20 to-cinema-dark border-cinema-red shadow-glow"
+                className="relative rounded-2xl border transition-all duration-500 hover:scale-[1.03] cursor-pointer bg-gradient-to-b from-cinema-red/20 via-cinema-panel to-cinema-dark border-cinema-red/60 hover:border-cinema-red shadow-lg hover:shadow-glow overflow-hidden group"
                 onClick={() => handleSelectPlan(plan)}
               >
                 {/* Featured badge */}
                 {plan.discount && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-cinema-red text-white">
+                  <div className="absolute top-0 left-0 right-0 z-10">
+                    <div className="bg-cinema-red text-white text-xs font-bold text-center py-1.5 tracking-wider">
                       {plan.discount}
-                    </span>
+                    </div>
                   </div>
                 )}
 
-                <div className="p-4 md:p-8">
+                <div className={cn("p-6", plan.discount && "pt-10")}>
                   {/* Icon and name */}
-                  <div className="flex flex-col items-center mb-3 md:mb-6">
-                    <div className="w-16 h-16 md:w-24 md:h-24 rounded-2xl flex items-center justify-center mb-2 md:mb-4 overflow-hidden">
+                  <div className="flex flex-col items-center mb-5">
+                    <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-3 overflow-hidden">
                       <img 
                         src={getIcon(plan.id)} 
                         alt={plan.name} 
-                        className="w-16 h-16 md:w-24 md:h-24 object-contain"
+                        className="w-20 h-20 object-contain"
                       />
                     </div>
-                    <h3 className="text-sm md:text-xl font-bold text-white text-center leading-tight">{plan.name}</h3>
+                    <h3 className="text-base font-bold text-white text-center leading-tight">{plan.name}</h3>
                   </div>
 
                   {/* Price */}
-                  <div className="text-center mb-3 md:mb-8">
-                    <div className="flex items-baseline justify-center gap-0.5 md:gap-1">
-                      <span className="text-white/60 text-xs md:text-lg">R$</span>
-                      <span className="text-2xl md:text-5xl font-bold text-white">
+                  <div className="text-center mb-5">
+                    <div className="flex items-baseline justify-center gap-0.5">
+                      <span className="text-white/60 text-sm">R$</span>
+                      <span className="text-4xl font-bold text-white">
                         {plan.price.toFixed(2).split('.')[0]}
                       </span>
-                      <span className="text-white/60 text-xs md:text-base">,{plan.price.toFixed(2).split('.')[1]}</span>
+                      <span className="text-white/60 text-sm">,{plan.price.toFixed(2).split('.')[1]}</span>
                     </div>
-                    <span className="text-white/50 text-xs md:text-sm">{plan.period}</span>
+                    <span className="text-white/50 text-xs">{plan.period}</span>
                   </div>
 
-                  {/* Features - hidden on mobile, visible on desktop */}
-                  <ul className="hidden md:block space-y-4 mb-8">
+                  {/* Divider */}
+                  <div className="w-full h-px bg-white/10 mb-5" />
+
+                  {/* Features */}
+                  <ul className="space-y-3 mb-6">
                     {plan.features.map((feature, index) => (
-                      <li key={index} className="flex items-start gap-3">
+                      <li key={index} className="flex items-start gap-2.5">
                         <div className="w-5 h-5 rounded-full bg-cinema-red/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                           <Check className="w-3 h-3 text-cinema-red" />
                         </div>
-                        <span className="text-white/80 text-sm">{feature}</span>
+                        <span className="text-white/70 text-sm leading-snug">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -273,9 +276,9 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                       e.stopPropagation();
                       handleSelectPlan(plan);
                     }}
-                    className="w-full py-2.5 md:py-4 rounded-xl text-sm md:text-base font-bold transition-all duration-300 bg-cinema-red hover:bg-cinema-glow text-white shadow-glow hover:shadow-glow-lg"
+                    className="w-full py-3.5 rounded-xl text-sm font-bold transition-all duration-300 bg-cinema-red hover:bg-cinema-glow text-white shadow-glow hover:shadow-glow-lg"
                   >
-                    {plan.id === 'apk' ? 'Comprar APK' : 'Assinar Agora'}
+                    {plan.id === 'apk' ? '🤖 Comprar APK' : '🎬 Assinar Agora'}
                   </button>
                 </div>
               </div>
