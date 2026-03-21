@@ -86,8 +86,8 @@ const Index = () => {
           <TMDBGallery title="💕 Romance" movies={romanceMovies?.results} isLoading={romanceLoading} onPlayTrailer={handlePlayTrailer} />
           <TMDBGallery title="🎬 Populares" movies={popularMovies?.results} isLoading={popularLoading} onPlayTrailer={handlePlayTrailer} />
           
-          {/* Upsell CTA */}
-          {!user && (
+          {/* Upsell CTA - only for logged in users */}
+          {user && (
             <motion.div 
               className="px-4 md:px-8 py-6"
               initial={{ opacity: 0, y: 20 }}
@@ -98,13 +98,13 @@ const Index = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cinema-red/5 to-transparent animate-shimmer" />
                 <div className="relative z-10">
                   <p className="text-xl md:text-2xl font-bold text-white mb-2">🔥 Quer assistir tudo sem limites?</p>
-                  <p className="text-white/50 text-sm mb-5">Crie sua conta e conheça nossos planos a partir de R$ 29,90/mês</p>
-                  <Link
-                    to="/auth"
+                  <p className="text-white/50 text-sm mb-5">Conheça nossos planos a partir de R$ 29,90/mês</p>
+                  <button
+                    onClick={() => openChatWithMessage('Quero conhecer os planos disponíveis')}
                     className="inline-block px-8 py-3.5 rounded-xl font-bold bg-cinema-red hover:bg-cinema-glow text-white transition-all duration-300 hover:scale-105 shadow-button"
                   >
-                    Criar Conta Grátis
-                  </Link>
+                    Ver Planos
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -114,17 +114,15 @@ const Index = () => {
         {/* Social proof */}
         <SocialProof />
 
-        {/* APK Promo */}
-        <AppPromoSection />
-
-        {/* Plans */}
-        <div id="planos">
-          {user ? (
-            <PlansSection onOpenChatWithPlan={openChatWithMessage} />
-          ) : (
-            <ContentLock />
-          )}
-        </div>
+        {/* APK Promo & Plans - only visible after login */}
+        {user && (
+          <>
+            <AppPromoSection />
+            <div id="planos">
+              <PlansSection onOpenChatWithPlan={openChatWithMessage} />
+            </div>
+          </>
+        )}
       </main>
       <Footer />
       <ChatFAB onClick={() => openChatWithMessage()} />
