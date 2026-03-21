@@ -36,14 +36,6 @@ const HeroSection = ({ onOpenChat, onPlayTrailer, movies }: HeroSectionProps) =>
     return () => clearInterval(timer);
   }, [goNext, heroMovies.length]);
 
-  // Live viewer count simulation
-  const [viewers, setViewers] = useState(1247);
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setViewers(prev => prev + Math.floor(Math.random() * 5) - 2);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, []);
 
   const slideVariants = {
     enter: (dir: number) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
