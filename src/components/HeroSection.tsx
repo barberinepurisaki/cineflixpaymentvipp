@@ -36,14 +36,6 @@ const HeroSection = ({ onOpenChat, onPlayTrailer, movies }: HeroSectionProps) =>
     return () => clearInterval(timer);
   }, [goNext, heroMovies.length]);
 
-  // Live viewer count simulation
-  const [viewers, setViewers] = useState(1247);
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setViewers(prev => prev + Math.floor(Math.random() * 5) - 2);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, []);
 
   const slideVariants = {
     enter: (dir: number) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
@@ -135,14 +127,14 @@ const HeroSection = ({ onOpenChat, onPlayTrailer, movies }: HeroSectionProps) =>
             transition={{ duration: 0.5 }}
             className="max-w-2xl"
           >
-            {/* Live badge */}
+            {/* Badge */}
             <div className="flex items-center gap-3 mb-4">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cinema-red/20 border border-cinema-red/40 backdrop-blur-sm">
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                <span className="text-xs font-bold text-cinema-red tracking-wider">AO VIVO</span>
+                <span className="w-2 h-2 rounded-full bg-cinema-red animate-pulse" />
+                <span className="text-xs font-bold text-cinema-red tracking-wider">EXCLUSIVO</span>
               </div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm">
-                <span className="text-xs text-white/80">👁 {viewers.toLocaleString()} assistindo agora</span>
+                <span className="text-xs text-white/80">🎬 Disponível em 4K Ultra HD</span>
               </div>
             </div>
 

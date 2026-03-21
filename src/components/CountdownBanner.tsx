@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Flame, Clock, Users } from 'lucide-react';
+import { Flame, Clock } from 'lucide-react';
 
 const CountdownBanner = () => {
   const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 47, seconds: 33 });
-  const [spots, setSpots] = useState(7);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -28,13 +27,12 @@ const CountdownBanner = () => {
       animate={{ opacity: 1, y: 0 }}
       className="bg-gradient-to-r from-cinema-red via-red-600 to-cinema-red relative overflow-hidden"
     >
-      {/* Shimmer effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
       
       <div className="container mx-auto px-4 py-2.5 flex items-center justify-center gap-4 md:gap-8 text-white text-xs md:text-sm relative z-10 flex-wrap">
         <div className="flex items-center gap-2">
           <Flame className="w-4 h-4 animate-pulse" />
-          <span className="font-bold">PROMOÇÃO RELÂMPAGO</span>
+          <span className="font-bold">OFERTA ESPECIAL</span>
         </div>
         
         <div className="flex items-center gap-2">
@@ -48,10 +46,7 @@ const CountdownBanner = () => {
           </div>
         </div>
 
-        <div className="hidden md:flex items-center gap-2">
-          <Users className="w-3.5 h-3.5" />
-          <span>Restam <strong className="text-cinema-gold">{spots}</strong> vagas com desconto</span>
-        </div>
+        <span className="hidden md:inline text-cinema-gold font-bold">Filmes & Séries a partir de R$ 29,90/mês</span>
       </div>
     </motion.div>
   );

@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldCheck, Star, Users, TrendingUp } from 'lucide-react';
+import { ShieldCheck, Star, Film, Smartphone } from 'lucide-react';
 
 const testimonials = [
-  { name: 'Carlos M.', text: 'Melhor custo-benefício! Assisto tudo com a família.', plan: 'Plano Anual VIP' },
-  { name: 'Ana P.', text: 'Substituiu todas as outras plataformas. Incrível!', plan: 'APK Vitalício' },
-  { name: 'Lucas R.', text: 'Os K-Dramas são atualizados toda semana! 10/10', plan: 'Plano Trimestral' },
+  { name: 'Carlos M.', text: 'Catálogo muito completo, tem tudo que eu procurava!', plan: 'Plano Anual VIP' },
+  { name: 'Ana P.', text: 'Cancelei outras plataformas, aqui tem tudo num lugar só.', plan: 'APK Vitalício' },
+  { name: 'Lucas R.', text: 'Séries sempre atualizadas, muito satisfeito!', plan: 'Plano Trimestral' },
   { name: 'Juliana S.', text: 'Comprei o APK e espelho na TV. Cinema em casa!', plan: 'APK Vitalício' },
-  { name: 'Pedro H.', text: 'Futebol ao vivo sem travamento! Muito bom.', plan: 'Plano Mensal' },
+  { name: 'Pedro H.', text: 'Qualidade de imagem excelente, sem travamentos.', plan: 'Plano Mensal' },
 ];
 
 const SocialProof = () => {
@@ -31,10 +31,10 @@ const SocialProof = () => {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           {[
-            { icon: Users, value: '50.000+', label: 'Assinantes ativos' },
-            { icon: Star, value: '4.9/5', label: 'Avaliação média' },
-            { icon: TrendingUp, value: '10.000+', label: 'Filmes e séries' },
-            { icon: ShieldCheck, value: '99.9%', label: 'Uptime garantido' },
+            { icon: Film, value: '3.000+', label: 'Canais disponíveis' },
+            { icon: Star, value: '9.8/10', label: 'Avaliação dos clientes' },
+            { icon: Smartphone, value: '4K', label: 'Ultra HD disponível' },
+            { icon: ShieldCheck, value: '360 dias', label: 'Garantia do APK' },
           ].map((stat, i) => (
             <motion.div 
               key={i} 
