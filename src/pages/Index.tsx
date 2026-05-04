@@ -86,8 +86,8 @@ const Index = () => {
           <TMDBGallery title="💕 Romance" movies={romanceMovies?.results} isLoading={romanceLoading} onPlayTrailer={handlePlayTrailer} />
           <TMDBGallery title="🎬 Populares" movies={popularMovies?.results} isLoading={popularLoading} onPlayTrailer={handlePlayTrailer} />
           
-          {/* Upsell CTA - only for logged in users */}
-          {user && (
+          {/* Upsell CTA */}
+          {(
             <motion.div 
               className="px-4 md:px-8 py-6"
               initial={{ opacity: 0, y: 20 }}
@@ -114,15 +114,11 @@ const Index = () => {
         {/* Social proof */}
         <SocialProof />
 
-        {/* APK Promo & Plans - only visible after login */}
-        {user && (
-          <>
-            <AppPromoSection />
-            <div id="planos">
-              <PlansSection onOpenChatWithPlan={openChatWithMessage} />
-            </div>
-          </>
-        )}
+        {/* APK Promo & Plans - public */}
+        <AppPromoSection />
+        <div id="planos">
+          <PlansSection onOpenChatWithPlan={openChatWithMessage} />
+        </div>
       </main>
       <Footer />
       <ChatFAB onClick={() => openChatWithMessage()} />
