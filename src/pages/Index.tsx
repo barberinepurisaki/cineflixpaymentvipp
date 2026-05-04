@@ -123,11 +123,8 @@ const Index = () => {
         {/* Sales page 2026 */}
         <SalesPage2026 />
 
-        {/* APK Promo & Plans - public */}
+        {/* APK Promo no final, como reforço */}
         <AppPromoSection />
-        <div id="planos">
-          <PlansSection onOpenChatWithPlan={openChatWithMessage} />
-        </div>
       </main>
       <Footer />
       <ChatFAB onClick={() => openChatWithMessage()} />
