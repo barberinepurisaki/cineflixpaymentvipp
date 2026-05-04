@@ -276,7 +276,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                       e.stopPropagation();
                       handleSelectPlan(plan);
                     }}
-                    className="w-full py-3.5 rounded-xl text-sm font-bold transition-all duration-300 bg-cinema-red hover:bg-cinema-glow text-white shadow-glow hover:shadow-glow-lg"
+                    className="w-full mt-auto py-3.5 rounded-xl text-sm font-bold transition-all duration-300 bg-cinema-red hover:bg-cinema-glow text-white shadow-glow hover:shadow-glow-lg"
                   >
                     {plan.id === 'apk' ? '🤖 Comprar APK' : '🎬 Assinar Agora'}
                   </button>
