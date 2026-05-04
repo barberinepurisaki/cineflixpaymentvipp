@@ -14,6 +14,7 @@ import Footer from '@/components/Footer';
 import ChatFAB from '@/components/ChatFAB';
 import AshleyChat from '@/components/AshleyChat';
 import ContentLock from '@/components/ContentLock';
+import SalesPage2026 from '@/components/SalesPage2026';
 import { 
   useTrendingMovies, 
   useTrendingSeries, 
@@ -86,8 +87,8 @@ const Index = () => {
           <TMDBGallery title="💕 Romance" movies={romanceMovies?.results} isLoading={romanceLoading} onPlayTrailer={handlePlayTrailer} />
           <TMDBGallery title="🎬 Populares" movies={popularMovies?.results} isLoading={popularLoading} onPlayTrailer={handlePlayTrailer} />
           
-          {/* Upsell CTA - only for logged in users */}
-          {user && (
+          {/* Upsell CTA */}
+          {(
             <motion.div 
               className="px-4 md:px-8 py-6"
               initial={{ opacity: 0, y: 20 }}
@@ -114,15 +115,14 @@ const Index = () => {
         {/* Social proof */}
         <SocialProof />
 
-        {/* APK Promo & Plans - only visible after login */}
-        {user && (
-          <>
-            <AppPromoSection />
-            <div id="planos">
-              <PlansSection onOpenChatWithPlan={openChatWithMessage} />
-            </div>
-          </>
-        )}
+        {/* Sales page 2026 */}
+        <SalesPage2026 />
+
+        {/* APK Promo & Plans - public */}
+        <AppPromoSection />
+        <div id="planos">
+          <PlansSection onOpenChatWithPlan={openChatWithMessage} />
+        </div>
       </main>
       <Footer />
       <ChatFAB onClick={() => openChatWithMessage()} />
