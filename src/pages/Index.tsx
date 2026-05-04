@@ -14,6 +14,7 @@ import Footer from '@/components/Footer';
 import ChatFAB from '@/components/ChatFAB';
 import AshleyChat from '@/components/AshleyChat';
 import ContentLock from '@/components/ContentLock';
+import SalesPage2026 from '@/components/SalesPage2026';
 import { 
   useTrendingMovies, 
   useTrendingSeries, 
@@ -113,6 +114,9 @@ const Index = () => {
 
         {/* Social proof */}
         <SocialProof />
+
+        {/* Sales page 2026 */}
+        <SalesPage2026 />
 
         {/* APK Promo & Plans - public */}
         <AppPromoSection />
