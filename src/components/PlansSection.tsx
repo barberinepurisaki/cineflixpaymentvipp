@@ -214,11 +214,11 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
 
         {/* Plans Grid - Hidden when showing upsells */}
         {!showUpsells && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch justify-items-center max-w-6xl mx-auto">
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className="relative rounded-2xl border transition-all duration-500 hover:scale-[1.03] cursor-pointer bg-gradient-to-b from-cinema-red/20 via-cinema-panel to-cinema-dark border-cinema-red/60 hover:border-cinema-red shadow-lg hover:shadow-glow overflow-hidden group"
+                className="relative w-full max-w-sm h-full flex flex-col rounded-2xl border transition-all duration-500 hover:scale-[1.03] cursor-pointer bg-gradient-to-b from-cinema-red/20 via-cinema-panel to-cinema-dark border-cinema-red/60 hover:border-cinema-red shadow-lg hover:shadow-glow overflow-hidden group"
                 onClick={() => handleSelectPlan(plan)}
               >
                 {/* Featured badge */}
