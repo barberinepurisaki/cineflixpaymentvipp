@@ -77,7 +77,12 @@ const Index = () => {
           onPlayTrailer={handlePlayTrailer}
           movies={trendingMovies?.results}
         />
-        
+
+        {/* PLANOS — logo após o Hero para captar desejo imediato */}
+        <div id="planos">
+          <PlansSection onOpenChatWithPlan={openChatWithMessage} />
+        </div>
+
         {/* Galleries */}
         <div className="space-y-1 pb-4">
           <TMDBGallery title="🔥 Em Alta" movies={trendingMovies?.results} isLoading={trendingLoading} onPlayTrailer={handlePlayTrailer} />
