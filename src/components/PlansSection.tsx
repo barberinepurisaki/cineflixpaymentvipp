@@ -230,7 +230,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                   </div>
                 )}
 
-                <div className={cn("p-6", plan.discount && "pt-10")}>
+                <div className={cn("p-6 flex flex-col flex-1 w-full", plan.discount && "pt-10")}>
                   {/* Icon and name */}
                   <div className="flex flex-col items-center mb-5">
                     <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-3 overflow-hidden">
@@ -259,7 +259,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                   <div className="w-full h-px bg-white/10 mb-5" />
 
                   {/* Features */}
-                  <ul className="space-y-3 mb-6">
+                  <ul className="space-y-3 mb-6 flex-1">
                     {plan.features.map((feature, index) => (
                       <li key={index} className="flex items-start gap-2.5">
                         <div className="w-5 h-5 rounded-full bg-cinema-red/20 flex items-center justify-center flex-shrink-0 mt-0.5">
