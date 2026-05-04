@@ -77,7 +77,12 @@ const Index = () => {
           onPlayTrailer={handlePlayTrailer}
           movies={trendingMovies?.results}
         />
-        
+
+        {/* PLANOS — logo após o Hero para captar desejo imediato */}
+        <div id="planos">
+          <PlansSection onOpenChatWithPlan={openChatWithMessage} />
+        </div>
+
         {/* Galleries */}
         <div className="space-y-1 pb-4">
           <TMDBGallery title="🔥 Em Alta" movies={trendingMovies?.results} isLoading={trendingLoading} onPlayTrailer={handlePlayTrailer} />
@@ -118,11 +123,8 @@ const Index = () => {
         {/* Sales page 2026 */}
         <SalesPage2026 />
 
-        {/* APK Promo & Plans - public */}
+        {/* APK Promo no final, como reforço */}
         <AppPromoSection />
-        <div id="planos">
-          <PlansSection onOpenChatWithPlan={openChatWithMessage} />
-        </div>
       </main>
       <Footer />
       <ChatFAB onClick={() => openChatWithMessage()} />
