@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Shield, Loader2 } from 'lucide-react';
+import { Check, Loader2 } from 'lucide-react';
 import cineflixLogo from '@/assets/cineflix-logo.png';
 
 const STORAGE_KEY = 'cineflix_human_verified_v1';
