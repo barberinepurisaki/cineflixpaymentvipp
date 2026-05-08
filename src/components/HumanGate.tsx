@@ -127,8 +127,8 @@ const HumanGate = ({ children }: HumanGateProps) => {
           {/* Card captcha */}
           <div className="bg-cinema-panel/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-lg bg-cinema-red/15 flex items-center justify-center">
-                <Shield className="w-5 h-5 text-cinema-red" />
+              <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-cinema-red/20 to-cinema-red/5 border border-cinema-red/30 flex items-center justify-center flex-shrink-0">
+                <img src={cineflixLogo} alt="" className="w-7 h-7 object-contain" />
               </div>
               <div>
                 <p className="text-white font-semibold text-sm">Acesso protegido</p>
