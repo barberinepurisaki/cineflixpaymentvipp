@@ -11,6 +11,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
+import HumanGate from "./components/HumanGate";
 
 const queryClient = new QueryClient();
 
