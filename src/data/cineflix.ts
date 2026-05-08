@@ -169,8 +169,8 @@ export const upsells: Upsell[] = [
 export const WHATSAPP_NUMBER = '5598981465166';
 
 export const KIRVANO_LINKS: Record<string, string> = {
-  mensal: 'https://pay.kirvano.com/90f879cc-111a-49df-aefe-6ec83ffcac37',
-  trimestral: 'https://pay.kirvano.com/96b90dc1-dd98-49c9-9524-1ed68f2aaa2d',
-  anual: 'https://pay.kirvano.com/5d43cc3c-301c-43ea-8cb5-6021eae434e9',
+  mensal: 'https://pay.cakto.com.br/kmz4m8v_878535',
+  trimestral: 'https://pay.cakto.com.br/3f3gp73_878540',
+  anual: 'https://pay.cakto.com.br/yxqbt2g_878541',
   apk: 'https://pay.cakto.com.br/n8rrwfq_735392',
 };
