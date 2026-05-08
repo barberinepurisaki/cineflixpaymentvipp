@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Loader2 } from 'lucide-react';
 import cineflixLogo from '@/assets/cineflix-logo.png';
+import BackgroundMusic from './BackgroundMusic';
 
 const STORAGE_KEY = 'cineflix_human_verified_v1';
 const TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 dias
