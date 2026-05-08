@@ -82,7 +82,7 @@ const HumanGate = ({ children }: HumanGateProps) => {
     }, 1100);
   };
 
-  if (verified) return <>{children}</>;
+  if (verified) return <><BackgroundMusic />{children}</>;
   if (verified === null) {
     // Estado inicial — evita flash
     return <div className="min-h-screen bg-cinema-dark" />;
