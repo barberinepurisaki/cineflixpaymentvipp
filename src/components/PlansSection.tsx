@@ -196,7 +196,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                   onClick={handleCheckout}
                   className="flex-1 py-4 rounded-xl font-bold bg-cinema-red hover:bg-cinema-glow text-white shadow-glow hover:shadow-glow-lg transition-all duration-300"
                 >
-                  🧾 GERAR COMPROVANTE E FINALIZAR
+                  Finalizar plano
                 </button>
                 <button
                   onClick={() => {
