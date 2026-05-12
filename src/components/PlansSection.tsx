@@ -27,12 +27,20 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
     setShowUpsells(true);
   };
 
+  const COMBO_ID = 'combo_completo';
   const toggleUpsell = (upsellId: string) => {
-    setSelectedUpsells(prev => 
-      prev.includes(upsellId) 
-        ? prev.filter(id => id !== upsellId)
-        : [...prev, upsellId]
-    );
+    setSelectedUpsells(prev => {
+      const isSelected = prev.includes(upsellId);
+      // Se clicou no COMBO: alterna apenas o combo e remove todos os outros
+      if (upsellId === COMBO_ID) {
+        return isSelected ? [] : [COMBO_ID];
+      }
+      // Se clicou em outro item: remove o combo automaticamente
+      const withoutCombo = prev.filter(id => id !== COMBO_ID);
+      return isSelected
+        ? withoutCombo.filter(id => id !== upsellId)
+        : [...withoutCombo, upsellId];
+    });
   };
 
   const calculateTotal = () => {
