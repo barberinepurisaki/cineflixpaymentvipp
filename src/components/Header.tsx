@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LogOut, User, Menu, X } from 'lucide-react';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
+import { LogOut, User, Menu, X, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import cineflixLogo from '@/assets/cineflix-logo.png';
