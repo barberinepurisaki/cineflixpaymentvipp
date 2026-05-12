@@ -12,6 +12,8 @@ import Privacy from "./pages/Privacy";
 import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 import HumanGate from "./components/HumanGate";
+import Admin from "./pages/Admin";
+import SaleReceipt from "./pages/SaleReceipt";
 
 const queryClient = new QueryClient();
 
