@@ -14,16 +14,240 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      catalog_movies: {
+        Row: {
+          active: boolean
+          category: string | null
+          created_at: string
+          description: string | null
+          duration: string | null
+          id: string
+          image_url: string | null
+          rating: number | null
+          sort_order: number
+          title: string
+          trailer_url: string | null
+          updated_at: string
+          year: number | null
+        }
+        Insert: {
+          active?: boolean
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          duration?: string | null
+          id?: string
+          image_url?: string | null
+          rating?: number | null
+          sort_order?: number
+          title: string
+          trailer_url?: string | null
+          updated_at?: string
+          year?: number | null
+        }
+        Update: {
+          active?: boolean
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          duration?: string | null
+          id?: string
+          image_url?: string | null
+          rating?: number | null
+          sort_order?: number
+          title?: string
+          trailer_url?: string | null
+          updated_at?: string
+          year?: number | null
+        }
+        Relationships: []
+      }
+      catalog_plans: {
+        Row: {
+          active: boolean
+          created_at: string
+          discount: string | null
+          featured: boolean
+          features: Json
+          icon: string | null
+          id: string
+          name: string
+          payment_url: string | null
+          period: string
+          price: number
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          discount?: string | null
+          featured?: boolean
+          features?: Json
+          icon?: string | null
+          id: string
+          name: string
+          payment_url?: string | null
+          period: string
+          price: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          discount?: string | null
+          featured?: boolean
+          features?: Json
+          icon?: string | null
+          id?: string
+          name?: string
+          payment_url?: string | null
+          period?: string
+          price?: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      catalog_upsells: {
+        Row: {
+          active: boolean
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          price: number
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          description?: string | null
+          id: string
+          name: string
+          price: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          price?: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      sales: {
+        Row: {
+          access_password: string | null
+          access_username: string | null
+          addons: Json
+          app_instructions: string | null
+          app_name: string | null
+          created_at: string
+          created_by: string | null
+          customer_name: string
+          customer_whatsapp: string | null
+          id: string
+          notes: string | null
+          order_code: string
+          plan_id: string
+          plan_name: string
+          plan_period: string | null
+          price: number
+          server_url: string | null
+          status: string
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          access_password?: string | null
+          access_username?: string | null
+          addons?: Json
+          app_instructions?: string | null
+          app_name?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_name: string
+          customer_whatsapp?: string | null
+          id?: string
+          notes?: string | null
+          order_code?: string
+          plan_id: string
+          plan_name: string
+          plan_period?: string | null
+          price: number
+          server_url?: string | null
+          status?: string
+          total: number
+          updated_at?: string
+        }
+        Update: {
+          access_password?: string | null
+          access_username?: string | null
+          addons?: Json
+          app_instructions?: string | null
+          app_name?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_name?: string
+          customer_whatsapp?: string | null
+          id?: string
+          notes?: string | null
+          order_code?: string
+          plan_id?: string
+          plan_name?: string
+          plan_period?: string | null
+          price?: number
+          server_url?: string | null
+          status?: string
+          total?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +374,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
