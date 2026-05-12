@@ -12,6 +12,8 @@ import Privacy from "./pages/Privacy";
 import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 import HumanGate from "./components/HumanGate";
+import Admin from "./pages/Admin";
+import SaleReceipt from "./pages/SaleReceipt";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,8 @@ const App = () => (
               <Route path="/termos" element={<Terms />} />
               <Route path="/privacidade" element={<Privacy />} />
               <Route path="/faq" element={<FAQ />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/admin/comprovante/:id" element={<SaleReceipt />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

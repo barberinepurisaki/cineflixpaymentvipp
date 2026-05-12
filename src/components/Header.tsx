@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LogOut, User, Menu, X } from 'lucide-react';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
+import { LogOut, User, Menu, X, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import cineflixLogo from '@/assets/cineflix-logo.png';
@@ -15,6 +16,7 @@ const navLinks = [
 
 const Header = () => {
   const { user, signOut } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -62,6 +64,11 @@ const Header = () => {
           <div className="flex items-center gap-2">
             {user ? (
               <>
+                {isAdmin && (
+                  <Link to="/admin" className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cinema-red/20 border border-cinema-red/40 text-white text-xs font-bold hover:bg-cinema-red/30 transition-all">
+                    <Shield className="w-3.5 h-3.5" /> ADMIN
+                  </Link>
+                )}
                 <span className="hidden sm:flex items-center gap-2 text-white/60 text-sm bg-white/5 px-3 py-1.5 rounded-full">
                   <User className="w-3.5 h-3.5" />
                   {user.user_metadata?.full_name || user.email?.split('@')[0]}
