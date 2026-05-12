@@ -16,6 +16,7 @@ const navLinks = [
 
 const Header = () => {
   const { user, signOut } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
