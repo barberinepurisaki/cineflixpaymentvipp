@@ -1,16 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import {
   CheckCircle2, Clock, CreditCard, MessageCircle, ArrowLeft,
-  ShieldCheck, Ticket, Film, Lock, Headphones, Sparkles, Star, Calendar,
+  ShieldCheck, Ticket, Film, Lock, Headphones, Sparkles, Star, Calendar, Download,
 } from 'lucide-react';
 import { plans, upsells, KIRVANO_LINKS, WHATSAPP_NUMBER } from '@/data/cineflix';
 import cineflixLogo from '@/assets/cineflix-logo.png';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const CheckoutReceipt = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [downloading, setDownloading] = useState(false);
+  const ticketRef = useRef<HTMLDivElement>(null);
 
   const planId = searchParams.get('plano') || '';
   const nome = searchParams.get('nome') || 'Cliente';
@@ -23,10 +27,10 @@ const CheckoutReceipt = () => {
 
   if (!plan) {
     return (
-      <div className="min-h-screen bg-cinema-dark flex items-center justify-center p-4">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="text-white text-center">
           <p className="text-xl mb-4">Plano não encontrado</p>
-          <button onClick={() => navigate('/')} className="text-cinema-red underline">Voltar ao início</button>
+          <button onClick={() => navigate('/')} className="text-red-500 underline">Voltar ao início</button>
         </div>
       </div>
     );
@@ -36,12 +40,11 @@ const CheckoutReceipt = () => {
   const total = plan.price + upsellTotal;
   const hasUpsells = selectedUpsells.length > 0;
   const orderId = `CFX-${currentTime.getTime().toString().slice(-8)}`;
-  const authCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+  const authCode = (orderId + nome).split('').reduce((a, c) => a + c.charCodeAt(0), 0).toString(36).toUpperCase().padStart(6, 'X').slice(-6);
 
   const dateStr = currentTime.toLocaleDateString('pt-BR');
   const timeStr = currentTime.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-  // Validade do acesso conforme plano
   const validityLabel = (() => {
     const d = new Date(currentTime);
     if (plan.id === 'apk') return 'Acesso vitalício';
@@ -60,25 +63,80 @@ const CheckoutReceipt = () => {
       `Plano: ${plan.name} — R$ ${plan.price.toFixed(2)} (${plan.period})`,
       hasUpsells ? `\nAdicionais:\n${upsellLines}` : '', ``,
       `*Total: R$ ${total.toFixed(2)}*`, ``,
+      `Código de autenticação: ${authCode}`,
       `Quero finalizar meu pedido agora.`,
     ].filter(Boolean).join('\n');
   };
 
   const handlePayCard = () => window.open(KIRVANO_LINKS[plan.id], '_blank');
   const handlePayWhats = () => {
-    const message = buildWhatsMessage();
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(buildWhatsMessage())}`, '_blank');
   };
 
-  // Barras simulando código de barras
-  const barcodeBars = Array.from({ length: 48 }, (_, i) => {
+  const handleDownloadPDF = async () => {
+    if (!ticketRef.current || downloading) return;
+    setDownloading(true);
+    try {
+      const canvas = await html2canvas(ticketRef.current, {
+        backgroundColor: '#000000',
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const margin = 10;
+      const imgWidth = pageWidth - margin * 2;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.setFillColor(0, 0, 0);
+      pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+
+      if (imgHeight <= pageHeight - margin * 2) {
+        pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
+      } else {
+        // Multi-page handling
+        let position = 0;
+        const pageContentHeight = pageHeight - margin * 2;
+        let remaining = imgHeight;
+        let page = 0;
+        while (remaining > 0) {
+          if (page > 0) {
+            pdf.addPage();
+            pdf.setFillColor(0, 0, 0);
+            pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+          }
+          pdf.addImage(imgData, 'PNG', margin, margin - position, imgWidth, imgHeight);
+          remaining -= pageContentHeight;
+          position += pageContentHeight;
+          page++;
+        }
+      }
+
+      pdf.save(`comprovante-${orderId}.pdf`);
+    } catch (err) {
+      console.error('Erro ao gerar PDF:', err);
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  const barcodeBars = Array.from({ length: 56 }, (_, i) => {
     const w = (i * 7) % 5 === 0 ? 3 : (i % 3 === 0 ? 2 : 1);
     return <div key={i} className="bg-white" style={{ width: `${w}px`, height: '100%' }} />;
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-cinema-dark to-black flex items-center justify-center p-4 py-8">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-b from-black via-zinc-950 to-black flex items-center justify-center p-4 py-8 relative overflow-hidden">
+      {/* Atmosfera cinema */}
+      <div className="absolute inset-0 pointer-events-none opacity-40">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-600/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-red-900/20 rounded-full blur-3xl" />
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
         <button
           onClick={() => navigate('/')}
           className="flex items-center gap-2 text-white/60 hover:text-white text-sm mb-4 transition-colors"
@@ -87,79 +145,96 @@ const CheckoutReceipt = () => {
           Voltar ao início
         </button>
 
-        {/* CARD PRINCIPAL */}
-        <div className="rounded-2xl overflow-hidden border border-cinema-red/40 shadow-glow bg-gradient-to-b from-cinema-panel to-black relative">
-          {/* faixa superior decorativa */}
-          <div className="h-1.5 bg-gradient-to-r from-cinema-red via-red-500 to-cinema-red" />
+        {/* TICKET */}
+        <div
+          ref={ticketRef}
+          className="rounded-3xl overflow-hidden shadow-2xl bg-black relative"
+          style={{
+            backgroundImage: 'linear-gradient(180deg, #0a0a0a 0%, #000 100%)',
+            boxShadow: '0 0 60px rgba(220, 38, 38, 0.25), 0 0 0 1px rgba(220, 38, 38, 0.4)',
+          }}
+        >
+          {/* Faixa cinematográfica superior (perfurações de filme) */}
+          <div className="h-4 bg-black flex items-center justify-around px-2 border-b border-red-600/30">
+            {Array.from({ length: 14 }).map((_, i) => (
+              <div key={i} className="w-2 h-2 rounded-sm bg-red-600/40" />
+            ))}
+          </div>
 
           {/* HEADER */}
-          <div className="bg-gradient-to-br from-cinema-red via-red-700 to-black px-6 py-6 text-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18),transparent_60%)]" />
-            <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
+          <div className="relative px-6 py-7 text-center overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-red-700 via-red-900 to-black" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.25),transparent_60%)]" />
+            <div className="absolute inset-0 opacity-20" style={{
+              backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.05) 10px, rgba(255,255,255,0.05) 20px)'
+            }} />
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 border border-white/20 mb-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/60 border border-white/30 mb-3 backdrop-blur-sm">
                 <Ticket className="w-3.5 h-3.5 text-white" />
-                <span className="text-white text-[10px] font-bold tracking-[0.3em]">INGRESSO DIGITAL</span>
+                <span className="text-white text-[10px] font-bold tracking-[0.3em]">INGRESSO PREMIUM</span>
               </div>
-              <img src={cineflixLogo} alt="CINEFLIXPAYMENT" className="h-10 mx-auto mb-2" />
-              <p className="text-white/90 text-[11px] tracking-[0.35em] font-bold">COMPROVANTE DE PEDIDO</p>
-              <p className="text-white/60 text-[10px] mt-1">Sua sessão começa após a confirmação</p>
+              <img src={cineflixLogo} alt="CINEFLIXPAYMENT" className="h-11 mx-auto mb-2 drop-shadow-lg" crossOrigin="anonymous" />
+              <p className="text-white text-[11px] tracking-[0.4em] font-bold">COMPROVANTE OFICIAL</p>
+              <p className="text-white/70 text-[10px] mt-1 italic">Sua sessão começa após a confirmação</p>
             </div>
           </div>
 
-          {/* STATUS + ID */}
+          {/* STATUS */}
           <div className="px-6 pt-5">
-            <div className="flex items-center justify-between gap-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-4 py-3">
+            <div className="flex items-center justify-between gap-3 bg-gradient-to-r from-yellow-500/15 via-yellow-500/10 to-transparent border border-yellow-500/40 rounded-xl px-4 py-3">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-yellow-400 animate-pulse" />
                 <span className="text-yellow-300 text-xs font-bold tracking-wide">AGUARDANDO PAGAMENTO</span>
               </div>
-              <span className="text-white/50 text-[10px] font-mono">#{orderId}</span>
+              <span className="text-white/60 text-[10px] font-mono">#{orderId}</span>
             </div>
           </div>
 
           {/* CLIENTE + AUTH */}
           <div className="px-6 pt-5 grid grid-cols-2 gap-4">
-            <div>
+            <div className="min-w-0">
               <p className="text-white/40 text-[10px] uppercase tracking-widest mb-1">Cliente</p>
               <p className="text-white font-bold truncate">{nome}</p>
               {email && <p className="text-white/60 text-[11px] truncate">{email}</p>}
             </div>
-            <div className="text-right">
-              <p className="text-white/40 text-[10px] uppercase tracking-widest mb-1">Cód. Auth</p>
-              <p className="text-cinema-red font-mono font-bold tracking-widest">{authCode}</p>
+            <div className="text-right min-w-0">
+              <p className="text-white/40 text-[10px] uppercase tracking-widest mb-1">Cód. Autenticação</p>
+              <p className="text-red-500 font-mono font-bold tracking-widest">{authCode}</p>
               <p className="text-white/40 text-[10px]">{dateStr} · {timeStr}</p>
             </div>
           </div>
 
-          <div className="mx-6 my-4 border-t border-dashed border-white/15" />
+          <div className="mx-6 my-4 border-t border-dashed border-red-600/30" />
 
-          {/* DESTAQUE DO PLANO */}
+          {/* PLANO */}
           <div className="px-6">
             <p className="text-white/40 text-[10px] uppercase tracking-widest mb-3">Plano selecionado</p>
-            <div className="rounded-xl bg-gradient-to-br from-cinema-red/20 via-black to-cinema-red/10 border border-cinema-red/40 p-4">
-              <div className="flex items-start justify-between gap-3 mb-3">
-                <div className="flex items-start gap-3 min-w-0">
-                  <div className="w-11 h-11 rounded-lg bg-cinema-red/20 border border-cinema-red/40 flex items-center justify-center flex-shrink-0">
-                    <Film className="w-5 h-5 text-cinema-red" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-white font-bold leading-tight">{plan.name}</p>
-                    <p className="text-white/60 text-[11px]">
-                      {plan.period === 'único' ? 'Pagamento único · Vitalício' : `Cobrança ${plan.period}`}
-                    </p>
-                    <div className="flex items-center gap-1 mt-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-cinema-gold text-cinema-gold" />
-                      ))}
+            <div className="rounded-2xl bg-gradient-to-br from-red-950/60 via-black to-red-950/30 border border-red-600/40 p-4 relative overflow-hidden">
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-red-600/20 rounded-full blur-2xl" />
+              <div className="relative">
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="flex items-start gap-3 min-w-0">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 to-red-900 border border-red-500/60 flex items-center justify-center flex-shrink-0 shadow-lg">
+                      <Film className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-white font-bold leading-tight">{plan.name}</p>
+                      <p className="text-white/60 text-[11px]">
+                        {plan.period === 'único' ? 'Pagamento único · Vitalício' : `Cobrança ${plan.period}`}
+                      </p>
+                      <div className="flex items-center gap-1 mt-1">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        ))}
+                      </div>
                     </div>
                   </div>
+                  <p className="text-white font-bold whitespace-nowrap">R$ {plan.price.toFixed(2)}</p>
                 </div>
-                <p className="text-white font-bold whitespace-nowrap">R$ {plan.price.toFixed(2)}</p>
-              </div>
-              <div className="flex items-center gap-2 text-[11px] text-white/60 pt-2 border-t border-white/10">
-                <Calendar className="w-3.5 h-3.5 text-cinema-red" />
-                {validityLabel}
+                <div className="flex items-center gap-2 text-[11px] text-white/70 pt-2 border-t border-red-600/20">
+                  <Calendar className="w-3.5 h-3.5 text-red-500" />
+                  {validityLabel}
+                </div>
               </div>
             </div>
           </div>
@@ -167,19 +242,19 @@ const CheckoutReceipt = () => {
           {/* ADICIONAIS */}
           {hasUpsells && (
             <>
-              <div className="mx-6 my-4 border-t border-dashed border-white/15" />
+              <div className="mx-6 my-4 border-t border-dashed border-red-600/30" />
               <div className="px-6">
                 <div className="flex items-center justify-between mb-3">
-                  <p className="text-cinema-red text-[10px] uppercase tracking-widest font-bold flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5" /> Adicionais selecionados
+                  <p className="text-red-500 text-[10px] uppercase tracking-widest font-bold flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5" /> Adicionais
                   </p>
                   <span className="text-white/40 text-[10px]">{selectedUpsells.length} item(ns)</span>
                 </div>
-                <div className="space-y-2 rounded-xl bg-white/5 border border-white/10 p-3">
+                <div className="space-y-2 rounded-xl bg-white/[0.03] border border-white/10 p-3">
                   {selectedUpsells.map((u) => u && (
                     <div key={u.id} className="flex items-start justify-between gap-3 pb-2 last:pb-0 last:border-0 border-b border-white/5">
                       <div className="flex items-start gap-2 flex-1 min-w-0">
-                        <CheckCircle2 className="w-4 h-4 text-cinema-red flex-shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
                         <div className="min-w-0">
                           <p className="text-white text-sm font-medium truncate">{u.name}</p>
                           {u.description && (
@@ -196,7 +271,7 @@ const CheckoutReceipt = () => {
           )}
 
           {/* SUBTOTAIS */}
-          <div className="mx-6 my-4 border-t border-dashed border-white/15" />
+          <div className="mx-6 my-4 border-t border-dashed border-red-600/30" />
           <div className="px-6 space-y-1.5 text-sm">
             <div className="flex items-center justify-between text-white/60">
               <span>Subtotal plano</span>
@@ -216,81 +291,97 @@ const CheckoutReceipt = () => {
 
           {/* TOTAL */}
           <div className="px-6 mt-4">
-            <div className="bg-cinema-red border border-cinema-red rounded-xl px-4 py-4 flex items-center justify-between shadow-glow">
-              <div>
+            <div className="relative rounded-2xl px-4 py-4 flex items-center justify-between overflow-hidden border border-red-500"
+              style={{
+                background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 50%, #7f1d1d 100%)',
+                boxShadow: '0 0 30px rgba(220,38,38,0.5)',
+              }}
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent_60%)]" />
+              <div className="relative">
                 <p className="text-white/80 text-[10px] uppercase tracking-widest">Total a pagar</p>
                 <p className="text-white text-3xl font-bold leading-none mt-1">R$ {total.toFixed(2)}</p>
               </div>
-              <div className="text-right">
+              <div className="text-right relative">
                 <p className="text-white/80 text-[10px]">Em até</p>
                 <p className="text-white font-bold text-sm">12x no cartão</p>
               </div>
             </div>
           </div>
 
-          {/* AÇÕES */}
-          <div className="px-6 pt-5 space-y-3">
-            <button
-              onClick={handlePayCard}
-              className="w-full py-4 rounded-xl bg-cinema-red hover:bg-cinema-glow text-white font-bold flex items-center justify-center gap-2 shadow-glow hover:shadow-glow-lg transition-all duration-300 hover:scale-[1.02]"
-            >
-              <CreditCard className="w-5 h-5" />
-              Finalizar pagamento
-            </button>
-            <button
-              onClick={handlePayWhats}
-              className="w-full py-4 rounded-xl bg-black border border-white/20 hover:border-green-500/60 text-white font-bold flex items-center justify-center gap-2 transition-all duration-300"
-            >
-              <MessageCircle className="w-5 h-5 text-green-400" />
-              Finalizar no WhatsApp
-            </button>
-          </div>
-
           {/* GARANTIAS */}
           <div className="px-6 pt-5 grid grid-cols-3 gap-2">
-            <div className="rounded-lg bg-white/5 border border-white/10 p-2.5 text-center">
-              <ShieldCheck className="w-4 h-4 text-green-400 mx-auto mb-1" />
-              <p className="text-white/70 text-[10px] font-bold leading-tight">Compra<br/>segura</p>
-            </div>
-            <div className="rounded-lg bg-white/5 border border-white/10 p-2.5 text-center">
-              <Lock className="w-4 h-4 text-cinema-red mx-auto mb-1" />
-              <p className="text-white/70 text-[10px] font-bold leading-tight">Dados<br/>protegidos</p>
-            </div>
-            <div className="rounded-lg bg-white/5 border border-white/10 p-2.5 text-center">
-              <Headphones className="w-4 h-4 text-white mx-auto mb-1" />
-              <p className="text-white/70 text-[10px] font-bold leading-tight">Suporte<br/>24/7</p>
-            </div>
+            {[
+              { icon: ShieldCheck, color: 'text-green-400', label: 'Compra\nsegura' },
+              { icon: Lock, color: 'text-red-500', label: 'Dados\nprotegidos' },
+              { icon: Headphones, color: 'text-white', label: 'Suporte\n24/7' },
+            ].map((item, i) => (
+              <div key={i} className="rounded-xl bg-white/[0.03] border border-white/10 p-2.5 text-center">
+                <item.icon className={`w-4 h-4 ${item.color} mx-auto mb-1`} />
+                <p className="text-white/70 text-[10px] font-bold leading-tight whitespace-pre-line">{item.label}</p>
+              </div>
+            ))}
           </div>
 
           {/* PERFURAÇÃO TICKET */}
           <div className="relative my-5">
-            <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-cinema-dark border border-cinema-red/40" />
-            <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-cinema-dark border border-cinema-red/40" />
-            <div className="mx-6 border-t-2 border-dashed border-white/20" />
+            <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black border border-red-600/40" />
+            <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black border border-red-600/40" />
+            <div className="mx-6 border-t-2 border-dashed border-red-600/40" />
           </div>
 
-          {/* CANHOTO COM CÓDIGO DE BARRAS */}
+          {/* CANHOTO */}
           <div className="px-6 pb-6">
-            <div className="rounded-lg bg-white/5 border border-white/10 p-4">
+            <div className="rounded-xl bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-white/10 p-4">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-white/40 text-[10px] uppercase tracking-widest">Canhoto</p>
+                <p className="text-white/40 text-[10px] uppercase tracking-widest">Canhoto · Stub</p>
                 <p className="text-white/40 text-[10px] font-mono">{orderId}</p>
               </div>
-              <div className="h-12 flex items-center gap-[1px] bg-black rounded px-2">
+              <div className="h-12 flex items-center gap-[1px] bg-white rounded px-2">
                 {barcodeBars}
               </div>
-              <p className="text-center text-white/50 text-[10px] mt-2 font-mono tracking-widest">
+              <p className="text-center text-white/60 text-[10px] mt-2 font-mono tracking-widest">
                 {orderId} · {authCode}
               </p>
             </div>
 
             <p className="text-center text-white/40 text-[10px] mt-4">
-              Obrigado por escolher a <span className="text-cinema-red font-bold">CINEFLIXPAYMENT</span> · Deus abençoe 🙏
+              Obrigado por escolher a <span className="text-red-500 font-bold">CINEFLIXPAYMENT</span> · Deus abençoe 🙏
             </p>
           </div>
 
-          {/* faixa inferior */}
-          <div className="h-1.5 bg-gradient-to-r from-cinema-red via-red-500 to-cinema-red" />
+          {/* Faixa filme inferior */}
+          <div className="h-4 bg-black flex items-center justify-around px-2 border-t border-red-600/30">
+            {Array.from({ length: 14 }).map((_, i) => (
+              <div key={i} className="w-2 h-2 rounded-sm bg-red-600/40" />
+            ))}
+          </div>
+        </div>
+
+        {/* AÇÕES (fora do print) */}
+        <div className="mt-5 space-y-3">
+          <button
+            onClick={handlePayCard}
+            className="w-full py-4 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-red-600/40 transition-all duration-300 hover:scale-[1.02]"
+          >
+            <CreditCard className="w-5 h-5" />
+            Finalizar pagamento
+          </button>
+          <button
+            onClick={handlePayWhats}
+            className="w-full py-4 rounded-xl bg-black border border-white/20 hover:border-green-500/60 text-white font-bold flex items-center justify-center gap-2 transition-all duration-300"
+          >
+            <MessageCircle className="w-5 h-5 text-green-400" />
+            Finalizar no WhatsApp
+          </button>
+          <button
+            onClick={handleDownloadPDF}
+            disabled={downloading}
+            className="w-full py-4 rounded-xl bg-gradient-to-r from-zinc-900 to-black border border-red-600/40 hover:border-red-500 text-white font-bold flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-60"
+          >
+            <Download className="w-5 h-5 text-red-500" />
+            {downloading ? 'Gerando PDF...' : 'Baixar comprovante em PDF'}
+          </button>
         </div>
       </div>
     </div>
