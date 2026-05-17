@@ -12,5 +12,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin/
 
-Sitemap: https://cineflix-magic-flow.lovable.app/sitemap.xml
+Sitemap: https://cineflixpayment2026.netlify.app/sitemap.xml
