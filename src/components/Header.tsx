@@ -101,6 +101,7 @@ const Header = () => {
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? 'Fechar menu' : 'Abrir menu'}
               className="md:hidden w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center"
             >
               {mobileOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}

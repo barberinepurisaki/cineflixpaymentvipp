@@ -14,7 +14,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <img src={cineflixLogo} alt="CineflixPayment" className="w-12 h-12 object-contain" />
+              <img src={cineflixLogo} alt="Logo CineflixPayment" className="w-12 h-12 object-contain" />
               <span className="text-xl font-bold text-white">CINEFLIXPAYMENT</span>
             </div>
             <p className="text-white/60 text-sm leading-relaxed">
