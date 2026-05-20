@@ -1,0 +1,12 @@
+# CINEFLIXPAYMENT
+
+> Plataforma de streaming com filmes, séries, animes, K-dramas e canais ao vivo. Planos a partir de R$ 29,90/mês e APK Vitalício para Android.
+
+CINEFLIXPAYMENT é uma plataforma brasileira de streaming que oferece acesso a milhares de filmes, séries, animes, K-dramas, futebol ao vivo e canais de TV. Os planos incluem opções mensal, trimestral e anual, além de um APK Vitalício exclusivo para Android com pagamento único. O catálogo é atualizado regularmente com lançamentos de cinema e séries populares.
+
+## Pages
+
+- [Início](/): Página inicial com catálogo de filmes e séries em alta, planos de assinatura e depoimentos de clientes.
+- [Termos de Uso](/termos): Condições gerais de uso da plataforma, planos, pagamentos, reembolso e propriedade intelectual.
+- [Política de Privacidade](/privacidade): Informações sobre coleta, uso, segurança e retenção de dados pessoais dos usuários.
+- [Perguntas Frequentes](/faq): Respostas sobre planos, APK Vitalício, formas de pagamento, garantia, suporte e compatibilidade de dispositivos.
