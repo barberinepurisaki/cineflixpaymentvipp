@@ -70,6 +70,7 @@ const TMDBMovieCard = ({ movie, onPlayTrailer, index = 0 }: TMDBMovieCardProps) 
           <motion.button
             whileHover={{ scale: 1.15 }}
             whileTap={{ scale: 0.95 }}
+            aria-label="Assistir trailer"
             className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-cinema-red/90 hover:bg-cinema-red flex items-center justify-center shadow-2xl shadow-cinema-red/40 backdrop-blur-sm"
           >
             <Play className="w-5 h-5 md:w-6 md:h-6 text-white fill-white ml-0.5" />
