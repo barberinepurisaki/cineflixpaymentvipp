@@ -104,9 +104,9 @@ const Footer = () => {
             © {currentYear} CineflixPayment. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-4">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-6 opacity-50" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg" alt="Mastercard" className="h-6 opacity-50" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Amex" className="h-6 opacity-50" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Bandeira Visa" className="h-6 opacity-50" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg" alt="Bandeira Mastercard" className="h-6 opacity-50" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Bandeira American Express" className="h-6 opacity-50" />
             <span className="text-white/40 text-xs">Pagamento 100% Seguro</span>
           </div>
         </div>
