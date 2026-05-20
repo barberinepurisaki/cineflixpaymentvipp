@@ -32,7 +32,7 @@ const TMDBMovieCard = ({ movie, onPlayTrailer, index = 0 }: TMDBMovieCardProps) 
       <div className="relative aspect-[2/3] overflow-hidden">
         <img
           src={imageError ? '/placeholder.svg' : getTMDBImageUrl(movie.poster_path, 'w500')}
-          alt={title}
+          alt={`Poster do filme ${title}`}
           className={cn(
             'w-full h-full object-cover transition-transform duration-700',
             isHovered && 'scale-110'
