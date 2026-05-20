@@ -114,6 +114,7 @@ const Auth = () => {
               <Input
                 type="email"
                 placeholder="Seu e-mail"
+                aria-label="Seu e-mail"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="pl-11 bg-cinema-dark/50 border-white/10 focus:border-cinema-red h-12 text-white"
