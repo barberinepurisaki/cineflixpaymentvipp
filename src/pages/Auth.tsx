@@ -127,6 +127,7 @@ const Auth = () => {
               <Input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Sua senha"
+                aria-label="Sua senha"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-11 pr-11 bg-cinema-dark/50 border-white/10 focus:border-cinema-red h-12 text-white"
@@ -135,6 +136,7 @@ const Auth = () => {
               />
               <button
                 type="button"
+                aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
               >
