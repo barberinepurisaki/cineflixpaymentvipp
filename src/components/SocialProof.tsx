@@ -75,6 +75,7 @@ const SocialProof = () => {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
+                aria-label={`Ir para depoimento ${i + 1}`}
                 className={`w-2 h-2 rounded-full transition-all ${i === current ? 'bg-cinema-red w-6' : 'bg-white/20'}`}
               />
             ))}

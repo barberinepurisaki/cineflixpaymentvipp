@@ -92,7 +92,7 @@ const HeroSection = ({ onOpenChat, onPlayTrailer, movies }: HeroSectionProps) =>
         >
           <img
             src={getTMDBImageUrl(current.backdrop_path, 'original')}
-            alt={title}
+            alt={`Banner do filme ${title}`}
             className="w-full h-full object-cover"
           />
         </motion.div>
