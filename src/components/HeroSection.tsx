@@ -57,6 +57,7 @@ const HeroSection = ({ onOpenChat, onPlayTrailer, movies }: HeroSectionProps) =>
           >
             <h1 className="font-cinema text-5xl md:text-7xl lg:text-8xl text-white mb-4 leading-none glow-text">
               CINEFLIX<span className="text-cinema-red">PAYMENT</span>
+              <span className="sr-only"> — Assinatura de Streaming e IPTV</span>
             </h1>
             <p className="text-lg text-muted-foreground mb-8">
               O melhor streaming do Brasil. Filmes e séries exclusivos.
