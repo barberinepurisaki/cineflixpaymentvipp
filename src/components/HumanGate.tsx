@@ -112,13 +112,14 @@ const HumanGate = ({ children }: HumanGateProps) => {
           <div className="flex flex-col items-center mb-8">
             <motion.img
               src={cineflixLogo}
-              alt="CINEFLIXPAYMENT"
+              alt="Logo CineflixPayment"
               className="h-16 w-auto mb-3"
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2.5, repeat: Infinity }}
             />
             <h1 className="font-cinema text-2xl text-white text-center">
               CINEFLIX<span className="text-cinema-red">PAYMENT</span>
+              <span className="sr-only"> — Assinatura de Streaming e IPTV</span>
             </h1>
             <p className="text-white/50 text-sm mt-2 text-center">
               Verificação de segurança
