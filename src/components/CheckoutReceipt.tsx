@@ -173,8 +173,8 @@ const CheckoutReceipt = () => {
                 <Ticket className="w-3.5 h-3.5 text-white" />
                 <span className="text-white text-[10px] font-bold tracking-[0.3em]">INGRESSO PREMIUM</span>
               </div>
-              <img src={cineflixLogo} alt="CINEFLIXPAYMENT" className="h-11 mx-auto mb-2 drop-shadow-lg" crossOrigin="anonymous" />
-              <p className="text-white text-[11px] tracking-[0.4em] font-bold">COMPROVANTE OFICIAL</p>
+              <img src={cineflixLogo} alt="Logo CineflixPayment" className="h-11 mx-auto mb-2 drop-shadow-lg" crossOrigin="anonymous" />
+              <h1 className="text-white text-[11px] tracking-[0.4em] font-bold">COMPROVANTE OFICIAL</h1>
               <p className="text-white/70 text-[10px] mt-1 italic">Sua sessão começa após a confirmação</p>
             </div>
           </div>
