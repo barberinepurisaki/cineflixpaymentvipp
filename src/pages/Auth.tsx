@@ -100,6 +100,7 @@ const Auth = () => {
                 <Input
                   type="text"
                   placeholder="Seu nome"
+                  aria-label="Seu nome"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="pl-11 bg-cinema-dark/50 border-white/10 focus:border-cinema-red h-12 text-white"
