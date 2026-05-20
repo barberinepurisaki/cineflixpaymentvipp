@@ -111,7 +111,7 @@ const HeroSection = ({ onOpenChat, onPlayTrailer, movies }: HeroSectionProps) =>
           <button onClick={goPrev} aria-label="Filme anterior" className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/40 hover:bg-cinema-red/80 backdrop-blur-sm flex items-center justify-center transition-all duration-300 group">
             <ChevronLeft className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
           </button>
-          <button onClick={goNext} className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/40 hover:bg-cinema-red/80 backdrop-blur-sm flex items-center justify-center transition-all duration-300 group">
+          <button onClick={goNext} aria-label="Próximo filme" className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/40 hover:bg-cinema-red/80 backdrop-blur-sm flex items-center justify-center transition-all duration-300 group">
             <ChevronRight className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
           </button>
         </>
