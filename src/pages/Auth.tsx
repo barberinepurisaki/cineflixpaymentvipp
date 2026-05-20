@@ -82,9 +82,10 @@ const Auth = () => {
         <div className="bg-cinema-panel/80 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl">
           {/* Logo */}
           <div className="flex flex-col items-center mb-8">
-            <img src={cineflixLogo} alt="CineflixPayment" className="h-16 w-auto mb-3" />
+            <img src={cineflixLogo} alt="Logo CineflixPayment" className="h-16 w-auto mb-3" />
             <h1 className="font-cinema text-2xl text-white">
               CINEFLIX<span className="text-cinema-red">PAYMENT</span>
+              <span className="sr-only"> — Assinatura de Streaming e IPTV</span>
             </h1>
             <p className="text-white/50 text-sm mt-2">
               {isLogin ? 'Acesse sua conta' : 'Crie sua conta grátis'}
@@ -99,6 +100,7 @@ const Auth = () => {
                 <Input
                   type="text"
                   placeholder="Seu nome"
+                  aria-label="Seu nome"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="pl-11 bg-cinema-dark/50 border-white/10 focus:border-cinema-red h-12 text-white"
@@ -112,6 +114,7 @@ const Auth = () => {
               <Input
                 type="email"
                 placeholder="Seu e-mail"
+                aria-label="Seu e-mail"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="pl-11 bg-cinema-dark/50 border-white/10 focus:border-cinema-red h-12 text-white"
@@ -124,6 +127,7 @@ const Auth = () => {
               <Input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Sua senha"
+                aria-label="Sua senha"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-11 pr-11 bg-cinema-dark/50 border-white/10 focus:border-cinema-red h-12 text-white"
@@ -132,6 +136,7 @@ const Auth = () => {
               />
               <button
                 type="button"
+                aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
               >

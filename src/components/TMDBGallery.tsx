@@ -70,6 +70,7 @@ const TMDBGallery = ({ title, movies, isLoading, onPlayTrailer }: TMDBGalleryPro
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Rolar para a esquerda"
             className="w-8 h-8 md:w-9 md:h-9 opacity-0 group-hover/gallery:opacity-100 transition-opacity bg-white/5 hover:bg-cinema-red/20 hover:text-white rounded-full"
             onClick={() => scroll('left')}
           >
@@ -78,6 +79,7 @@ const TMDBGallery = ({ title, movies, isLoading, onPlayTrailer }: TMDBGalleryPro
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Rolar para a direita"
             className="w-8 h-8 md:w-9 md:h-9 opacity-0 group-hover/gallery:opacity-100 transition-opacity bg-white/5 hover:bg-cinema-red/20 hover:text-white rounded-full"
             onClick={() => scroll('right')}
           >

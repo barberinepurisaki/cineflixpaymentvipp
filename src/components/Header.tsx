@@ -38,7 +38,7 @@ const Header = () => {
           <Link to="/" className="flex items-center gap-2 md:gap-3 group">
             <img 
               src={cineflixLogo} 
-              alt="CineflixPayment" 
+              alt="Logo CineflixPayment" 
               className="h-8 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform"
             />
             <span className="font-cinema text-sm sm:text-xl md:text-2xl text-white">
@@ -101,6 +101,7 @@ const Header = () => {
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? 'Fechar menu' : 'Abrir menu'}
               className="md:hidden w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center"
             >
               {mobileOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}

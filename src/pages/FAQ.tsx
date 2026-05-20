@@ -55,7 +55,7 @@ const FAQ = () => {
       <header className="border-b border-white/10 p-4">
         <div className="max-w-4xl mx-auto flex items-center gap-3">
           <Link to="/">
-            <img src={cineflixLogo} alt="CINEFLIXPAYMENT" className="h-8" />
+            <img src={cineflixLogo} alt="Logo CineflixPayment" className="h-8" />
           </Link>
           <Link to="/" className="text-white/60 hover:text-white text-sm">← Voltar</Link>
         </div>

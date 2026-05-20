@@ -14,7 +14,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <img src={cineflixLogo} alt="CineflixPayment" className="w-12 h-12 object-contain" />
+              <img src={cineflixLogo} alt="Logo CineflixPayment" className="w-12 h-12 object-contain" />
               <span className="text-xl font-bold text-white">CINEFLIXPAYMENT</span>
             </div>
             <p className="text-white/60 text-sm leading-relaxed">
@@ -104,9 +104,9 @@ const Footer = () => {
             © {currentYear} CineflixPayment. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-4">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-6 opacity-50" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg" alt="Mastercard" className="h-6 opacity-50" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Amex" className="h-6 opacity-50" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Bandeira Visa" className="h-6 opacity-50" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg" alt="Bandeira Mastercard" className="h-6 opacity-50" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Bandeira American Express" className="h-6 opacity-50" />
             <span className="text-white/40 text-xs">Pagamento 100% Seguro</span>
           </div>
         </div>

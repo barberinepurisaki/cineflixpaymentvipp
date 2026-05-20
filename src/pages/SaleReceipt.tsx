@@ -163,7 +163,7 @@ const SaleReceipt = () => {
                 <Ticket className="w-3.5 h-3.5 text-white" />
                 <span className="text-white text-[10px] font-bold tracking-[0.3em]">INGRESSO PREMIUM</span>
               </div>
-              <img src={cineflixLogo} alt="CINEFLIXPAYMENT" className="h-11 mx-auto mb-2 drop-shadow-lg" crossOrigin="anonymous" />
+              <img src={cineflixLogo} alt="Logo CineflixPayment" className="h-11 mx-auto mb-2 drop-shadow-lg" crossOrigin="anonymous" />
               <p className="text-white text-[11px] tracking-[0.4em] font-bold">COMPROVANTE OFICIAL</p>
               <p className="text-white/70 text-[10px] mt-1 italic">Acesso liberado · obrigado pela compra</p>
             </div>

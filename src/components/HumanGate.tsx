@@ -112,13 +112,14 @@ const HumanGate = ({ children }: HumanGateProps) => {
           <div className="flex flex-col items-center mb-8">
             <motion.img
               src={cineflixLogo}
-              alt="CINEFLIXPAYMENT"
+              alt="Logo CineflixPayment"
               className="h-16 w-auto mb-3"
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2.5, repeat: Infinity }}
             />
             <h1 className="font-cinema text-2xl text-white text-center">
               CINEFLIX<span className="text-cinema-red">PAYMENT</span>
+              <span className="sr-only"> — Assinatura de Streaming e IPTV</span>
             </h1>
             <p className="text-white/50 text-sm mt-2 text-center">
               Verificação de segurança
@@ -129,7 +130,7 @@ const HumanGate = ({ children }: HumanGateProps) => {
           <div className="bg-cinema-panel/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-cinema-red/20 to-cinema-red/5 border border-cinema-red/30 flex items-center justify-center flex-shrink-0">
-                <img src={cineflixLogo} alt="" className="w-7 h-7 object-contain" />
+                <img src={cineflixLogo} alt="Logo CineflixPayment" className="w-7 h-7 object-contain" />
               </div>
               <div>
                 <p className="text-white font-semibold text-sm">Acesso protegido</p>
