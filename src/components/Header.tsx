@@ -38,7 +38,7 @@ const Header = () => {
           <Link to="/" className="flex items-center gap-2 md:gap-3 group">
             <img 
               src={cineflixLogo} 
-              alt="CineflixPayment" 
+              alt="Logo CineflixPayment" 
               className="h-8 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform"
             />
             <span className="font-cinema text-sm sm:text-xl md:text-2xl text-white">
