@@ -130,7 +130,7 @@ const HumanGate = ({ children }: HumanGateProps) => {
           <div className="bg-cinema-panel/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-cinema-red/20 to-cinema-red/5 border border-cinema-red/30 flex items-center justify-center flex-shrink-0">
-                <img src={cineflixLogo} alt="" className="w-7 h-7 object-contain" />
+                <img src={cineflixLogo} alt="Logo CineflixPayment" className="w-7 h-7 object-contain" />
               </div>
               <div>
                 <p className="text-white font-semibold text-sm">Acesso protegido</p>
