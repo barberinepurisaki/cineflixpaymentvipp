@@ -248,7 +248,7 @@ const SaleReceipt = () => {
           {hasUpsells && (
             <>
               <div className="mx-6 my-4 border-t border-dashed border-red-600/30" />
-              <div className="px-6">
+              <div data-pdf-section className="px-6">
                 <p className="text-red-500 text-[10px] uppercase tracking-widest font-bold flex items-center gap-1.5 mb-3">
                   <Sparkles className="w-3.5 h-3.5" /> Adicionais inclusos
                 </p>
