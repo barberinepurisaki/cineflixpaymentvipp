@@ -281,7 +281,7 @@ const SaleReceipt = () => {
 
           {/* DADOS DE ACESSO */}
           {(sale.access_username || sale.access_password || sale.server_url) && (
-            <div className="px-6 mt-5">
+            <div data-pdf-section className="px-6 mt-5">
               <div className="rounded-2xl border-2 border-red-600/60 bg-gradient-to-br from-red-950/40 to-black p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <KeyRound className="w-4 h-4 text-red-500" />
