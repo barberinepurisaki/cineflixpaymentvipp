@@ -94,38 +94,60 @@ const SaleReceipt = () => {
     if (!ticketRef.current || downloading) return;
     setDownloading(true);
     try {
-      const canvas = await html2canvas(ticketRef.current, {
-        backgroundColor: '#000000', scale: 2, useCORS: true, logging: false,
-      });
-      const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
       const margin = 10;
-      const imgWidth = pageWidth - margin * 2;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      pdf.setFillColor(0, 0, 0);
-      pdf.rect(0, 0, pageWidth, pageHeight, 'F');
-      if (imgHeight <= pageHeight - margin * 2) {
-        pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
-      } else {
-        let position = 0;
-        const pageContentHeight = pageHeight - margin * 2;
-        let remaining = imgHeight;
-        let page = 0;
-        while (remaining > 0) {
-          if (page > 0) { pdf.addPage(); pdf.setFillColor(0,0,0); pdf.rect(0,0,pageWidth,pageHeight,'F'); }
-          pdf.addImage(imgData, 'PNG', margin, margin - position, imgWidth, imgHeight);
-          remaining -= pageContentHeight;
-          position += pageContentHeight;
-          page++;
+      const contentWidth = pageWidth - margin * 2;
+      const contentMaxY = pageHeight - margin;
+
+      const paintBg = () => {
+        pdf.setFillColor(0, 0, 0);
+        pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+      };
+      paintBg();
+
+      const sections = Array.from(
+        ticketRef.current.querySelectorAll<HTMLElement>('[data-pdf-section]')
+      );
+      const targets: HTMLElement[] = sections.length ? sections : [ticketRef.current];
+
+      let currentY = margin;
+      const gap = 3;
+
+      for (const el of targets) {
+        const canvas = await html2canvas(el, {
+          backgroundColor: '#000000', scale: 2, useCORS: true, logging: false,
+        });
+        const imgData = canvas.toDataURL('image/png');
+        let h = (canvas.height * contentWidth) / canvas.width;
+        let w = contentWidth;
+
+        // If a single section is taller than a full page, scale it down to fit one page.
+        const maxH = pageHeight - margin * 2;
+        if (h > maxH) {
+          const ratio = maxH / h;
+          h = maxH;
+          w = contentWidth * ratio;
         }
+
+        if (currentY + h > contentMaxY && currentY > margin) {
+          pdf.addPage();
+          paintBg();
+          currentY = margin;
+        }
+
+        const x = margin + (contentWidth - w) / 2;
+        pdf.addImage(imgData, 'PNG', x, currentY, w, h);
+        currentY += h + gap;
       }
+
       pdf.save(`comprovante-${sale.order_code}.pdf`);
     } finally {
       setDownloading(false);
     }
   };
+
 
   const barcodeBars = Array.from({ length: 56 }, (_, i) => {
     const w = (i * 7) % 5 === 0 ? 3 : (i % 3 === 0 ? 2 : 1);
@@ -155,7 +177,7 @@ const SaleReceipt = () => {
             {Array.from({ length: 14 }).map((_, i) => <div key={i} className="w-2 h-2 rounded-sm bg-red-600/40" />)}
           </div>
 
-          <div className="relative px-6 py-7 text-center overflow-hidden">
+          <div data-pdf-section className="relative px-6 py-7 text-center overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-red-700 via-red-900 to-black" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.25),transparent_60%)]" />
             <div className="relative z-10">
@@ -169,7 +191,7 @@ const SaleReceipt = () => {
             </div>
           </div>
 
-          <div className="px-6 pt-5">
+          <div data-pdf-section className="px-6 pt-5">
             <div className={`flex items-center justify-between gap-3 rounded-xl px-4 py-3 border ${
               statusPaid ? 'bg-green-500/10 border-green-500/40' : 'bg-yellow-500/10 border-yellow-500/40'
             }`}>
@@ -183,7 +205,7 @@ const SaleReceipt = () => {
             </div>
           </div>
 
-          <div className="px-6 pt-5 grid grid-cols-2 gap-4">
+          <div data-pdf-section className="px-6 pt-5 grid grid-cols-2 gap-4">
             <div className="min-w-0">
               <p className="text-white/40 text-[10px] uppercase tracking-widest mb-1">Cliente</p>
               <p className="text-white font-bold truncate">{sale.customer_name}</p>
@@ -198,7 +220,8 @@ const SaleReceipt = () => {
 
           <div className="mx-6 my-4 border-t border-dashed border-red-600/30" />
 
-          <div className="px-6">
+          <div data-pdf-section className="px-6">
+
             <p className="text-white/40 text-[10px] uppercase tracking-widest mb-3">Plano selecionado</p>
             <div className="rounded-2xl bg-gradient-to-br from-red-950/60 via-black to-red-950/30 border border-red-600/40 p-4 relative overflow-hidden">
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-red-600/20 rounded-full blur-2xl" />
@@ -225,7 +248,7 @@ const SaleReceipt = () => {
           {hasUpsells && (
             <>
               <div className="mx-6 my-4 border-t border-dashed border-red-600/30" />
-              <div className="px-6">
+              <div data-pdf-section className="px-6">
                 <p className="text-red-500 text-[10px] uppercase tracking-widest font-bold flex items-center gap-1.5 mb-3">
                   <Sparkles className="w-3.5 h-3.5" /> Adicionais inclusos
                 </p>
@@ -245,7 +268,7 @@ const SaleReceipt = () => {
           )}
 
           <div className="mx-6 my-4 border-t border-dashed border-red-600/30" />
-          <div className="px-6 mt-2">
+          <div data-pdf-section className="px-6 mt-2">
             <div className="relative rounded-2xl px-4 py-4 flex items-center justify-between overflow-hidden border border-red-500"
               style={{ background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 50%, #7f1d1d 100%)', boxShadow: '0 0 30px rgba(220,38,38,0.5)' }}>
               <div>
@@ -258,7 +281,7 @@ const SaleReceipt = () => {
 
           {/* DADOS DE ACESSO */}
           {(sale.access_username || sale.access_password || sale.server_url) && (
-            <div className="px-6 mt-5">
+            <div data-pdf-section className="px-6 mt-5">
               <div className="rounded-2xl border-2 border-red-600/60 bg-gradient-to-br from-red-950/40 to-black p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <KeyRound className="w-4 h-4 text-red-500" />
@@ -290,7 +313,7 @@ const SaleReceipt = () => {
 
           {/* APP RECOMENDADO */}
           {(sale.app_name || sale.app_instructions) && (
-            <div className="px-6 mt-4">
+            <div data-pdf-section className="px-6 mt-4">
               <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Smartphone className="w-4 h-4 text-red-500" />
@@ -304,7 +327,7 @@ const SaleReceipt = () => {
             </div>
           )}
 
-          <div className="px-6 pt-5 grid grid-cols-3 gap-2">
+          <div data-pdf-section className="px-6 pt-5 grid grid-cols-3 gap-2">
             {[
               { icon: ShieldCheck, color: 'text-green-400', label: 'Compra\nsegura' },
               { icon: Lock, color: 'text-red-500', label: 'Dados\nprotegidos' },
@@ -323,7 +346,7 @@ const SaleReceipt = () => {
             <div className="mx-6 border-t-2 border-dashed border-red-600/40" />
           </div>
 
-          <div className="px-6 pb-6">
+          <div data-pdf-section className="px-6 pb-6 pt-4">
             <div className="rounded-xl bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-white/10 p-4">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-white/40 text-[10px] uppercase tracking-widest">Canhoto</p>
