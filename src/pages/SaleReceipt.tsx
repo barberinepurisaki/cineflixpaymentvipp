@@ -327,7 +327,7 @@ const SaleReceipt = () => {
             </div>
           )}
 
-          <div className="px-6 pt-5 grid grid-cols-3 gap-2">
+          <div data-pdf-section className="px-6 pt-5 grid grid-cols-3 gap-2">
             {[
               { icon: ShieldCheck, color: 'text-green-400', label: 'Compra\nsegura' },
               { icon: Lock, color: 'text-red-500', label: 'Dados\nprotegidos' },
