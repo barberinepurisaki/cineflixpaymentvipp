@@ -177,7 +177,7 @@ const SaleReceipt = () => {
             {Array.from({ length: 14 }).map((_, i) => <div key={i} className="w-2 h-2 rounded-sm bg-red-600/40" />)}
           </div>
 
-          <div className="relative px-6 py-7 text-center overflow-hidden">
+          <div data-pdf-section className="relative px-6 py-7 text-center overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-red-700 via-red-900 to-black" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.25),transparent_60%)]" />
             <div className="relative z-10">
