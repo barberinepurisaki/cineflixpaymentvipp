@@ -220,7 +220,8 @@ const SaleReceipt = () => {
 
           <div className="mx-6 my-4 border-t border-dashed border-red-600/30" />
 
-          <div className="px-6">
+          <div data-pdf-section className="px-6">
+
             <p className="text-white/40 text-[10px] uppercase tracking-widest mb-3">Plano selecionado</p>
             <div className="rounded-2xl bg-gradient-to-br from-red-950/60 via-black to-red-950/30 border border-red-600/40 p-4 relative overflow-hidden">
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-red-600/20 rounded-full blur-2xl" />
