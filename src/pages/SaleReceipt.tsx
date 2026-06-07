@@ -313,7 +313,7 @@ const SaleReceipt = () => {
 
           {/* APP RECOMENDADO */}
           {(sale.app_name || sale.app_instructions) && (
-            <div className="px-6 mt-4">
+            <div data-pdf-section className="px-6 mt-4">
               <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Smartphone className="w-4 h-4 text-red-500" />
