@@ -191,7 +191,7 @@ const SaleReceipt = () => {
             </div>
           </div>
 
-          <div className="px-6 pt-5">
+          <div data-pdf-section className="px-6 pt-5">
             <div className={`flex items-center justify-between gap-3 rounded-xl px-4 py-3 border ${
               statusPaid ? 'bg-green-500/10 border-green-500/40' : 'bg-yellow-500/10 border-yellow-500/40'
             }`}>
