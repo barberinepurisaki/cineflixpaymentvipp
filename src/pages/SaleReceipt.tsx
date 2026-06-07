@@ -268,7 +268,7 @@ const SaleReceipt = () => {
           )}
 
           <div className="mx-6 my-4 border-t border-dashed border-red-600/30" />
-          <div className="px-6 mt-2">
+          <div data-pdf-section className="px-6 mt-2">
             <div className="relative rounded-2xl px-4 py-4 flex items-center justify-between overflow-hidden border border-red-500"
               style={{ background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 50%, #7f1d1d 100%)', boxShadow: '0 0 30px rgba(220,38,38,0.5)' }}>
               <div>
