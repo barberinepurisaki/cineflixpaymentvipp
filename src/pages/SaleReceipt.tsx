@@ -346,7 +346,7 @@ const SaleReceipt = () => {
             <div className="mx-6 border-t-2 border-dashed border-red-600/40" />
           </div>
 
-          <div className="px-6 pb-6">
+          <div data-pdf-section className="px-6 pb-6 pt-4">
             <div className="rounded-xl bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-white/10 p-4">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-white/40 text-[10px] uppercase tracking-widest">Canhoto</p>
