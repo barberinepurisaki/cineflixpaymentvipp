@@ -205,7 +205,7 @@ const SaleReceipt = () => {
             </div>
           </div>
 
-          <div className="px-6 pt-5 grid grid-cols-2 gap-4">
+          <div data-pdf-section className="px-6 pt-5 grid grid-cols-2 gap-4">
             <div className="min-w-0">
               <p className="text-white/40 text-[10px] uppercase tracking-widest mb-1">Cliente</p>
               <p className="text-white font-bold truncate">{sale.customer_name}</p>
