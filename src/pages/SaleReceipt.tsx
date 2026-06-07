@@ -94,38 +94,60 @@ const SaleReceipt = () => {
     if (!ticketRef.current || downloading) return;
     setDownloading(true);
     try {
-      const canvas = await html2canvas(ticketRef.current, {
-        backgroundColor: '#000000', scale: 2, useCORS: true, logging: false,
-      });
-      const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
       const margin = 10;
-      const imgWidth = pageWidth - margin * 2;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      pdf.setFillColor(0, 0, 0);
-      pdf.rect(0, 0, pageWidth, pageHeight, 'F');
-      if (imgHeight <= pageHeight - margin * 2) {
-        pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
-      } else {
-        let position = 0;
-        const pageContentHeight = pageHeight - margin * 2;
-        let remaining = imgHeight;
-        let page = 0;
-        while (remaining > 0) {
-          if (page > 0) { pdf.addPage(); pdf.setFillColor(0,0,0); pdf.rect(0,0,pageWidth,pageHeight,'F'); }
-          pdf.addImage(imgData, 'PNG', margin, margin - position, imgWidth, imgHeight);
-          remaining -= pageContentHeight;
-          position += pageContentHeight;
-          page++;
+      const contentWidth = pageWidth - margin * 2;
+      const contentMaxY = pageHeight - margin;
+
+      const paintBg = () => {
+        pdf.setFillColor(0, 0, 0);
+        pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+      };
+      paintBg();
+
+      const sections = Array.from(
+        ticketRef.current.querySelectorAll<HTMLElement>('[data-pdf-section]')
+      );
+      const targets: HTMLElement[] = sections.length ? sections : [ticketRef.current];
+
+      let currentY = margin;
+      const gap = 3;
+
+      for (const el of targets) {
+        const canvas = await html2canvas(el, {
+          backgroundColor: '#000000', scale: 2, useCORS: true, logging: false,
+        });
+        const imgData = canvas.toDataURL('image/png');
+        let h = (canvas.height * contentWidth) / canvas.width;
+        let w = contentWidth;
+
+        // If a single section is taller than a full page, scale it down to fit one page.
+        const maxH = pageHeight - margin * 2;
+        if (h > maxH) {
+          const ratio = maxH / h;
+          h = maxH;
+          w = contentWidth * ratio;
         }
+
+        if (currentY + h > contentMaxY && currentY > margin) {
+          pdf.addPage();
+          paintBg();
+          currentY = margin;
+        }
+
+        const x = margin + (contentWidth - w) / 2;
+        pdf.addImage(imgData, 'PNG', x, currentY, w, h);
+        currentY += h + gap;
       }
+
       pdf.save(`comprovante-${sale.order_code}.pdf`);
     } finally {
       setDownloading(false);
     }
   };
+
 
   const barcodeBars = Array.from({ length: 56 }, (_, i) => {
     const w = (i * 7) % 5 === 0 ? 3 : (i % 3 === 0 ? 2 : 1);
