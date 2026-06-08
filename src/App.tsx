@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import HumanGate from "./components/HumanGate";
 import Admin from "./pages/Admin";
 import SaleReceipt from "./pages/SaleReceipt";
+import CompanyReceipt from "./pages/CompanyReceipt";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
               <Route path="/faq" element={<FAQ />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/comprovante/:id" element={<SaleReceipt />} />
+              <Route path="/admin/recibo-empresa" element={<CompanyReceipt />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
