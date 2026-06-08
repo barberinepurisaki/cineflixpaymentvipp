@@ -220,9 +220,14 @@ const SalesTab = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <h2 className="text-xl font-bold">Vendas / Comprovantes</h2>
-        <Button onClick={openNew} className="bg-red-600 hover:bg-red-500"><Plus className="w-4 h-4 mr-2" /> Nova venda</Button>
+        <div className="flex gap-2 flex-wrap">
+          <Button onClick={() => navigate('/admin/recibo-empresa')} variant="outline" className="border-red-500/60 text-red-300 hover:bg-red-600/10">
+            <FileText className="w-4 h-4 mr-2" /> Recibo Valen (mensal)
+          </Button>
+          <Button onClick={openNew} className="bg-red-600 hover:bg-red-500"><Plus className="w-4 h-4 mr-2" /> Nova venda</Button>
+        </div>
       </div>
 
       <div className="grid gap-3">
