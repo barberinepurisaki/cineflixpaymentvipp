@@ -276,9 +276,16 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
       }
       if (extractedName) {
         setUserName(extractedName);
+        const guessed = guessGenderFromName(extractedName);
         addBotMessage(`Prazer em te conhecer, ${extractedName}! 😊`);
-        addBotMessage('Pra eu te recomendar os melhores conteúdos: você é homem ou mulher? 🤔');
-        setStep('gender');
+        if (guessed) {
+          // Pula a pergunta de gênero — Ashley já deduziu pelo nome
+          setUserGender(guessed);
+          await showGenderRecommendations(guessed);
+        } else {
+          addBotMessage('Pra eu te recomendar os melhores conteúdos: você curte mais conteúdo masculino ou feminino? 🤔');
+          setStep('gender');
+        }
       } else {
         addBotMessage('Não peguei seu nome 😅. Pode me dizer só seu primeiro nome?');
       }
