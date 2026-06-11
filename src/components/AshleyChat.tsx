@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Send, X, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ChatMessage, Plan } from '@/types';
-import { plans, upsells, WHATSAPP_NUMBER, KIRVANO_LINKS } from '@/data/cineflix';
+import { plans, upsells } from '@/data/cineflix';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import cineflixLogo from '@/assets/cineflix-logo.png';
@@ -39,7 +40,54 @@ const cleanAIResponse = (text: string): string => {
 
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
+// Name → gender dictionary (Brazilian common names). Returns null when ambiguous.
+const MALE_NAMES = new Set([
+  'lucas','joao','joão','pedro','miguel','gabriel','arthur','davi','david','bernardo','heitor','theo','enzo','lorenzo',
+  'matheus','mateus','nicolas','nicholas','samuel','rafael','vitor','victor','leonardo','leo','gustavo','henrique',
+  'felipe','filipe','daniel','andre','andré','carlos','paulo','marcos','marcelo','rodrigo','ricardo','eduardo','duda',
+  'fernando','bruno','thiago','tiago','alexandre','antonio','antônio','hemerson','francisco','chico','jose','josé',
+  'luiz','luis','luís','sergio','sérgio','jorge','fabio','fábio','diego','douglas','igor','isaac','joaquim','julio',
+  'júlio','mario','mário','mauro','otavio','otávio','pablo','renan','ruan','sandro','vinicius','vinícius','wesley',
+  'william','yuri','hugo','ian','juan','kauã','kauan','kaique','levi','murilo','noah','ravi','raul','vicente',
+  'caio','breno','arnaldo','elias','edson','adriano','alan','alex','alvaro','álvaro','benicio','benício','cesar','césar',
+  'cristiano','cristian','danilo','everton','emerson','erick','erik','fabricio','fabrício','geraldo','gilberto',
+  'guilherme','heron','italo','ítalo','ivan','jeferson','jefferson','joel','jonas','julian','kaio','kayo','leandro',
+  'lincoln','lucca','luca','marcio','márcio','marlon','martin','mateo','natanael','nelson','otto','oscar','óscar',
+  'patrick','rafa','renato','reinaldo','robson','romario','romário','sebastian','silas','tales','vagner','wagner',
+  'walter','washington','wellington','yago','iago','iuri','dante','dener','denis','dênis','flavio','flávio'
+]);
+
+const FEMALE_NAMES = new Set([
+  'julia','júlia','juliana','maria','ana','sofia','sophia','alice','laura','isabella','isabela','manuela','helena',
+  'valentina','lorena','livia','lívia','beatriz','bia','mariana','gabriela','rafaela','larissa','jessica','jéssica',
+  'fernanda','camila','amanda','leticia','letícia','vanessa','patricia','patrícia','sandra','claudia','cláudia',
+  'monica','mônica','carla','daniela','raquel','renata','debora','débora','eduarda','heloisa','heloísa','joana','lara',
+  'lavinia','lavínia','luiza','luísa','melissa','nicole','olivia','olívia','pietra','sarah','sara','tatiana','yasmin',
+  'agatha','ágata','alicia','alícia','antonella','aurora','bianca','bruna','cecilia','cecília','clara','elisa','emily',
+  'esther','ester','gabrielly','giovanna','isadora','lais','laís','marcela','marina','milena','miriam','nayara','paula',
+  'priscila','regina','rebeca','simone','stella','vitoria','vitória','vivian','hannah','hadassa','ingrid','iris','íris',
+  'kelly','kethelyn','laisa','laisla','lais','liz','lorraine','lucia','lúcia','luana','lis','marta','marcia','márcia',
+  'monique','natalia','natália','nathalia','natasha','rita','rosa','rose','rosana','sabrina','samira','sheila','silvia',
+  'sílvia','sofia','soraia','suelen','suzana','tais','taís','talita','tamires','tatiane','teresa','vera','virginia',
+  'virgínia','viviane','wanda','zilda','elis','eloah','eloá','aline','andrea','andréa','angela','ângela','carolina','carol'
+]);
+
+const guessGenderFromName = (name: string): 'male' | 'female' | null => {
+  const n = name.trim().toLowerCase();
+  if (!n) return null;
+  if (MALE_NAMES.has(n)) return 'male';
+  if (FEMALE_NAMES.has(n)) return 'female';
+  // Heuristic fallback: most PT-BR names ending in "a" are feminine, in "o" or consonant masculine.
+  const last = n.slice(-1);
+  const last2 = n.slice(-2);
+  if (['a','á'].includes(last) && !['joshua','luca','elias','jonas'].includes(n)) return 'female';
+  if (['o','ó'].includes(last)) return 'male';
+  if (['el','er','as','os','im','om','um','ir','or','ur','ez','iz','az','uz'].includes(last2)) return 'male';
+  return null;
+};
+
 const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
+  const navigate = useNavigate();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -228,9 +276,16 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
       }
       if (extractedName) {
         setUserName(extractedName);
+        const guessed = guessGenderFromName(extractedName);
         addBotMessage(`Prazer em te conhecer, ${extractedName}! 😊`);
-        addBotMessage('Pra eu te recomendar os melhores conteúdos: você é homem ou mulher? 🤔');
-        setStep('gender');
+        if (guessed) {
+          // Pula a pergunta de gênero — Ashley já deduziu pelo nome
+          setUserGender(guessed);
+          await showGenderRecommendations(guessed);
+        } else {
+          addBotMessage('Pra eu te recomendar os melhores conteúdos: você curte mais conteúdo masculino ou feminino? 🤔');
+          setStep('gender');
+        }
       } else {
         addBotMessage('Não peguei seu nome 😅. Pode me dizer só seu primeiro nome?');
       }
@@ -306,30 +361,18 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
   };
 
   const handleConfirmUpsells = () => {
+    if (!selectedPlan) return;
     setStep('checkout');
 
-    if (selectedUpsells.length > 0) {
-      const planName = selectedPlan?.name || '';
-      const upsellNames = selectedUpsells
-        .map((id) => upsells.find((u) => u.id === id)?.name)
-        .filter(Boolean)
-        .join(', ');
+    const upsellParam = selectedUpsells.length > 0 ? `&upsells=${selectedUpsells.join(',')}` : '';
+    const nomeParam = encodeURIComponent(userName || 'Cliente');
+    const url = `/comprovante?plano=${selectedPlan.id}&nome=${nomeParam}${upsellParam}`;
 
-      const message = encodeURIComponent(
-        `Olá! Vim pela Ashley. Quero comprar:\n📦 Plano: ${planName} - R$ ${selectedPlan?.price.toFixed(2)}\n🎁 Adicionais: ${upsellNames}\n💰 Total: R$ ${calculateTotal().toFixed(2)}`
-      );
-
-      addBotMessage('Perfeito! Vou te passar pro WhatsApp pra atendimento VIP! 💬');
-      setTimeout(() => {
-        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank', 'noopener,noreferrer');
-      }, 2500);
-    } else {
-      addBotMessage('🎉 Redirecionando pro pagamento seguro...');
-      setTimeout(() => {
-        const link = KIRVANO_LINKS[selectedPlan?.id || 'mensal'];
-        if (link) window.open(link, '_blank', 'noopener,noreferrer');
-      }, 2500);
-    }
+    addBotMessage(`Perfeito, ${userName || 'amigo(a)'}! Gerando seu comprovante oficial... 🎟️`);
+    setTimeout(() => {
+      navigate(url);
+      onClose();
+    }, 1800);
   };
 
   const handleClose = () => {

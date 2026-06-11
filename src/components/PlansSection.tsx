@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Check, ArrowLeft, Plus, Minus } from 'lucide-react';
+import { Check, ArrowLeft, Plus, Minus, User2 } from 'lucide-react';
 import { plans, upsells, WHATSAPP_NUMBER, KIRVANO_LINKS } from '@/data/cineflix';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { Plan, Upsell } from '@/types';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import planMensalIcon from '@/assets/plan-mensal-new.png';
 import planTrimestralIcon from '@/assets/plan-trimestral-new.png';
 import planAnualIcon from '@/assets/plan-anual-new.png';
@@ -20,6 +22,9 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [selectedUpsells, setSelectedUpsells] = useState<string[]>([]);
   const [showUpsells, setShowUpsells] = useState(false);
+  const [askName, setAskName] = useState(false);
+  const [tempName, setTempName] = useState('');
+  const [nameError, setNameError] = useState('');
 
   const handleSelectPlan = (plan: Plan) => {
     setSelectedPlan(plan);
@@ -52,24 +57,46 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
     return selectedPlan.price + upsellTotal;
   };
 
-  const handleCheckout = () => {
+  const proceedToReceipt = (nome: string) => {
     if (!selectedPlan) return;
-    
-    const nome = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Cliente';
     const email = user?.email || '';
-
-    // Always go to receipt first
     const upsellParam = selectedUpsells.length > 0 ? `&upsells=${selectedUpsells.join(',')}` : '';
     navigate(`/comprovante?plano=${selectedPlan.id}&nome=${encodeURIComponent(nome)}&email=${encodeURIComponent(email)}${upsellParam}`);
-    
-    // Abrir chat com mensagem de confirmação
-    const confirmationMessage = `Você tomou uma ótima decisão escolhendo o ${selectedPlan.name}! 🎉 Abaixo você vai seguir para o próximo passo para ter acesso a todo nosso catálogo... Deus abençoe! 🙏`;
+
+    const confirmationMessage = `Você tomou uma ótima decisão escolhendo o ${selectedPlan.name}, ${nome}! 🎉 Abaixo você vai seguir para o próximo passo para ter acesso a todo nosso catálogo... Deus abençoe! 🙏`;
     onOpenChatWithPlan?.(confirmationMessage);
-    
-    // Reset state
+
     setShowUpsells(false);
     setSelectedPlan(null);
     setSelectedUpsells([]);
+  };
+
+  const handleCheckout = () => {
+    if (!selectedPlan) return;
+
+    const knownName = user?.user_metadata?.full_name || '';
+    if (knownName && knownName.trim().length >= 2) {
+      proceedToReceipt(knownName.trim());
+      return;
+    }
+    // Usuário não logado / sem nome — abre popup pra capturar
+    setTempName('');
+    setNameError('');
+    setAskName(true);
+  };
+
+  const confirmNameAndCheckout = () => {
+    const n = tempName.trim();
+    if (n.length < 2) {
+      setNameError('Digite seu nome completo (mínimo 2 letras).');
+      return;
+    }
+    if (/\d|[_@#$%^&*+=<>/\\|{}[\]~`]/.test(n)) {
+      setNameError('Use apenas letras e espaços.');
+      return;
+    }
+    setAskName(false);
+    proceedToReceipt(n);
   };
 
   const handleBack = () => {
@@ -316,6 +343,48 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
           </div>
         )}
       </div>
+      {/* Pop-up para capturar nome quando o usuário não está logado */}
+      <Dialog open={askName} onOpenChange={setAskName}>
+        <DialogContent className="bg-cinema-panel border border-cinema-red/40 text-white sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-white">
+              <User2 className="w-5 h-5 text-cinema-red" />
+              Antes de gerar seu comprovante
+            </DialogTitle>
+            <DialogDescription className="text-white/70">
+              Digite seu <span className="text-cinema-red font-semibold">nome completo</span> para aparecer no comprovante oficial do seu pedido.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3 mt-2">
+            <Input
+              autoFocus
+              value={tempName}
+              onChange={(e) => { setTempName(e.target.value); if (nameError) setNameError(''); }}
+              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); confirmNameAndCheckout(); } }}
+              placeholder="Ex: Maria Silva"
+              maxLength={60}
+              className="bg-cinema-dark border-white/15 focus:border-cinema-red text-white placeholder:text-white/40"
+            />
+            {nameError && <p className="text-red-400 text-xs">{nameError}</p>}
+
+            <div className="flex gap-2 pt-2">
+              <button
+                onClick={() => setAskName(false)}
+                className="flex-1 py-2.5 rounded-lg bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmNameAndCheckout}
+                className="flex-1 py-2.5 rounded-lg bg-cinema-red hover:bg-cinema-glow text-white text-sm font-bold shadow-glow transition-all"
+              >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
