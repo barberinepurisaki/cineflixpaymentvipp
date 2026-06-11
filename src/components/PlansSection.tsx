@@ -343,6 +343,48 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
           </div>
         )}
       </div>
+      {/* Pop-up para capturar nome quando o usuário não está logado */}
+      <Dialog open={askName} onOpenChange={setAskName}>
+        <DialogContent className="bg-cinema-panel border border-cinema-red/40 text-white sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-white">
+              <User2 className="w-5 h-5 text-cinema-red" />
+              Antes de gerar seu comprovante
+            </DialogTitle>
+            <DialogDescription className="text-white/70">
+              Digite seu <span className="text-cinema-red font-semibold">nome completo</span> para aparecer no comprovante oficial do seu pedido.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3 mt-2">
+            <Input
+              autoFocus
+              value={tempName}
+              onChange={(e) => { setTempName(e.target.value); if (nameError) setNameError(''); }}
+              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); confirmNameAndCheckout(); } }}
+              placeholder="Ex: Maria Silva"
+              maxLength={60}
+              className="bg-cinema-dark border-white/15 focus:border-cinema-red text-white placeholder:text-white/40"
+            />
+            {nameError && <p className="text-red-400 text-xs">{nameError}</p>}
+
+            <div className="flex gap-2 pt-2">
+              <button
+                onClick={() => setAskName(false)}
+                className="flex-1 py-2.5 rounded-lg bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmNameAndCheckout}
+                className="flex-1 py-2.5 rounded-lg bg-cinema-red hover:bg-cinema-glow text-white text-sm font-bold shadow-glow transition-all"
+              >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
