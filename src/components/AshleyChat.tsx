@@ -4,7 +4,7 @@ import { Send, X, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ChatMessage, Plan } from '@/types';
-import { plans, upsells, WHATSAPP_NUMBER, KIRVANO_LINKS } from '@/data/cineflix';
+import { plans, upsells } from '@/data/cineflix';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import cineflixLogo from '@/assets/cineflix-logo.png';
