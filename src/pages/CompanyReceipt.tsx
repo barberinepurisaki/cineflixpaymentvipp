@@ -26,14 +26,22 @@ const CompanyReceipt = () => {
   const [downloading, setDownloading] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
+  const [serial, setSerial] = useState<string>(() =>
+    `${Date.now().toString(36).toUpperCase().slice(-5)}${Math.random().toString(36).toUpperCase().slice(2, 5)}`
+  );
+
   const { paymentDate, periodStart, periodEnd, receiptNo } = useMemo(() => {
     const d = new Date(refDate + 'T12:00:00');
     const start = new Date(d);
     const end = new Date(d);
     end.setMonth(end.getMonth() + 1);
-    const no = `CFX-VAL-${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}`;
+    const no = `CFX-VAL-${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}-${serial}`;
     return { paymentDate: d, periodStart: start, periodEnd: end, receiptNo: no };
-  }, [refDate]);
+  }, [refDate, serial]);
+
+  const regenerateSerial = () => {
+    setSerial(`${Date.now().toString(36).toUpperCase().slice(-5)}${Math.random().toString(36).toUpperCase().slice(2, 5)}`);
+  };
 
   const handleDownload = async () => {
     if (!ref.current || downloading) return;
