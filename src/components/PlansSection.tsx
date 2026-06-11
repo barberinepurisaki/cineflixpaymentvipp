@@ -22,6 +22,9 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [selectedUpsells, setSelectedUpsells] = useState<string[]>([]);
   const [showUpsells, setShowUpsells] = useState(false);
+  const [askName, setAskName] = useState(false);
+  const [tempName, setTempName] = useState('');
+  const [nameError, setNameError] = useState('');
 
   const handleSelectPlan = (plan: Plan) => {
     setSelectedPlan(plan);
