@@ -40,6 +40,52 @@ const cleanAIResponse = (text: string): string => {
 
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
+// Name → gender dictionary (Brazilian common names). Returns null when ambiguous.
+const MALE_NAMES = new Set([
+  'lucas','joao','joão','pedro','miguel','gabriel','arthur','davi','david','bernardo','heitor','theo','enzo','lorenzo',
+  'matheus','mateus','nicolas','nicholas','samuel','rafael','vitor','victor','leonardo','leo','gustavo','henrique',
+  'felipe','filipe','daniel','andre','andré','carlos','paulo','marcos','marcelo','rodrigo','ricardo','eduardo','duda',
+  'fernando','bruno','thiago','tiago','alexandre','antonio','antônio','hemerson','francisco','chico','jose','josé',
+  'luiz','luis','luís','sergio','sérgio','jorge','fabio','fábio','diego','douglas','igor','isaac','joaquim','julio',
+  'júlio','mario','mário','mauro','otavio','otávio','pablo','renan','ruan','sandro','vinicius','vinícius','wesley',
+  'william','yuri','hugo','ian','juan','kauã','kauan','kaique','levi','murilo','noah','ravi','raul','vicente',
+  'caio','breno','arnaldo','elias','edson','adriano','alan','alex','alvaro','álvaro','benicio','benício','cesar','césar',
+  'cristiano','cristian','danilo','everton','emerson','erick','erik','fabricio','fabrício','geraldo','gilberto',
+  'guilherme','heron','italo','ítalo','ivan','jeferson','jefferson','joel','jonas','julian','kaio','kayo','leandro',
+  'lincoln','lucca','luca','marcio','márcio','marlon','martin','mateo','natanael','nelson','otto','oscar','óscar',
+  'patrick','rafa','renato','reinaldo','robson','romario','romário','sebastian','silas','tales','vagner','wagner',
+  'walter','washington','wellington','yago','iago','iuri','dante','dener','denis','dênis','flavio','flávio'
+]);
+
+const FEMALE_NAMES = new Set([
+  'julia','júlia','juliana','maria','ana','sofia','sophia','alice','laura','isabella','isabela','manuela','helena',
+  'valentina','lorena','livia','lívia','beatriz','bia','mariana','gabriela','rafaela','larissa','jessica','jéssica',
+  'fernanda','camila','amanda','leticia','letícia','vanessa','patricia','patrícia','sandra','claudia','cláudia',
+  'monica','mônica','carla','daniela','raquel','renata','debora','débora','eduarda','heloisa','heloísa','joana','lara',
+  'lavinia','lavínia','luiza','luísa','melissa','nicole','olivia','olívia','pietra','sarah','sara','tatiana','yasmin',
+  'agatha','ágata','alicia','alícia','antonella','aurora','bianca','bruna','cecilia','cecília','clara','elisa','emily',
+  'esther','ester','gabrielly','giovanna','isadora','lais','laís','marcela','marina','milena','miriam','nayara','paula',
+  'priscila','regina','rebeca','simone','stella','vitoria','vitória','vivian','hannah','hadassa','ingrid','iris','íris',
+  'kelly','kethelyn','laisa','laisla','lais','liz','lorraine','lucia','lúcia','luana','lis','marta','marcia','márcia',
+  'monique','natalia','natália','nathalia','natasha','rita','rosa','rose','rosana','sabrina','samira','sheila','silvia',
+  'sílvia','sofia','soraia','suelen','suzana','tais','taís','talita','tamires','tatiane','teresa','vera','virginia',
+  'virgínia','viviane','wanda','zilda','elis','eloah','eloá','aline','andrea','andréa','angela','ângela','carolina','carol'
+]);
+
+const guessGenderFromName = (name: string): 'male' | 'female' | null => {
+  const n = name.trim().toLowerCase();
+  if (!n) return null;
+  if (MALE_NAMES.has(n)) return 'male';
+  if (FEMALE_NAMES.has(n)) return 'female';
+  // Heuristic fallback: most PT-BR names ending in "a" are feminine, in "o" or consonant masculine.
+  const last = n.slice(-1);
+  const last2 = n.slice(-2);
+  if (['a','á'].includes(last) && !['joshua','luca','elias','jonas'].includes(n)) return 'female';
+  if (['o','ó'].includes(last)) return 'male';
+  if (['el','er','as','os','im','om','um','ir','or','ur','ez','iz','az','uz'].includes(last2)) return 'male';
+  return null;
+};
+
 const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
