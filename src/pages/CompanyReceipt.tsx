@@ -80,6 +80,10 @@ const CompanyReceipt = () => {
               Período gerado automaticamente: <span className="text-red-400">{fmtBR(periodStart)} → {fmtBR(periodEnd)}</span>
             </p>
           </div>
+          <button onClick={regenerateSerial}
+            className="h-10 px-4 rounded-md bg-white/10 hover:bg-white/20 border border-white/15 font-bold flex items-center gap-2 text-sm">
+            Novo nº
+          </button>
           <button onClick={handleDownload} disabled={downloading}
             className="h-10 px-4 rounded-md bg-red-600 hover:bg-red-500 font-bold flex items-center gap-2 disabled:opacity-60">
             <Download className="w-4 h-4" />
