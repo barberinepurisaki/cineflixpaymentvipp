@@ -26,14 +26,22 @@ const CompanyReceipt = () => {
   const [downloading, setDownloading] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
+  const [serial, setSerial] = useState<string>(() =>
+    `${Date.now().toString(36).toUpperCase().slice(-5)}${Math.random().toString(36).toUpperCase().slice(2, 5)}`
+  );
+
   const { paymentDate, periodStart, periodEnd, receiptNo } = useMemo(() => {
     const d = new Date(refDate + 'T12:00:00');
     const start = new Date(d);
     const end = new Date(d);
     end.setMonth(end.getMonth() + 1);
-    const no = `CFX-VAL-${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}`;
+    const no = `CFX-VAL-${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}-${serial}`;
     return { paymentDate: d, periodStart: start, periodEnd: end, receiptNo: no };
-  }, [refDate]);
+  }, [refDate, serial]);
+
+  const regenerateSerial = () => {
+    setSerial(`${Date.now().toString(36).toUpperCase().slice(-5)}${Math.random().toString(36).toUpperCase().slice(2, 5)}`);
+  };
 
   const handleDownload = async () => {
     if (!ref.current || downloading) return;
@@ -72,6 +80,10 @@ const CompanyReceipt = () => {
               Período gerado automaticamente: <span className="text-red-400">{fmtBR(periodStart)} → {fmtBR(periodEnd)}</span>
             </p>
           </div>
+          <button onClick={regenerateSerial}
+            className="h-10 px-4 rounded-md bg-white/10 hover:bg-white/20 border border-white/15 font-bold flex items-center gap-2 text-sm">
+            Novo nº
+          </button>
           <button onClick={handleDownload} disabled={downloading}
             className="h-10 px-4 rounded-md bg-red-600 hover:bg-red-500 font-bold flex items-center gap-2 disabled:opacity-60">
             <Download className="w-4 h-4" />
