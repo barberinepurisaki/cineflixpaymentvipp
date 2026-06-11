@@ -361,30 +361,18 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
   };
 
   const handleConfirmUpsells = () => {
+    if (!selectedPlan) return;
     setStep('checkout');
 
-    if (selectedUpsells.length > 0) {
-      const planName = selectedPlan?.name || '';
-      const upsellNames = selectedUpsells
-        .map((id) => upsells.find((u) => u.id === id)?.name)
-        .filter(Boolean)
-        .join(', ');
+    const upsellParam = selectedUpsells.length > 0 ? `&upsells=${selectedUpsells.join(',')}` : '';
+    const nomeParam = encodeURIComponent(userName || 'Cliente');
+    const url = `/comprovante?plano=${selectedPlan.id}&nome=${nomeParam}${upsellParam}`;
 
-      const message = encodeURIComponent(
-        `Olá! Vim pela Ashley. Quero comprar:\n📦 Plano: ${planName} - R$ ${selectedPlan?.price.toFixed(2)}\n🎁 Adicionais: ${upsellNames}\n💰 Total: R$ ${calculateTotal().toFixed(2)}`
-      );
-
-      addBotMessage('Perfeito! Vou te passar pro WhatsApp pra atendimento VIP! 💬');
-      setTimeout(() => {
-        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank', 'noopener,noreferrer');
-      }, 2500);
-    } else {
-      addBotMessage('🎉 Redirecionando pro pagamento seguro...');
-      setTimeout(() => {
-        const link = KIRVANO_LINKS[selectedPlan?.id || 'mensal'];
-        if (link) window.open(link, '_blank', 'noopener,noreferrer');
-      }, 2500);
-    }
+    addBotMessage(`Perfeito, ${userName || 'amigo(a)'}! Gerando seu comprovante oficial... 🎟️`);
+    setTimeout(() => {
+      navigate(url);
+      onClose();
+    }, 1800);
   };
 
   const handleClose = () => {
