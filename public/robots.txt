@@ -15,4 +15,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
-Sitemap: https://cineflixpayment2026.netlify.app/sitemap.xml
+Sitemap: https://cineflixpayment.online/sitemap.xml
