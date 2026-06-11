@@ -57,24 +57,46 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
     return selectedPlan.price + upsellTotal;
   };
 
-  const handleCheckout = () => {
+  const proceedToReceipt = (nome: string) => {
     if (!selectedPlan) return;
-    
-    const nome = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Cliente';
     const email = user?.email || '';
-
-    // Always go to receipt first
     const upsellParam = selectedUpsells.length > 0 ? `&upsells=${selectedUpsells.join(',')}` : '';
     navigate(`/comprovante?plano=${selectedPlan.id}&nome=${encodeURIComponent(nome)}&email=${encodeURIComponent(email)}${upsellParam}`);
-    
-    // Abrir chat com mensagem de confirmação
-    const confirmationMessage = `Você tomou uma ótima decisão escolhendo o ${selectedPlan.name}! 🎉 Abaixo você vai seguir para o próximo passo para ter acesso a todo nosso catálogo... Deus abençoe! 🙏`;
+
+    const confirmationMessage = `Você tomou uma ótima decisão escolhendo o ${selectedPlan.name}, ${nome}! 🎉 Abaixo você vai seguir para o próximo passo para ter acesso a todo nosso catálogo... Deus abençoe! 🙏`;
     onOpenChatWithPlan?.(confirmationMessage);
-    
-    // Reset state
+
     setShowUpsells(false);
     setSelectedPlan(null);
     setSelectedUpsells([]);
+  };
+
+  const handleCheckout = () => {
+    if (!selectedPlan) return;
+
+    const knownName = user?.user_metadata?.full_name || '';
+    if (knownName && knownName.trim().length >= 2) {
+      proceedToReceipt(knownName.trim());
+      return;
+    }
+    // Usuário não logado / sem nome — abre popup pra capturar
+    setTempName('');
+    setNameError('');
+    setAskName(true);
+  };
+
+  const confirmNameAndCheckout = () => {
+    const n = tempName.trim();
+    if (n.length < 2) {
+      setNameError('Digite seu nome completo (mínimo 2 letras).');
+      return;
+    }
+    if (/\d|[_@#$%^&*+=<>/\\|{}[\]~`]/.test(n)) {
+      setNameError('Use apenas letras e espaços.');
+      return;
+    }
+    setAskName(false);
+    proceedToReceipt(n);
   };
 
   const handleBack = () => {
