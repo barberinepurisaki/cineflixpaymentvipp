@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Check, ArrowLeft, Plus, Minus } from 'lucide-react';
+import { Check, ArrowLeft, Plus, Minus, User2 } from 'lucide-react';
 import { plans, upsells, WHATSAPP_NUMBER, KIRVANO_LINKS } from '@/data/cineflix';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { Plan, Upsell } from '@/types';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import planMensalIcon from '@/assets/plan-mensal-new.png';
 import planTrimestralIcon from '@/assets/plan-trimestral-new.png';
 import planAnualIcon from '@/assets/plan-anual-new.png';
