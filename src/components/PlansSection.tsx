@@ -5,6 +5,7 @@ import { plans, upsells, WHATSAPP_NUMBER, KIRVANO_LINKS } from '@/data/cineflix'
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { Plan, Upsell } from '@/types';
+import { analytics } from '@/lib/analytics';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import planMensalIcon from '@/assets/plan-mensal-new.png';
@@ -30,6 +31,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
     setSelectedPlan(plan);
     setSelectedUpsells([]);
     setShowUpsells(true);
+    analytics.viewContent(plan.id, plan.name, plan.price);
   };
 
   const COMBO_ID = 'combo_completo';
@@ -61,6 +63,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
     if (!selectedPlan) return;
     const email = user?.email || '';
     const upsellParam = selectedUpsells.length > 0 ? `&upsells=${selectedUpsells.join(',')}` : '';
+    analytics.beginCheckout(selectedPlan.id, selectedPlan.name, calculateTotal());
     navigate(`/comprovante?plano=${selectedPlan.id}&nome=${encodeURIComponent(nome)}&email=${encodeURIComponent(email)}${upsellParam}`);
 
     const confirmationMessage = `Você tomou uma ótima decisão escolhendo o ${selectedPlan.name}, ${nome}! 🎉 Abaixo você vai seguir para o próximo passo para ter acesso a todo nosso catálogo... Deus abençoe! 🙏`;

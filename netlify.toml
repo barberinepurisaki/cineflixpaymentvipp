@@ -2,6 +2,14 @@
   command = "npm run build"
   publish = "dist"
 
+# Cakto webhook → Supabase Edge Function
+[[redirects]]
+  from = "/api/cakto/webhook"
+  to = "https://krwhpcedstjqscwpjgap.supabase.co/functions/v1/cakto-webhook"
+  status = 200
+  force = true
+
+# SPA fallback
 [[redirects]]
   from = "/*"
   to = "/index.html"

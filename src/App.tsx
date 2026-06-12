@@ -15,6 +15,8 @@ import HumanGate from "./components/HumanGate";
 import Admin from "./pages/Admin";
 import SaleReceipt from "./pages/SaleReceipt";
 import CompanyReceipt from "./pages/CompanyReceipt";
+import CompanyReceiptsList from "./pages/CompanyReceiptsList";
+import RouteTracker from "./components/RouteTracker";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +27,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <RouteTracker />
           <HumanGate>
             <Routes>
               <Route path="/" element={<Index />} />
@@ -36,6 +39,7 @@ const App = () => (
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/comprovante/:id" element={<SaleReceipt />} />
               <Route path="/admin/recibo-empresa" element={<CompanyReceipt />} />
+              <Route path="/admin/recibos-empresa" element={<CompanyReceiptsList />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
