@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      cakto_sales: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          customer_email: string | null
+          customer_name: string | null
+          customer_phone: string | null
+          event_type: string
+          id: string
+          occurred_at: string
+          payment_method: string | null
+          raw_payload: Json
+          status: string
+          transaction_id: string | null
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          event_type: string
+          id?: string
+          occurred_at?: string
+          payment_method?: string | null
+          raw_payload?: Json
+          status: string
+          transaction_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          event_type?: string
+          id?: string
+          occurred_at?: string
+          payment_method?: string | null
+          raw_payload?: Json
+          status?: string
+          transaction_id?: string | null
+        }
+        Relationships: []
+      }
       catalog_movies: {
         Row: {
           active: boolean
@@ -139,6 +187,54 @@ export type Database = {
           name?: string
           price?: number
           sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      company_receipts: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by: string | null
+          id: string
+          notes: string | null
+          payer_doc: string
+          payer_name: string
+          payment_date: string
+          period_end: string
+          period_start: string
+          receipt_no: string
+          reference_month: string
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          notes?: string | null
+          payer_doc?: string
+          payer_name?: string
+          payment_date: string
+          period_end: string
+          period_start: string
+          receipt_no: string
+          reference_month: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          notes?: string | null
+          payer_doc?: string
+          payer_name?: string
+          payment_date?: string
+          period_end?: string
+          period_start?: string
+          receipt_no?: string
+          reference_month?: string
           updated_at?: string
         }
         Relationships: []
