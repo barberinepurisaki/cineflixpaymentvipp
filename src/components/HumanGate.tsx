@@ -106,37 +106,74 @@ const HumanGate = ({ children }: HumanGateProps) => {
           initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="relative w-full max-w-md"
+          className="relative w-full max-w-md max-h-[95vh] overflow-y-auto py-4"
         >
           {/* Logo + branding */}
-          <div className="flex flex-col items-center mb-8">
+          <div className="flex flex-col items-center mb-5">
             <motion.img
               src={cineflixLogo}
               alt="Logo CineflixPayment"
-              className="h-16 w-auto mb-3"
+              className="h-14 w-auto mb-2"
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2.5, repeat: Infinity }}
             />
-            <h1 className="font-cinema text-2xl text-white text-center">
+            <h1 className="font-cinema text-2xl text-white text-center leading-tight">
               CINEFLIX<span className="text-cinema-red">PAYMENT</span>
-              <span className="sr-only"> — Assinatura de Streaming e IPTV</span>
             </h1>
-            <p className="text-white/50 text-sm mt-2 text-center">
-              Verificação de segurança
+            <p className="text-cinema-red text-[11px] font-bold tracking-widest uppercase mt-1">
+              Filmes • Séries & Muito +
+            </p>
+          </div>
+
+          {/* Welcome copy — bilingual PT/EN */}
+          <div className="bg-gradient-to-br from-cinema-red/15 via-cinema-panel/70 to-cinema-panel/70 backdrop-blur-xl border border-cinema-red/20 rounded-2xl p-5 mb-4 shadow-xl">
+            <p className="text-white font-bold text-center text-base mb-1">
+              🎬 Bem-vindo à CINEFLIXPAYMENT
+            </p>
+            <p className="text-white/60 text-center text-[11px] italic mb-3">
+              🌎 Welcome — Your complete entertainment platform
+            </p>
+            <p className="text-white/70 text-center text-xs mb-3">
+              Sua plataforma completa de entretenimento.
+            </p>
+
+            <ul className="text-white/80 text-xs space-y-1.5 mb-3">
+              <li>🍿 Filmes e Séries <span className="text-white/40">— Movies & Series</span></li>
+              <li>⚽ Futebol e Esportes <span className="text-white/40">— Sports & Live</span></li>
+              <li>📺 Canais Ao Vivo <span className="text-white/40">— Live TV Channels</span></li>
+              <li>🎞️ Lançamentos <span className="text-white/40">— New Releases</span></li>
+              <li>👨‍👩‍👧 Para toda a família <span className="text-white/40">— Family Friendly</span></li>
+            </ul>
+
+            <div className="border-t border-white/10 pt-3">
+              <p className="text-white/60 text-[11px] text-center mb-1.5">
+                Assista onde quiser / Watch anywhere:
+              </p>
+              <p className="text-white/80 text-xs text-center">
+                📱 Celular · 📺 Smart TV · 💻 PC · 📦 TV Box
+              </p>
+            </div>
+
+            <p className="text-white/50 text-[11px] text-center mt-3">
+              Milhares de conteúdos disponíveis quando você quiser.
+            </p>
+            <p className="text-cinema-red text-xs font-bold text-center mt-3 animate-pulse">
+              👇 Realize a verificação abaixo para acessar
             </p>
           </div>
 
           {/* Card captcha */}
-          <div className="bg-cinema-panel/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
-            <div className="flex items-center gap-3 mb-5">
+          <div className="bg-cinema-panel/80 backdrop-blur-xl border border-white/10 rounded-2xl p-5 md:p-6 shadow-2xl">
+            <div className="flex items-center gap-3 mb-4">
               <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-cinema-red/20 to-cinema-red/5 border border-cinema-red/30 flex items-center justify-center flex-shrink-0">
                 <img src={cineflixLogo} alt="Logo CineflixPayment" className="w-7 h-7 object-contain" />
               </div>
               <div>
-                <p className="text-white font-semibold text-sm">Acesso protegido</p>
-                <p className="text-white/50 text-xs">Confirme que você é humano para continuar</p>
+                <p className="text-white font-semibold text-sm">Acesso protegido / Secure Access</p>
+                <p className="text-white/50 text-xs">Confirme que você é humano · Verify you are human</p>
               </div>
             </div>
+
 
             <button
               onClick={handleVerify}
