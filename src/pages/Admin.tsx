@@ -14,8 +14,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { toast } from 'sonner';
 import {
   Plus, Trash2, Edit, Receipt, Package, Sparkles, Film, ArrowLeft, ExternalLink,
-  CheckCircle2, Clock, FileText, X,
+  CheckCircle2, Clock, FileText, X, TrendingUp,
 } from 'lucide-react';
+import FunnelTab from '@/components/admin/FunnelTab';
 
 type Sale = {
   id: string; order_code: string; customer_name: string; customer_whatsapp: string | null;
@@ -74,14 +75,16 @@ const Admin = () => {
       </header>
 
       <main className="container mx-auto px-4 py-6">
-        <Tabs defaultValue="vendas" className="w-full">
-          <TabsList className="grid grid-cols-4 w-full bg-zinc-900 border border-white/10">
+        <Tabs defaultValue="funil" className="w-full">
+          <TabsList className="grid grid-cols-5 w-full bg-zinc-900 border border-white/10">
+            <TabsTrigger value="funil"><TrendingUp className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Funil</span></TabsTrigger>
             <TabsTrigger value="vendas"><Receipt className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Vendas</span></TabsTrigger>
             <TabsTrigger value="planos"><Package className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Planos</span></TabsTrigger>
             <TabsTrigger value="upsells"><Sparkles className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Adicionais</span></TabsTrigger>
             <TabsTrigger value="filmes"><Film className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">Filmes</span></TabsTrigger>
           </TabsList>
 
+          <TabsContent value="funil" className="mt-4"><FunnelTab /></TabsContent>
           <TabsContent value="vendas" className="mt-4"><SalesTab /></TabsContent>
           <TabsContent value="planos" className="mt-4"><PlansTab /></TabsContent>
           <TabsContent value="upsells" className="mt-4"><UpsellsTab /></TabsContent>
