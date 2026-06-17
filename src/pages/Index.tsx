@@ -9,6 +9,7 @@ import TMDBGallery from '@/components/TMDBGallery';
 import TMDBTrailerModal from '@/components/TMDBTrailerModal';
 import SocialProof from '@/components/SocialProof';
 import PlansSection from '@/components/PlansSection';
+import ConversionHero from '@/components/ConversionHero';
 import AppPromoSection from '@/components/AppPromoSection';
 import Footer from '@/components/Footer';
 import ChatFAB from '@/components/ChatFAB';
