@@ -9,6 +9,7 @@ import TMDBGallery from '@/components/TMDBGallery';
 import TMDBTrailerModal from '@/components/TMDBTrailerModal';
 import SocialProof from '@/components/SocialProof';
 import PlansSection from '@/components/PlansSection';
+import ConversionHero from '@/components/ConversionHero';
 import AppPromoSection from '@/components/AppPromoSection';
 import Footer from '@/components/Footer';
 import ChatFAB from '@/components/ChatFAB';
@@ -55,7 +56,8 @@ const Index = () => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsChatOpen(true), 8000);
+    // Abre o chat apenas após interação real para não atrapalhar a conversão inicial
+    const timer = setTimeout(() => setIsChatOpen(true), 25000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -72,16 +74,24 @@ const Index = () => {
       <CountdownBanner />
       <Header />
       <main>
+        {/* Conversion-first: oferta principal acima da rolagem */}
+        <ConversionHero />
+
+        {/* PLANOS — visíveis sem rolagem excessiva */}
+        <div id="planos">
+          <PlansSection onOpenChatWithPlan={openChatWithMessage} />
+        </div>
+
+        {/* Prova social logo após os planos */}
+        <SocialProof />
+
+        {/* Hero cinematográfico (catálogo / experiência) */}
         <HeroSection 
           onOpenChat={() => openChatWithMessage()} 
           onPlayTrailer={handlePlayTrailer}
           movies={trendingMovies?.results}
         />
 
-        {/* PLANOS — logo após o Hero para captar desejo imediato */}
-        <div id="planos">
-          <PlansSection onOpenChatWithPlan={openChatWithMessage} />
-        </div>
 
         {/* Galleries */}
         <div className="space-y-1 pb-4">
@@ -117,8 +127,8 @@ const Index = () => {
           )}
         </div>
 
-        {/* Social proof */}
-        <SocialProof />
+
+
 
         {/* Sales page 2026 */}
         <SalesPage2026 />

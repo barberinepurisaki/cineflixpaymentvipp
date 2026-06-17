@@ -11,7 +11,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
-import HumanGate from "./components/HumanGate";
+import BackgroundMusic from "./components/BackgroundMusic";
 import Admin from "./pages/Admin";
 import SaleReceipt from "./pages/SaleReceipt";
 import CompanyReceipt from "./pages/CompanyReceipt";
@@ -28,22 +28,21 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <RouteTracker />
-          <HumanGate>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/comprovante" element={<CheckoutReceipt />} />
-              <Route path="/termos" element={<Terms />} />
-              <Route path="/privacidade" element={<Privacy />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/admin/comprovante/:id" element={<SaleReceipt />} />
-              <Route path="/admin/recibo-empresa" element={<CompanyReceipt />} />
-              <Route path="/admin/recibos-empresa" element={<CompanyReceiptsList />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </HumanGate>
+          <BackgroundMusic />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/comprovante" element={<CheckoutReceipt />} />
+            <Route path="/termos" element={<Terms />} />
+            <Route path="/privacidade" element={<Privacy />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/comprovante/:id" element={<SaleReceipt />} />
+            <Route path="/admin/recibo-empresa" element={<CompanyReceipt />} />
+            <Route path="/admin/recibos-empresa" element={<CompanyReceiptsList />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>

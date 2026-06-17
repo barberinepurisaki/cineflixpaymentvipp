@@ -239,6 +239,48 @@ export type Database = {
         }
         Relationships: []
       }
+      funnel_events: {
+        Row: {
+          created_at: string
+          currency: string | null
+          event_name: string
+          id: string
+          metadata: Json | null
+          path: string | null
+          plan_id: string | null
+          plan_name: string | null
+          session_id: string | null
+          user_agent: string | null
+          value: number | null
+        }
+        Insert: {
+          created_at?: string
+          currency?: string | null
+          event_name: string
+          id?: string
+          metadata?: Json | null
+          path?: string | null
+          plan_id?: string | null
+          plan_name?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+          value?: number | null
+        }
+        Update: {
+          created_at?: string
+          currency?: string | null
+          event_name?: string
+          id?: string
+          metadata?: Json | null
+          path?: string | null
+          plan_id?: string | null
+          plan_name?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+          value?: number | null
+        }
+        Relationships: []
+      }
       sales: {
         Row: {
           access_password: string | null
