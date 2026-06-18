@@ -18,7 +18,7 @@ const Footer = () => {
               <span className="text-xl font-bold text-white">CINEFLIXPAYMENT</span>
             </div>
             <p className="text-white/60 text-sm leading-relaxed">
-              A melhor plataforma de streaming do Brasil. Filmes, séries, animes, K-dramas, futebol ao vivo e muito mais!
+              CineflixPayment — Filmes, séries e muito +. Catálogo completo, futebol 4K e suporte 24h.
             </p>
           </div>
 
@@ -61,11 +61,11 @@ const Footer = () => {
               </li>
               <li>
                 <a 
-                  href="mailto:contato@cineflixpayment.com"
+                  href="mailto:suporte@cineflixpayment.online"
                   className="flex items-center gap-2 text-white/60 hover:text-cinema-red transition-colors text-sm"
                 >
                   <Mail className="w-4 h-4" />
-                  contato@cineflixpayment.com
+                  suporte@cineflixpayment.online
                 </a>
               </li>
             </ul>
@@ -73,7 +73,10 @@ const Footer = () => {
             {/* Social media */}
             <div className="flex gap-3 mt-6">
               <a 
-                href="#" 
+                href="https://instagram.com/cineflixpayment" 
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram @cineflixpayment"
                 className="w-10 h-10 rounded-full bg-white/10 hover:bg-cinema-red flex items-center justify-center transition-colors"
               >
                 <Instagram className="w-5 h-5 text-white" />

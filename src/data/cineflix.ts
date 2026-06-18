@@ -78,66 +78,37 @@ export const movies: Movie[] = [
 export const plans: Plan[] = [
   {
     id: 'mensal',
-    name: 'PLANO MENSAL',
+    name: 'PLANO MENSAL · 1 TELA',
     price: 29.90,
     period: '/mês',
     icon: '📱',
     features: [
-      '30 dias de acesso completo',
-      'Todos os filmes e séries',
       '1 tela simultânea',
-      'Qualidade Full HD',
+      'Catálogo completo (filmes, séries, canais)',
+      'Futebol e esportes ao vivo',
+      'Qualidade até 4K',
+      'Suporte 24h',
     ],
   },
   {
-    id: 'trimestral',
-    name: 'PLANO TRIMESTRAL',
-    price: 75.90,
-    period: '/trimestre',
-    icon: '💎',
+    id: 'mensal_2telas',
+    name: 'PLANO MENSAL · 2 TELAS',
+    price: 49.90,
+    period: '/mês',
+    icon: '👨‍👩‍👧',
     featured: true,
-    discount: 'ECONOMIZE 20%',
+    discount: '🔥 MAIS ESCOLHIDO',
     features: [
-      '90 dias de acesso completo',
-      'Todos os filmes e séries',
       '2 telas simultâneas',
-      'Qualidade 4K Ultra HD',
-      'Download offline',
-    ],
-  },
-  {
-    id: 'anual',
-    name: 'PLANO ANUAL VIP',
-    price: 300.00,
-    period: '/ano',
-    icon: '👑',
-    discount: 'MELHOR OFERTA',
-    features: [
-      '365 dias de acesso completo',
-      'Todos os filmes e séries',
-      '4 telas simultâneas',
-      'Qualidade 4K Ultra HD',
-      'Download offline ilimitado',
-      'Acesso antecipado a lançamentos',
-    ],
-  },
-  {
-    id: 'apk',
-    name: 'APK VITALÍCIO',
-    price: 97.90,
-    period: 'único',
-    icon: '🤖',
-    discount: 'VITALÍCIO',
-    features: [
-      'Pagamento único — sem mensalidade',
-      'Compatível com Android',
-      'Sem senhas e sem travamentos',
-      'Zero anúncios',
-      'Atualizações futuras de lançamentos',
-      'Garantia de 360 dias',
+      'Catálogo completo (filmes, séries, canais)',
+      'Futebol e esportes ao vivo',
+      'Qualidade até 4K',
+      'Suporte 24h',
+      'Ideal para família/amigos',
     ],
   },
 ];
+
 
 export const upsells: Upsell[] = [
   {
@@ -170,6 +141,7 @@ export const WHATSAPP_NUMBER = '5598981465166';
 
 export const KIRVANO_LINKS: Record<string, string> = {
   mensal: 'https://pay.cakto.com.br/kmz4m8v_878535',
+  mensal_2telas: 'https://pay.cakto.com.br/kmz4m8v_878535',
   trimestral: 'https://pay.cakto.com.br/3f3gp73_878540',
   anual: 'https://pay.cakto.com.br/yxqbt2g_878541',
   apk: 'https://pay.cakto.com.br/n8rrwfq_735392',
