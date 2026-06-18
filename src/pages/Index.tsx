@@ -11,6 +11,7 @@ import SocialProof from '@/components/SocialProof';
 import PlansSection from '@/components/PlansSection';
 import ConversionHero from '@/components/ConversionHero';
 import SeuJoaoStory from '@/components/SeuJoaoStory';
+import FinalCTA from '@/components/FinalCTA';
 import Footer from '@/components/Footer';
 import ChatFAB from '@/components/ChatFAB';
 import AshleyChat from '@/components/AshleyChat';
@@ -135,6 +136,9 @@ const Index = () => {
 
         {/* Sales page 2026 */}
         <SalesPage2026 />
+
+        {/* Chamada final */}
+        <FinalCTA />
       </main>
       <Footer />
       <ChatFAB onClick={() => openChatWithMessage()} />
