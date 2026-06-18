@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ShieldCheck, Play, Truck, Lock, Award, Star } from 'lucide-react';
+import logoAsset from '@/assets/cineflixpayment-logo.jpg.asset.json';
 
 const trustBar = [
   { Icon: Truck, label: 'Acesso Imediato' },
@@ -29,12 +30,14 @@ const ConversionHero = () => {
             transition={{ duration: 0.5 }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cinema-red/15 border border-cinema-red/50 mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-cinema-red animate-pulse" />
-              <span className="text-[11px] font-bold text-white tracking-[0.18em] uppercase">
-                A nova forma de assistir TV no Brasil
-              </span>
-            </div>
+            <img
+              src={logoAsset.url}
+              alt="CineflixPayment"
+              width={1200}
+              height={400}
+              className="mx-auto w-full max-w-[280px] sm:max-w-md md:max-w-xl mb-8 select-none drop-shadow-[0_0_40px_rgba(229,9,20,0.35)]"
+            />
+
 
             <h1 className="font-cinema text-3xl sm:text-4xl md:text-6xl text-white leading-[1.02] mb-5 tracking-tight">
               Todo o entretenimento da sua casa
