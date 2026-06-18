@@ -7,6 +7,8 @@ import TMDBTrailerModal from '@/components/TMDBTrailerModal';
 import SocialProof from '@/components/SocialProof';
 import PlansSection from '@/components/PlansSection';
 import ConversionHero from '@/components/ConversionHero';
+import HowItWorks from '@/components/HowItWorks';
+import Guarantee from '@/components/Guarantee';
 import SeuJoaoStory from '@/components/SeuJoaoStory';
 import FinalCTA from '@/components/FinalCTA';
 import Footer from '@/components/Footer';
@@ -54,20 +56,26 @@ const Index = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Header />
       <main>
-        {/* 1. Oferta principal */}
+        {/* 1. Oferta principal com fundo colmeia */}
         <ConversionHero />
 
-        {/* 2. Planos */}
+        {/* 2. Como funciona (3 passos) */}
+        <HowItWorks />
+
+        {/* 3. Planos */}
         <div id="planos">
           <PlansSection onOpenChatWithPlan={openChatWithMessage} />
         </div>
 
-        {/* 3. Storytelling */}
+        {/* 4. Garantia 7 dias */}
+        <Guarantee />
+
+        {/* 5. Storytelling */}
         <div id="sobre">
           <SeuJoaoStory />
         </div>
 
-        {/* 4. Prova social */}
+        {/* 6. Prova social */}
         <SocialProof />
 
         {/* 5. Catálogo enxuto */}

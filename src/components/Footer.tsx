@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Mail, Instagram, MessageCircle, ShieldCheck } from 'lucide-react';
 import cineflixLogo from '@/assets/cineflix-logo.png';
-import { WHATSAPP_NUMBER } from '@/data/cineflix';
+import { WHATSAPP_NUMBER, SUPPORT_EMAIL, INSTAGRAM_URL, INSTAGRAM_HANDLE } from '@/data/cineflix';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -54,11 +54,11 @@ const Footer = () => {
             <ul className="space-y-3 mb-6">
               <li>
                 <a
-                  href="mailto:suporte@cineflixpayment.online"
-                  className="flex items-center gap-2.5 text-white/55 hover:text-white transition-colors text-sm"
+                  href={`mailto:${SUPPORT_EMAIL}`}
+                  className="flex items-center gap-2.5 text-white/55 hover:text-white transition-colors text-sm break-all"
                 >
-                  <Mail className="w-4 h-4" />
-                  suporte@cineflixpayment.online
+                  <Mail className="w-4 h-4 flex-shrink-0" />
+                  {SUPPORT_EMAIL}
                 </a>
               </li>
               <li>
@@ -69,18 +69,18 @@ const Footer = () => {
                   className="flex items-center gap-2.5 text-white/55 hover:text-emerald-400 transition-colors text-sm"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  WhatsApp de suporte
+                  (98) 98146-5166
                 </a>
               </li>
               <li>
                 <a
-                  href="https://instagram.com/cineflixpayment"
+                  href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2.5 text-white/55 hover:text-white transition-colors text-sm"
+                  className="flex items-center gap-2.5 text-white/55 hover:text-pink-400 transition-colors text-sm"
                 >
                   <Instagram className="w-4 h-4" />
-                  @cineflixpayment
+                  {INSTAGRAM_HANDLE}
                 </a>
               </li>
             </ul>
