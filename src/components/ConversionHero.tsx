@@ -35,8 +35,9 @@ const ConversionHero = () => {
               alt="CineflixPayment"
               width={1200}
               height={400}
-              className="mx-auto w-full max-w-[280px] sm:max-w-md md:max-w-xl mb-8 select-none drop-shadow-[0_0_40px_rgba(229,9,20,0.35)]"
+              className="mx-auto w-full max-w-[420px] sm:max-w-2xl md:max-w-4xl mb-8 select-none drop-shadow-[0_0_50px_rgba(229,9,20,0.45)]"
             />
+
 
 
             <h1 className="font-cinema text-3xl sm:text-4xl md:text-6xl text-white leading-[1.02] mb-5 tracking-tight">
@@ -56,7 +57,10 @@ const ConversionHero = () => {
 
 
             {/* Comparação de preço */}
-            <div className="max-w-md mx-auto mb-8 bg-black/40 backdrop-blur-sm border border-cinema-red/30 rounded-2xl p-5 text-left">
+            <div className="max-w-md mx-auto mb-8 bg-honeycomb border border-cinema-red/40 rounded-2xl p-5 text-left shadow-glow relative overflow-hidden">
+              <div className="absolute inset-0 bg-black/55 pointer-events-none" />
+              <div className="relative">
+
               <p className="text-white/60 text-[11px] uppercase tracking-widest mb-3 text-center">
                 Compare e comprove
               </p>
@@ -81,7 +85,9 @@ const ConversionHero = () => {
               <p className="text-center text-emerald-400 text-xs font-semibold mt-3">
                 Economia de R$ 149,80 por mês
               </p>
+              </div>
             </div>
+
 
             {/* CTA */}
             <div className="flex flex-col items-center gap-3 mb-8">

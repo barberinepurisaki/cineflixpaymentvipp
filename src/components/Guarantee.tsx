@@ -9,10 +9,12 @@ const Guarantee = () => {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative bg-white/[0.03] border border-cinema-red/30 rounded-3xl p-8 md:p-12 overflow-hidden"
+          className="relative bg-honeycomb border border-cinema-red/40 rounded-3xl p-8 md:p-12 overflow-hidden shadow-glow"
         >
+          <div className="absolute inset-0 bg-black/60 pointer-events-none" />
           <div className="absolute -top-12 -left-12 w-40 h-40 bg-cinema-red/15 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-12 -right-12 w-40 h-40 bg-cinema-red/10 rounded-full blur-3xl pointer-events-none" />
+
 
           <div className="relative grid md:grid-cols-[200px_1fr] gap-8 items-center text-center md:text-left">
             <img
