@@ -256,7 +256,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className="relative w-full max-w-sm h-full flex flex-col rounded-2xl border transition-all duration-500 hover:scale-[1.03] cursor-pointer bg-gradient-to-b from-cinema-red/20 via-cinema-panel to-cinema-dark border-cinema-red/60 hover:border-cinema-red shadow-lg hover:shadow-glow overflow-hidden group"
+                className="relative w-full max-w-sm h-full flex flex-col rounded-2xl border transition-all duration-500 hover:scale-[1.03] cursor-pointer bg-honeycomb border-cinema-red/60 hover:border-cinema-red shadow-lg hover:shadow-glow overflow-hidden group"
                 onClick={() => handleSelectPlan(plan)}
               >
                 {/* Featured badge */}
@@ -268,7 +268,9 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                   </div>
                 )}
 
-                <div className={cn("p-6 flex flex-col flex-1 w-full", plan.discount && "pt-10")}>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/70 to-black/85 pointer-events-none" />
+                <div className={cn("relative p-6 flex flex-col flex-1 w-full", plan.discount && "pt-10")}>
+
                   {/* Icon and name */}
                   <div className="flex flex-col items-center mb-5">
                     <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-3 overflow-hidden">
