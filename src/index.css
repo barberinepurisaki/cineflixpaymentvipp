@@ -268,6 +268,17 @@
   .step-dot.completed {
     background: hsl(var(--cinema-red));
   }
+
+
+  /* Honeycomb red background (hex grid) */
+  .bg-honeycomb {
+    background-color: hsl(0 0% 3%);
+    background-image:
+      radial-gradient(ellipse at top, hsl(357 91% 25% / 0.35), transparent 60%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 100'><polygon points='28,1 55,17 55,49 28,65 1,49 1,17' fill='none' stroke='%23e50914' stroke-opacity='0.22' stroke-width='1'/><polygon points='0,67 0,99 28,99 28,67' fill='none' stroke='%23e50914' stroke-opacity='0.22' stroke-width='1'/><polygon points='56,67 56,99 28,99 28,67' fill='none' stroke='%23e50914' stroke-opacity='0.22' stroke-width='1'/></svg>");
+    background-size: auto, 56px 100px;
+    background-repeat: no-repeat, repeat;
+  }
 }
 
 @layer utilities {

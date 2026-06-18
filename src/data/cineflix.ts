@@ -138,6 +138,9 @@ export const upsells: Upsell[] = [
 ];
 
 export const WHATSAPP_NUMBER = '5598981465166';
+export const SUPPORT_EMAIL = 'suporte@cineflixpayment.online';
+export const INSTAGRAM_URL = 'https://www.instagram.com/cinefliixpayment?igsh=MTY5aXM2ZHpxMXJ5aQ==';
+export const INSTAGRAM_HANDLE = '@cinefliixpayment';
 
 export const KIRVANO_LINKS: Record<string, string> = {
   mensal: 'https://pay.cakto.com.br/kmz4m8v_878535',
