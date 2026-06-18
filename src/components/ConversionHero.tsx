@@ -3,7 +3,7 @@ import { ShieldCheck, Play, Truck, Lock, Award, Star } from 'lucide-react';
 
 const trustBar = [
   { Icon: Truck, label: 'Acesso Imediato' },
-  { Icon: ShieldCheck, label: 'Garantia de 7 dias' },
+  { Icon: ShieldCheck, label: 'Garantia de 30 dias' },
   { Icon: Lock, label: 'Pagamento Seguro' },
   { Icon: Award, label: 'Catálogo 4K' },
 ];
@@ -32,20 +32,25 @@ const ConversionHero = () => {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cinema-red/15 border border-cinema-red/50 mb-5">
               <span className="w-1.5 h-1.5 rounded-full bg-cinema-red animate-pulse" />
               <span className="text-[11px] font-bold text-white tracking-[0.18em] uppercase">
-                Oferta limitada · Vagas reduzidas
+                A nova forma de assistir TV no Brasil
               </span>
             </div>
 
             <h1 className="font-cinema text-3xl sm:text-4xl md:text-6xl text-white leading-[1.02] mb-5 tracking-tight">
-              Pare de pagar
-              <span className="text-cinema-red"> R$ 179</span> em streamings.
+              Todo o entretenimento da sua casa
               <br className="hidden md:block" />
-              Tenha tudo por <span className="text-cinema-red">R$ 29,90</span>.
+              em <span className="text-cinema-red">um único app</span>.
+              Por <span className="text-cinema-red">R$ 29,90</span>.
             </h1>
 
-            <p className="text-white/75 text-base md:text-lg max-w-2xl mx-auto mb-7 leading-relaxed">
-              Filmes, séries, futebol em 4K e canais fechados — em um único plano com suporte humano 24h.
+            <p className="text-white/80 text-base md:text-lg max-w-2xl mx-auto mb-4 leading-relaxed">
+              A CineflixPayment reúne <span className="text-white font-semibold">filmes, séries, futebol ao vivo,
+              canais fechados e lançamentos em 4K</span> — tudo no seu celular, Smart TV, TV Box ou computador.
             </p>
+            <p className="text-white/65 text-sm md:text-base max-w-2xl mx-auto mb-7">
+              Sem contrato, sem fidelidade e com suporte humano 24h. Você paga uma vez e assiste o quanto quiser.
+            </p>
+
 
             {/* Comparação de preço */}
             <div className="max-w-md mx-auto mb-8 bg-black/40 backdrop-blur-sm border border-cinema-red/30 rounded-2xl p-5 text-left">
@@ -82,11 +87,11 @@ const ConversionHero = () => {
                 className="inline-flex items-center gap-2 px-9 py-4 rounded-xl font-bold text-sm md:text-base bg-cinema-red hover:bg-cinema-red-glow text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 hover:scale-[1.03] tracking-wide uppercase animate-pulse-glow"
               >
                 <Play className="w-4 h-4 fill-white" />
-                Quero economizar agora
+                Quero assinar agora
               </button>
               <p className="text-white/60 text-xs">
                 <ShieldCheck className="w-3.5 h-3.5 inline text-emerald-500 mr-1" />
-                Garantia de 7 dias · Cancele quando quiser
+                Garantia de 30 dias · Cancele quando quiser
               </p>
             </div>
 

@@ -67,7 +67,7 @@ const Index = () => {
           <PlansSection onOpenChatWithPlan={openChatWithMessage} />
         </div>
 
-        {/* 4. Garantia 7 dias */}
+        {/* 4. Garantia 30 dias */}
         <Guarantee />
 
         {/* 5. Storytelling */}

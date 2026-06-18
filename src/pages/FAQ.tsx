@@ -32,7 +32,7 @@ const faqs = [
   },
   {
     q: 'Tem garantia se eu não gostar?',
-    a: 'Sim — garantia incondicional de 7 dias. Se não ficar satisfeito, devolvemos 100% do seu dinheiro. Sem perguntas.',
+    a: 'Sim — garantia incondicional de 30 dias. Se não ficar satisfeito, devolvemos 100% do seu dinheiro. Sem perguntas.',
   },
   {
     q: 'É legal? É seguro?',

@@ -123,18 +123,6 @@ export const upsells: Upsell[] = [
     description: 'Assista em uma tela adicional',
     price: 9.90,
   },
-  {
-    id: 'adultos_herois',
-    name: 'Pacote Heróis 2025',
-    description: 'Lançamentos exclusivos de super-heróis',
-    price: 7.90,
-  },
-  {
-    id: 'combo_completo',
-    name: 'Combo Completo',
-    description: 'Todos os adicionais incluídos',
-    price: 14.90,
-  },
 ];
 
 export const WHATSAPP_NUMBER = '5598981465166';
