@@ -85,7 +85,9 @@ const ConversionHero = () => {
               <p className="text-center text-emerald-400 text-xs font-semibold mt-3">
                 Economia de R$ 149,80 por mês
               </p>
+              </div>
             </div>
+
 
             {/* CTA */}
             <div className="flex flex-col items-center gap-3 mb-8">
