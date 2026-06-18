@@ -10,7 +10,7 @@ import TMDBTrailerModal from '@/components/TMDBTrailerModal';
 import SocialProof from '@/components/SocialProof';
 import PlansSection from '@/components/PlansSection';
 import ConversionHero from '@/components/ConversionHero';
-import AppPromoSection from '@/components/AppPromoSection';
+import SeuJoaoStory from '@/components/SeuJoaoStory';
 import Footer from '@/components/Footer';
 import ChatFAB from '@/components/ChatFAB';
 import AshleyChat from '@/components/AshleyChat';
@@ -82,7 +82,10 @@ const Index = () => {
           <PlansSection onOpenChatWithPlan={openChatWithMessage} />
         </div>
 
-        {/* Prova social logo após os planos */}
+        {/* Storytelling "Seu João" — conexão emocional logo após os planos */}
+        <SeuJoaoStory />
+
+        {/* Prova social */}
         <SocialProof />
 
         {/* Hero cinematográfico (catálogo / experiência) */}
@@ -132,9 +135,6 @@ const Index = () => {
 
         {/* Sales page 2026 */}
         <SalesPage2026 />
-
-        {/* APK Promo no final, como reforço */}
-        <AppPromoSection />
       </main>
       <Footer />
       <ChatFAB onClick={() => openChatWithMessage()} />
