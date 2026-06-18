@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
-import { ShieldCheck, Star, Play } from 'lucide-react';
+import { ShieldCheck, Star, Play, Film, Tv, Trophy, Headphones, BadgeCheck } from 'lucide-react';
 
 const differentials = [
-  { icon: '🎬', title: 'Filmes e Séries 4K', desc: 'Catálogo completo e lançamentos' },
-  { icon: '⚽', title: 'Futebol ao Vivo', desc: 'Premiere, ESPN, Sportv' },
-  { icon: '📺', title: 'Canais Fechados', desc: 'Disney+, Max, Paramount+' },
-  { icon: '📱', title: 'Suporte 24h', desc: 'Resolvemos qualquer B.O. na hora' },
-  { icon: '💰', title: 'Preço Justo', desc: 'R$ 29,90/mês (menos que um streaming)' },
+  { Icon: Film, title: 'Filmes e Séries 4K', desc: 'Catálogo completo e lançamentos' },
+  { Icon: Trophy, title: 'Futebol ao Vivo', desc: 'Premiere, ESPN e SporTV' },
+  { Icon: Tv, title: 'Canais Fechados', desc: 'Disney+, Max e Paramount+' },
+  { Icon: Headphones, title: 'Suporte 24h', desc: 'Atendimento humano todos os dias' },
+  { Icon: BadgeCheck, title: 'Preço Justo', desc: 'A partir de R$ 29,90/mês' },
 ];
 
 const ConversionHero = () => {
@@ -17,7 +17,7 @@ const ConversionHero = () => {
   return (
     <section
       aria-label="Oferta principal"
-      className="relative px-4 pt-6 pb-10 md:pt-10 md:pb-14 bg-gradient-to-b from-black via-cinema-dark to-cinema-dark"
+      className="relative px-4 pt-24 pb-14 md:pt-32 md:pb-20 bg-gradient-to-b from-black via-cinema-dark to-cinema-dark"
     >
       <div className="container mx-auto max-w-5xl">
         <motion.div
@@ -26,66 +26,64 @@ const ConversionHero = () => {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          {/* Badge topo */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cinema-red/15 border border-cinema-red/40 mb-4">
-            <span className="w-2 h-2 rounded-full bg-cinema-red animate-pulse" />
-            <span className="text-[11px] font-bold text-cinema-red tracking-wider uppercase">
-              Oferta ativa hoje
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cinema-red/10 border border-cinema-red/30 mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-cinema-red animate-pulse" />
+            <span className="text-[11px] font-semibold text-cinema-red tracking-[0.18em] uppercase">
+              Oferta disponível hoje
             </span>
           </div>
 
-          {/* H1 forte */}
-          <h1 className="font-cinema text-3xl md:text-5xl lg:text-6xl text-white leading-tight mb-4 glow-text">
-            A mesma coisa que Netflix, Disney+ e Premiere.{' '}
+          <h1 className="font-cinema text-3xl md:text-5xl lg:text-6xl text-white leading-[1.05] mb-5 tracking-tight">
+            A mesma experiência da Netflix, Disney+ e Premiere.
+            <br className="hidden md:block" />
             <span className="text-cinema-red">Por R$ 29,90.</span>
           </h1>
 
-          <p className="text-white/70 text-base md:text-lg max-w-2xl mx-auto mb-6">
-            CineflixPayment — Filmes, séries, futebol 4K e suporte 24h.
+          <p className="text-white/65 text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
+            Filmes, séries, futebol em 4K e suporte humano 24 horas — em um único plano.
           </p>
 
-          {/* CTA principal */}
-          <div className="flex flex-col items-center gap-3 mb-8">
+          <div className="flex flex-col items-center gap-3 mb-12">
             <button
               onClick={scrollToPlans}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-base md:text-lg bg-cinema-red hover:bg-cinema-glow text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 hover:scale-[1.03] animate-pulse-glow"
+              className="inline-flex items-center gap-2 px-9 py-4 rounded-lg font-semibold text-sm md:text-base bg-cinema-red hover:bg-cinema-glow text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 hover:scale-[1.02] tracking-wide uppercase"
             >
-              <Play className="w-5 h-5 fill-white" />
-              QUERO ASSINAR AGORA
+              <Play className="w-4 h-4 fill-white" />
+              Quero assinar agora
             </button>
-            <p className="text-white/50 text-xs">A partir de <span className="text-cinema-gold font-bold">R$ 29,90/mês</span> · Cancele quando quiser</p>
+            <p className="text-white/45 text-xs">
+              A partir de <span className="text-white font-medium">R$ 29,90/mês</span> · Cancele quando quiser
+            </p>
           </div>
 
-          {/* Diferenciais */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-6 text-left">
-            {differentials.map((d) => (
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-10 text-left">
+            {differentials.map(({ Icon, title, desc }) => (
               <div
-                key={d.title}
-                className="bg-cinema-panel/60 border border-white/10 rounded-xl px-4 py-3 hover:border-cinema-red/40 transition-colors"
+                key={title}
+                className="bg-white/[0.03] border border-white/10 rounded-xl px-4 py-4 hover:border-cinema-red/40 hover:bg-white/[0.05] transition-all"
               >
-                <div className="text-2xl mb-1">{d.icon}</div>
-                <p className="text-white font-bold text-sm leading-tight">{d.title}</p>
-                <p className="text-white/55 text-xs leading-snug mt-0.5">{d.desc}</p>
+                <Icon className="w-5 h-5 text-cinema-red mb-2.5" strokeWidth={1.75} />
+                <p className="text-white font-semibold text-sm leading-tight">{title}</p>
+                <p className="text-white/50 text-xs leading-snug mt-1">{desc}</p>
               </div>
             ))}
           </div>
 
-          {/* Mini prova social */}
-          <div className="flex flex-wrap justify-center items-center gap-4 text-xs md:text-sm text-white/60">
-            <span className="inline-flex items-center gap-1.5">
-              <div className="flex">
+          <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs md:text-sm text-white/55">
+            <span className="inline-flex items-center gap-2">
+              <div className="flex gap-0.5">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-3.5 h-3.5 fill-cinema-gold text-cinema-gold" />
                 ))}
               </div>
-              +2.200 clientes
+              Mais de 2.200 clientes
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-green-500" />
+              <ShieldCheck className="w-4 h-4 text-emerald-500" />
               Suporte humano 24h
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <span className="text-green-500">✓</span>
+              <BadgeCheck className="w-4 h-4 text-emerald-500" />
               Acesso imediato
             </span>
           </div>
@@ -96,4 +94,3 @@ const ConversionHero = () => {
 };
 
 export default ConversionHero;
-

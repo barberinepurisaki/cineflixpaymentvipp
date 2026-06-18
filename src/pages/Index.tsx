@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
-import CountdownBanner from '@/components/CountdownBanner';
-import HeroSection from '@/components/HeroSection';
 import TMDBGallery from '@/components/TMDBGallery';
 import TMDBTrailerModal from '@/components/TMDBTrailerModal';
 import SocialProof from '@/components/SocialProof';
@@ -15,16 +12,11 @@ import FinalCTA from '@/components/FinalCTA';
 import Footer from '@/components/Footer';
 import ChatFAB from '@/components/ChatFAB';
 import AshleyChat from '@/components/AshleyChat';
-import ContentLock from '@/components/ContentLock';
-import SalesPage2026 from '@/components/SalesPage2026';
-import { 
-  useTrendingMovies, 
-  useTrendingSeries, 
-  usePopularMovies, 
+import {
+  useTrendingMovies,
+  useTrendingSeries,
   useActionMovies,
-  useKoreanDramas,
-  useRomanceMovies,
-  TMDBMovie 
+  TMDBMovie,
 } from '@/hooks/useTMDB';
 
 const Index = () => {
@@ -46,10 +38,7 @@ const Index = () => {
 
   const { data: trendingMovies, isLoading: trendingLoading } = useTrendingMovies();
   const { data: trendingSeries, isLoading: seriesLoading } = useTrendingSeries();
-  const { data: popularMovies, isLoading: popularLoading } = usePopularMovies();
   const { data: actionMovies, isLoading: actionLoading } = useActionMovies();
-  const { data: koreanDramas, isLoading: koreanLoading } = useKoreanDramas();
-  const { data: romanceMovies, isLoading: romanceLoading } = useRomanceMovies();
 
   const handlePlayTrailer = (movie: TMDBMovie) => {
     setSelectedMovie(movie);
@@ -57,87 +46,74 @@ const Index = () => {
   };
 
   useEffect(() => {
-    // Abre o chat apenas após interação real para não atrapalhar a conversão inicial
-    const timer = setTimeout(() => setIsChatOpen(true), 25000);
+    const timer = setTimeout(() => setIsChatOpen(true), 45000);
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    const handleMouseLeave = (e: MouseEvent) => {
-      if (e.clientY <= 0 && !isChatOpen) setIsChatOpen(true);
-    };
-    document.addEventListener('mouseleave', handleMouseLeave);
-    return () => document.removeEventListener('mouseleave', handleMouseLeave);
-  }, [isChatOpen]);
-
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <CountdownBanner />
       <Header />
       <main>
-        {/* Conversion-first: oferta principal acima da rolagem */}
+        {/* 1. Oferta principal */}
         <ConversionHero />
 
-        {/* PLANOS — visíveis sem rolagem excessiva */}
+        {/* 2. Planos */}
         <div id="planos">
           <PlansSection onOpenChatWithPlan={openChatWithMessage} />
         </div>
 
-        {/* Storytelling "Seu João" — conexão emocional logo após os planos */}
-        <SeuJoaoStory />
-
-        {/* Prova social */}
-        <SocialProof />
-
-        {/* Hero cinematográfico (catálogo / experiência) */}
-        <HeroSection 
-          onOpenChat={() => openChatWithMessage()} 
-          onPlayTrailer={handlePlayTrailer}
-          movies={trendingMovies?.results}
-        />
-
-
-        {/* Galleries */}
-        <div className="space-y-1 pb-4">
-          <TMDBGallery title="🔥 Em Alta" movies={trendingMovies?.results} isLoading={trendingLoading} onPlayTrailer={handlePlayTrailer} />
-          <TMDBGallery title="📺 Séries Populares" movies={trendingSeries?.results?.slice(0, 12)} isLoading={seriesLoading} onPlayTrailer={handlePlayTrailer} />
-          <TMDBGallery title="⚡ Ação" movies={actionMovies?.results} isLoading={actionLoading} onPlayTrailer={handlePlayTrailer} />
-          <TMDBGallery title="🌸 K-Dramas" movies={koreanDramas?.results} isLoading={koreanLoading} onPlayTrailer={handlePlayTrailer} />
-          <TMDBGallery title="💕 Romance" movies={romanceMovies?.results} isLoading={romanceLoading} onPlayTrailer={handlePlayTrailer} />
-          <TMDBGallery title="🎬 Populares" movies={popularMovies?.results} isLoading={popularLoading} onPlayTrailer={handlePlayTrailer} />
-          
-          {/* Upsell CTA */}
-          {(
-            <motion.div 
-              className="px-4 md:px-8 py-6"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <div className="bg-gradient-to-r from-cinema-red/10 via-cinema-panel to-cinema-red/10 border border-cinema-red/20 rounded-2xl p-6 md:p-8 text-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cinema-red/5 to-transparent animate-shimmer" />
-                <div className="relative z-10">
-                  <p className="text-xl md:text-2xl font-bold text-white mb-2">🔥 Quer assistir tudo sem limites?</p>
-                  <p className="text-white/50 text-sm mb-5">Conheça nossos planos a partir de R$ 29,90/mês</p>
-                  <button
-                    onClick={() => openChatWithMessage('Quero conhecer os planos disponíveis')}
-                    className="inline-block px-8 py-3.5 rounded-xl font-bold bg-cinema-red hover:bg-cinema-glow text-white transition-all duration-300 hover:scale-105 shadow-button"
-                  >
-                    Ver Planos
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
+        {/* 3. Storytelling */}
+        <div id="sobre">
+          <SeuJoaoStory />
         </div>
 
+        {/* 4. Prova social */}
+        <SocialProof />
 
+        {/* 5. Catálogo enxuto */}
+        <section id="filmes" className="bg-cinema-dark py-12">
+          <div className="container mx-auto px-4 mb-2">
+            <p className="text-cinema-red text-xs font-semibold tracking-[0.22em] uppercase mb-2">
+              Catálogo
+            </p>
+            <h2 className="font-cinema text-2xl md:text-3xl text-white mb-2 tracking-tight">
+              Uma prévia do que está disponível
+            </h2>
+            <p className="text-white/55 text-sm md:text-base max-w-xl">
+              Milhares de títulos atualizados toda semana — filmes, séries, animes e canais ao vivo.
+            </p>
+          </div>
 
+          <div className="space-y-1 pt-4">
+            <TMDBGallery title="Em alta" movies={trendingMovies?.results} isLoading={trendingLoading} onPlayTrailer={handlePlayTrailer} />
+            <TMDBGallery title="Séries populares" movies={trendingSeries?.results?.slice(0, 12)} isLoading={seriesLoading} onPlayTrailer={handlePlayTrailer} />
+            <TMDBGallery title="Ação" movies={actionMovies?.results} isLoading={actionLoading} onPlayTrailer={handlePlayTrailer} />
+          </div>
 
-        {/* Sales page 2026 */}
-        <SalesPage2026 />
+          <motion.div
+            className="container mx-auto px-4 md:px-8 pt-8"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 text-center">
+              <p className="text-white text-lg md:text-xl font-medium mb-2">
+                Quer assistir tudo sem limites?
+              </p>
+              <p className="text-white/55 text-sm mb-6">
+                Planos a partir de R$ 29,90/mês — acesso imediato.
+              </p>
+              <button
+                onClick={() => document.getElementById('planos')?.scrollIntoView({ behavior: 'smooth' })}
+                className="inline-block px-8 py-3 rounded-lg text-sm font-semibold uppercase tracking-wide bg-cinema-red hover:bg-cinema-glow text-white transition-all duration-300 hover:scale-[1.02] shadow-button"
+              >
+                Ver planos
+              </button>
+            </div>
+          </motion.div>
+        </section>
 
-        {/* Chamada final */}
+        {/* 6. Chamada final */}
         <FinalCTA />
       </main>
       <Footer />

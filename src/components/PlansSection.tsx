@@ -175,8 +175,8 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
 
             {/* Upsells Grid */}
             <div className="mb-8">
-              <h3 className="text-2xl font-bold text-white mb-2">🎁 Ofertas Exclusivas</h3>
-              <p className="text-white/60 mb-6">Adicione extras ao seu plano com desconto especial!</p>
+              <h3 className="text-2xl font-bold text-white mb-2">Ofertas exclusivas</h3>
+              <p className="text-white/60 mb-6">Adicione extras ao seu plano com desconto especial.</p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {upsells.map((upsell) => {
@@ -224,7 +224,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                 </div>
                 {selectedUpsells.length > 0 && (
                   <div className="text-cinema-gold text-sm">
-                    ✨ {selectedUpsells.length} extra(s) adicionado(s)
+                    {selectedUpsells.length} extra(s) adicionado(s)
                   </div>
                 )}
               </div>
@@ -314,9 +314,9 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                       e.stopPropagation();
                       handleSelectPlan(plan);
                     }}
-                    className="w-full mt-auto py-3.5 rounded-xl text-sm font-bold transition-all duration-300 bg-cinema-red hover:bg-cinema-glow text-white shadow-glow hover:shadow-glow-lg"
+                    className="w-full mt-auto py-3.5 rounded-lg text-sm font-semibold uppercase tracking-wide transition-all duration-300 bg-cinema-red hover:bg-cinema-glow text-white shadow-glow hover:shadow-glow-lg"
                   >
-                    {plan.id === 'apk' ? '🤖 Comprar APK' : '🎬 Assinar Agora'}
+                    Assinar agora
                   </button>
                 </div>
               </div>
