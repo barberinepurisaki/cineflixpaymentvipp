@@ -3,11 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldCheck, Star, Film, Smartphone } from 'lucide-react';
 
 const testimonials = [
-  { name: 'Carlos M.', text: 'Catálogo muito completo, tem tudo que eu procurava!', plan: 'Plano Anual VIP' },
-  { name: 'Ana P.', text: 'Cancelei outras plataformas, aqui tem tudo num lugar só.', plan: 'APK Vitalício' },
-  { name: 'Lucas R.', text: 'Séries sempre atualizadas, muito satisfeito!', plan: 'Plano Trimestral' },
-  { name: 'Juliana S.', text: 'Comprei o APK e espelho na TV. Cinema em casa!', plan: 'APK Vitalício' },
-  { name: 'Pedro H.', text: 'Qualidade de imagem excelente, sem travamentos.', plan: 'Plano Mensal' },
+  {
+    name: 'Maria L., 58 anos',
+    text: 'Assino a CineflixPayment há 6 meses. Qualidade 4K, não trava. Melhor que pagar 3 streamings separados.',
+    plan: 'Plano Mensal · 2 telas',
+  },
+  { name: 'Carlos M.', text: 'Catálogo muito completo, tem tudo que eu procurava!', plan: 'Plano Mensal · 1 tela' },
+  { name: 'Ana P.', text: 'Cancelei outras plataformas, aqui tem tudo num lugar só.', plan: 'Plano Mensal · 2 telas' },
+  { name: 'Lucas R.', text: 'Séries sempre atualizadas, futebol no Premiere sem travar.', plan: 'Plano Mensal · 1 tela' },
 ];
 
 const SocialProof = () => {
@@ -31,10 +34,10 @@ const SocialProof = () => {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           {[
-            { icon: Film, value: '3.000+', label: 'Canais disponíveis' },
-            { icon: Star, value: '9.8/10', label: 'Avaliação dos clientes' },
+            { icon: Film, value: '+2.200', label: 'Clientes ativos' },
+            { icon: Star, value: '4.8/5', label: 'Avaliação média' },
             { icon: Smartphone, value: '4K', label: 'Ultra HD disponível' },
-            { icon: ShieldCheck, value: '360 dias', label: 'Garantia do APK' },
+            { icon: ShieldCheck, value: '24h', label: 'Suporte humano' },
           ].map((stat, i) => (
             <motion.div 
               key={i} 
