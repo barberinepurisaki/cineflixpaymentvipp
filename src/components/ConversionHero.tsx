@@ -58,7 +58,7 @@ const ConversionHero = () => {
 
             {/* Comparação de preço */}
             <div className="max-w-md mx-auto mb-8 bg-honeycomb border border-cinema-red/40 rounded-2xl p-5 text-left shadow-glow relative overflow-hidden">
-              <div className="absolute inset-0 bg-black/55 pointer-events-none" />
+              <div className="absolute inset-0 bg-black/35 pointer-events-none" />
               <div className="relative">
 
               <p className="text-white/60 text-[11px] uppercase tracking-widest mb-3 text-center">
