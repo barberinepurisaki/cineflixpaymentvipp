@@ -268,7 +268,7 @@ const PlansSection = ({ onOpenChatWithPlan }: PlansSectionProps) => {
                   </div>
                 )}
 
-                <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/70 to-black/85 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/45 to-black/65 pointer-events-none" />
                 <div className={cn("relative p-6 flex flex-col flex-1 w-full", plan.discount && "pt-10")}>
 
                   {/* Icon and name */}

@@ -59,28 +59,9 @@ const Index = () => {
         {/* 1. Oferta principal com fundo colmeia */}
         <ConversionHero />
 
-        {/* 2. Como funciona (3 passos) */}
-        <HowItWorks />
-
-        {/* 3. Planos */}
-        <div id="planos">
-          <PlansSection onOpenChatWithPlan={openChatWithMessage} />
-        </div>
-
-        {/* 4. Garantia 30 dias */}
-        <Guarantee />
-
-        {/* 5. Storytelling */}
-        <div id="sobre">
-          <SeuJoaoStory />
-        </div>
-
-        {/* 6. Prova social */}
-        <SocialProof />
-
-        {/* 5. Catálogo enxuto */}
-        <section id="filmes" className="bg-cinema-dark py-12">
-          <div className="container mx-auto px-4 mb-2">
+        {/* 2. Catálogo — sobe pra cá pra prender atenção */}
+        <section id="filmes" className="bg-cinema-dark pt-10 pb-6">
+          <div className="container mx-auto px-4 mb-4">
             <p className="text-cinema-red text-xs font-semibold tracking-[0.22em] uppercase mb-2">
               Catálogo
             </p>
@@ -92,36 +73,33 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="space-y-1 pt-4">
+          <div className="space-y-1">
             <TMDBGallery title="Em alta" movies={trendingMovies?.results} isLoading={trendingLoading} onPlayTrailer={handlePlayTrailer} />
             <TMDBGallery title="Séries populares" movies={trendingSeries?.results?.slice(0, 12)} isLoading={seriesLoading} onPlayTrailer={handlePlayTrailer} />
             <TMDBGallery title="Ação" movies={actionMovies?.results} isLoading={actionLoading} onPlayTrailer={handlePlayTrailer} />
           </div>
-
-          <motion.div
-            className="container mx-auto px-4 md:px-8 pt-8"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 text-center">
-              <p className="text-white text-lg md:text-xl font-medium mb-2">
-                Quer assistir tudo sem limites?
-              </p>
-              <p className="text-white/55 text-sm mb-6">
-                Planos a partir de R$ 29,90/mês — acesso imediato.
-              </p>
-              <button
-                onClick={() => document.getElementById('planos')?.scrollIntoView({ behavior: 'smooth' })}
-                className="inline-block px-8 py-3 rounded-lg text-sm font-semibold uppercase tracking-wide bg-cinema-red hover:bg-cinema-glow text-white transition-all duration-300 hover:scale-[1.02] shadow-button"
-              >
-                Ver planos
-              </button>
-            </div>
-          </motion.div>
         </section>
 
-        {/* 6. Chamada final */}
+        {/* 3. Como funciona */}
+        <HowItWorks />
+
+        {/* 4. Planos */}
+        <div id="planos">
+          <PlansSection onOpenChatWithPlan={openChatWithMessage} />
+        </div>
+
+        {/* 5. Garantia 30 dias */}
+        <Guarantee />
+
+        {/* 6. Storytelling em carrossel */}
+        <div id="sobre">
+          <SeuJoaoStory />
+        </div>
+
+        {/* 7. Prova social */}
+        <SocialProof />
+
+        {/* 8. Chamada final */}
         <FinalCTA />
       </main>
       <Footer />
