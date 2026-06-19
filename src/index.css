@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -84,14 +84,21 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
     background: var(--gradient-cinema);
     min-height: 100vh;
   }
 
-  /* Cinema title font */
+  @media (min-width: 768px) {
+    body { font-size: 18px; }
+  }
+
+  /* Cinema title font - profissional e legível */
   .font-cinema {
-    font-family: 'Bebas Neue', 'Inter', sans-serif;
-    letter-spacing: 0.05em;
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.015em;
   }
 
   /* Custom scrollbar */
