@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ShieldCheck, Play, Truck, Lock, Award, Star } from 'lucide-react';
-import logoAsset from '@/assets/cineflixpayment-logo.jpg.asset.json';
+import logoImg from '@/assets/cineflixpayment-logo.png';
 
 const trustBar = [
   { Icon: Truck, label: 'Acesso Imediato' },
@@ -31,11 +31,11 @@ const ConversionHero = () => {
             className="text-center"
           >
             <img
-              src={logoAsset.url}
+              src={logoImg}
               alt="CineflixPayment"
-              width={1200}
-              height={400}
-              className="mx-auto w-full max-w-[420px] sm:max-w-2xl md:max-w-4xl mb-8 select-none drop-shadow-[0_0_50px_rgba(229,9,20,0.45)]"
+              width={1696}
+              height={608}
+              className="mx-auto w-full max-w-[520px] sm:max-w-3xl md:max-w-5xl mb-6 select-none drop-shadow-[0_0_60px_rgba(229,9,20,0.55)]"
             />
 
 
