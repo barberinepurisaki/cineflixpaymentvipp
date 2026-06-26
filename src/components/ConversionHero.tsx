@@ -20,14 +20,15 @@ const ConversionHero = () => {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className="relative z-10 flex flex-col items-center text-center max-w-md w-full"
       >
-        {/* Logo */}
+        {/* Logo with flash */}
         <img
           src={logoImg}
           alt="CineflixPayment"
           width={1696}
           height={608}
-          className="w-full max-w-[320px] md:max-w-md mb-10 select-none drop-shadow-[0_0_40px_rgba(229,9,20,0.45)]"
+          className="w-full max-w-[320px] md:max-w-md mb-10 select-none animate-logo-flash"
         />
+
 
         {/* Headline */}
         <h1 className="font-cinema text-4xl md:text-5xl font-extrabold leading-[1.05] tracking-tight mb-4">

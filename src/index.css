@@ -388,4 +388,28 @@
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }
+
+  @keyframes logo-flash {
+    0%, 18%, 22%, 100% {
+      filter: drop-shadow(0 0 28px rgba(229, 9, 20, 0.55));
+      opacity: 1;
+    }
+    20% {
+      filter: drop-shadow(0 0 60px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 90px rgba(229, 9, 20, 0.9));
+      opacity: 1;
+    }
+    50% {
+      filter: drop-shadow(0 0 18px rgba(229, 9, 20, 0.35));
+      opacity: 0.92;
+    }
+    70% {
+      filter: drop-shadow(0 0 70px rgba(255, 255, 255, 0.85)) drop-shadow(0 0 100px rgba(229, 9, 20, 0.95));
+      opacity: 1;
+    }
+  }
+
+  .animate-logo-flash {
+    animation: logo-flash 3.4s ease-in-out infinite;
+  }
 }
+
