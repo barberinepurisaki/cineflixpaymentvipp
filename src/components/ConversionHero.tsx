@@ -1,124 +1,67 @@
 import { motion } from 'framer-motion';
-import { ShieldCheck, Play, Truck, Lock, Award, Star } from 'lucide-react';
+import { ShieldCheck, Play, Star } from 'lucide-react';
 import logoImg from '@/assets/cineflixpayment-logo.png';
-
-const trustBar = [
-  { Icon: Truck, label: 'Acesso Imediato' },
-  { Icon: ShieldCheck, label: 'Garantia de 30 dias' },
-  { Icon: Lock, label: 'Pagamento Seguro' },
-  { Icon: Award, label: 'Catálogo 4K' },
-];
+import { openWhatsapp } from '@/lib/whatsapp';
 
 const ConversionHero = () => {
-  const scrollToPlans = () => {
-    document.getElementById('planos')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
   return (
-    <>
-      {/* HERO com fundo colmeia vermelho */}
-      <section
-        aria-label="Oferta principal"
-        className="relative bg-honeycomb px-4 pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden"
-      >
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-cinema-dark pointer-events-none" />
+    <section
+      aria-label="Oferta principal"
+      className="relative bg-honeycomb px-4 pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden"
+    >
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-cinema-dark pointer-events-none" />
 
-        <div className="container relative mx-auto max-w-5xl">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center"
-          >
-            <img
-              src={logoImg}
-              alt="CineflixPayment"
-              width={1696}
-              height={608}
-              className="mx-auto w-full max-w-[520px] sm:max-w-3xl md:max-w-5xl mb-6 select-none drop-shadow-[0_0_60px_rgba(229,9,20,0.55)]"
-            />
+      <div className="container relative mx-auto max-w-5xl">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <img
+            src={logoImg}
+            alt="CineflixPayment"
+            width={1696}
+            height={608}
+            className="mx-auto w-full max-w-[520px] sm:max-w-3xl md:max-w-5xl mb-6 select-none drop-shadow-[0_0_60px_rgba(229,9,20,0.55)]"
+          />
 
+          <h1 className="font-cinema text-3xl sm:text-4xl md:text-6xl text-white leading-[1.02] mb-5 tracking-tight">
+            Filmes, séries e canais ao vivo
+            <br className="hidden md:block" />
+            por <span className="text-cinema-red">R$ 29,90</span>.
+          </h1>
 
+          <p className="text-white/80 text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
+            Tudo num só app — no celular, Smart TV, TV Box ou computador.
+          </p>
 
-            <h1 className="font-cinema text-3xl sm:text-4xl md:text-6xl text-white leading-[1.02] mb-5 tracking-tight">
-              Todo o entretenimento da sua casa
-              <br className="hidden md:block" />
-              em <span className="text-cinema-red">um único app</span>.
-              Por <span className="text-cinema-red">R$ 29,90</span>.
-            </h1>
-
-            <p className="text-white/80 text-base md:text-lg max-w-2xl mx-auto mb-4 leading-relaxed">
-              A CineflixPayment reúne <span className="text-white font-semibold">filmes, séries, futebol ao vivo,
-              canais fechados e lançamentos em 4K</span> — tudo no seu celular, Smart TV, TV Box ou computador.
+          <div className="flex flex-col items-center gap-3 mb-6">
+            <button
+              onClick={() => openWhatsapp()}
+              className="inline-flex items-center gap-2 px-9 py-4 rounded-xl font-bold text-sm md:text-base bg-cinema-red hover:bg-cinema-red-glow text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 hover:scale-[1.03] tracking-wide uppercase animate-pulse-glow"
+            >
+              <Play className="w-4 h-4 fill-white" />
+              Quero assinar agora
+            </button>
+            <p className="text-white/60 text-xs">
+              <ShieldCheck className="w-3.5 h-3.5 inline text-emerald-500 mr-1" />
+              Atendimento direto no WhatsApp
             </p>
-            <p className="text-white/65 text-sm md:text-base max-w-2xl mx-auto mb-7">
-              Sem contrato, sem fidelidade e com suporte humano 24h. Você paga uma vez e assiste o quanto quiser.
-            </p>
+          </div>
 
-
-            {/* Comparação de preço */}
-            <div className="max-w-md mx-auto mb-8 bg-honeycomb border border-cinema-red/40 rounded-2xl p-5 text-left shadow-glow relative overflow-hidden">
-              <div className="absolute inset-0 bg-black/35 pointer-events-none" />
-              <div className="relative">
-
-              <p className="text-white/60 text-[11px] uppercase tracking-widest mb-3 text-center">
-                Compare e comprove
-              </p>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center justify-between text-white/70">
-                  <span>Netflix Premium</span>
-                  <span className="line-through text-white/50">R$ 55,90</span>
-                </li>
-                <li className="flex items-center justify-between text-white/70">
-                  <span>Disney+ Padrão</span>
-                  <span className="line-through text-white/50">R$ 33,90</span>
-                </li>
-                <li className="flex items-center justify-between text-white/70">
-                  <span>Premiere (futebol)</span>
-                  <span className="line-through text-white/50">R$ 89,90</span>
-                </li>
-                <li className="flex items-center justify-between pt-3 mt-2 border-t border-white/10">
-                  <span className="text-white font-semibold">CineflixPayment</span>
-                  <span className="text-cinema-red font-bold text-lg">R$ 29,90</span>
-                </li>
-              </ul>
-              <p className="text-center text-emerald-400 text-xs font-semibold mt-3">
-                Economia de R$ 149,80 por mês
-              </p>
-              </div>
+          <div className="inline-flex items-center gap-2 text-xs md:text-sm text-white/70">
+            <div className="flex gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-cinema-gold text-cinema-gold" />
+              ))}
             </div>
-
-
-            {/* CTA */}
-            <div className="flex flex-col items-center gap-3 mb-8">
-              <button
-                onClick={scrollToPlans}
-                className="inline-flex items-center gap-2 px-9 py-4 rounded-xl font-bold text-sm md:text-base bg-cinema-red hover:bg-cinema-red-glow text-white shadow-glow hover:shadow-glow-lg transition-all duration-300 hover:scale-[1.03] tracking-wide uppercase animate-pulse-glow"
-              >
-                <Play className="w-4 h-4 fill-white" />
-                Quero assinar agora
-              </button>
-              <p className="text-white/60 text-xs">
-                <ShieldCheck className="w-3.5 h-3.5 inline text-emerald-500 mr-1" />
-                Garantia de 30 dias · Cancele quando quiser
-              </p>
-            </div>
-
-            {/* Mini prova social */}
-            <div className="inline-flex items-center gap-2 text-xs md:text-sm text-white/70">
-              <div className="flex gap-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-cinema-gold text-cinema-gold" />
-                ))}
-              </div>
-              <span className="font-semibold text-white">4,9/5</span>
-              <span className="text-white/60">· +2.200 clientes ativos</span>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-    </>
+            <span className="font-semibold text-white">4,9/5</span>
+            <span className="text-white/60">· clientes ativos</span>
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 };
 
