@@ -436,16 +436,19 @@ const CheckoutReceipt = () => {
 
           {/* Corpo preto */}
           <div className="px-6 py-5 bg-gradient-to-b from-black via-zinc-950 to-black">
-            <DialogDescription className="text-white/80 text-center leading-relaxed text-[15px]">
-              Gostaria de conhecer {newClientLabel}. Eu prezo muito em ter uma{' '}
-              <span className="text-red-500 font-semibold">boa relação com meus clientes</span> — por isso jamais vou receber algo seu sem antes conversar com você.
-              <br /><br />
-              Você pode até encontrar algo mais barato, mas <span className="text-red-500 font-semibold">não presta</span>. O que estou te oferecendo não é um plano qualquer e nem uma assinatura comum — é uma <span className="text-red-500 font-semibold">experiência única</span>.
-              <br /><br />
-              Por isso preciso que você me chame agora no WhatsApp, para que eu possa te receber da melhor forma possível.
-              <br /><br />
-              <span className="text-white/70 italic">Um xeiro.</span>
+            <DialogDescription asChild>
+              <div className="font-cinema text-white/90 text-center leading-[1.35] text-[22px] tracking-wide">
+                Gostaria de conhecer {newClientLabel}. Eu prezo muito em ter uma{' '}
+                <span className="text-red-500">boa relação com meus clientes</span> — por isso jamais vou receber algo seu sem antes conversar com você.
+                <br /><br />
+                Você pode até encontrar algo mais barato, mas <span className="text-red-500">não presta</span>. O que estou te oferecendo não é um plano qualquer e nem uma assinatura comum — é uma <span className="text-red-500">experiência única</span>.
+                <br /><br />
+                Por isso preciso que você me chame agora no WhatsApp, para que eu possa te receber da melhor forma possível.
+                <br /><br />
+                <span className="text-white/70">Um xeiro.</span>
+              </div>
             </DialogDescription>
+
 
             <div className="mx-2 my-5 border-t border-dashed border-red-600/30" />
 
