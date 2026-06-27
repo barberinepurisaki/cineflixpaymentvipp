@@ -2,12 +2,26 @@ import { useEffect, useRef, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import {
   CheckCircle2, Clock, CreditCard, MessageCircle, ArrowLeft,
-  ShieldCheck, Ticket, Film, Lock, Headphones, Sparkles, Star, Calendar, Download,
+  ShieldCheck, Ticket, Film, Lock, Headphones, Sparkles, Star, Calendar, Download, Heart,
 } from 'lucide-react';
 import { plans, upsells, KIRVANO_LINKS, WHATSAPP_NUMBER } from '@/data/cineflix';
 import cineflixLogo from '@/assets/cineflix-logo.png';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+
+// Heurística simples para detectar gênero pelo primeiro nome (pt-BR)
+const detectGender = (fullName: string): 'f' | 'm' => {
+  const first = (fullName || '').trim().split(/\s+/)[0]?.toLowerCase() || '';
+  if (!first) return 'm';
+  const female = ['maria','ana','julia','júlia','beatriz','sophia','sofia','helena','laura','alice','manuela','luiza','luísa','luisa','valentina','isabella','isabela','heloisa','heloísa','lara','mariana','livia','lívia','rafaela','larissa','gabriela','leticia','letícia','amanda','camila','fernanda','patricia','patrícia','aline','andressa','adriana','vanessa','viviane','renata','tatiana','tatiane','daniele','daniela','priscila','elaine','ellen','ester','ellena','helen','michele','michelle','mirella','natalia','natália','nicole','rebeca','sara','sarah','tainá','tainara','vitória','vitoria','yasmin','agatha','ágata','marcia','márcia','rosana','rosa','silvana','sandra','soraia','simone','suelen','sueli','suzana','susana','teresa','terezinha','wanda','zilda','elisa','elis','aurora','aurea','áurea','carol','carolina','carla','cintia','cíntia','cris','cristina','denise','debora','débora','diana','edna','elaine','eliana','eliane','elis','flavia','flávia','gisele','giselle','irene','jaqueline','jacqueline','janaina','janaína','joana','joice','katia','kátia','keila','kelly','lais','laís','lidia','lídia','luana','lucia','lúcia','luciene','luana','marcela','marcelle','marcia','marcela','margarida','marta','melissa','milena','monica','mônica','nadia','nádia','olivia','olívia','paula','paulina','poliana','raquel','regina','rita','sabrina','silvia','sílvia','solange','sonia','sônia','tania','tânia','thais','thaís','valeria','valéria','vera','wilma','elena','helena','ellena','iara','ivone','ivonete','marlene','marília','marilia','rosangela','rosângela','rosemary','vania','vânia'];
+  if (female.includes(first)) return 'f';
+  // Sufixo: termina em "a" tende a ser feminino (com exceções básicas)
+  const maleEndingA = ['joshua','noa','dida','tica'];
+  if (/a$/.test(first) && !maleEndingA.includes(first)) return 'f';
+  if (/(elle|ette|ine|inne|yn|lyn)$/.test(first)) return 'f';
+  return 'm';
+};
 
 const CheckoutReceipt = () => {
   const [searchParams] = useSearchParams();
