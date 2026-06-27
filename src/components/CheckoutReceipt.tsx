@@ -407,39 +407,68 @@ const CheckoutReceipt = () => {
         </div>
       </div>
 
-      {/* POPUP: Conversa antes de finalizar */}
+      {/* POPUP: Conversa antes de finalizar — padrão CineflixPayment (preto + vermelho) */}
       <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-        <DialogContent className="bg-gradient-to-b from-zinc-950 to-black border border-red-600/40 text-white sm:max-w-md shadow-[0_0_60px_rgba(220,38,38,0.35)]">
-          <DialogHeader>
-            <div className="mx-auto w-12 h-12 rounded-full bg-red-600/15 border border-red-500/40 flex items-center justify-center mb-2">
-              <Heart className="w-6 h-6 text-red-500" />
+        <DialogContent className="bg-black border border-red-600/50 text-white sm:max-w-md p-0 overflow-hidden shadow-[0_0_80px_rgba(220,38,38,0.45)]">
+          {/* Faixa cinematográfica superior */}
+          <div className="h-3 bg-black flex items-center justify-around px-2 border-b border-red-600/40">
+            {Array.from({ length: 14 }).map((_, i) => (
+              <div key={i} className="w-1.5 h-1.5 rounded-sm bg-red-600/50" />
+            ))}
+          </div>
+
+          {/* Header vermelho */}
+          <div className="relative px-6 py-5 text-center overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-red-700 via-red-900 to-black" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.22),transparent_60%)]" />
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/60 border border-white/25 mb-3 backdrop-blur-sm">
+                <Ticket className="w-3.5 h-3.5 text-white" />
+                <span className="text-white text-[10px] font-bold tracking-[0.3em]">CINEFLIXPAYMENT</span>
+              </div>
+              <DialogHeader className="space-y-0">
+                <DialogTitle className="text-center text-2xl font-cinema tracking-wide text-white">
+                  Calma, {treat}!
+                </DialogTitle>
+              </DialogHeader>
             </div>
-            <DialogTitle className="text-center text-xl font-cinema tracking-wide">
-              Calma, {treat}!
-            </DialogTitle>
-            <DialogDescription className="text-white/75 text-center leading-relaxed pt-2">
-              Gostaria de conhecer {newClientLabel}. Saiba que eu prezo muito em ter uma boa relação com meus clientes — por isso{' '}
-              <span className="text-red-400 font-semibold">jamais vou receber algo seu sem antes conversar com você</span>.
+          </div>
+
+          {/* Corpo preto */}
+          <div className="px-6 py-5 bg-gradient-to-b from-black via-zinc-950 to-black">
+            <DialogDescription className="text-white/80 text-center leading-relaxed text-[15px]">
+              Gostaria de conhecer {newClientLabel}. Eu prezo muito em ter uma{' '}
+              <span className="text-red-500 font-semibold">boa relação com meus clientes</span> — por isso jamais vou receber algo seu sem antes conversar com você.
               <br /><br />
-              Me envie uma mensagem no <span className="text-green-400 font-semibold">WhatsApp</span> agora.
+              Me envie uma mensagem agora.
               <br />
-              Cuida-te, {treatCap.toLowerCase()}, te aguardo lá.
+              <span className="text-white/60">Cuida-te, te aguardo lá.</span>
             </DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col gap-2 pt-2">
-            <button
-              onClick={() => { setConfirmOpen(false); goToWhatsapp(); }}
-              className="w-full py-3.5 rounded-xl bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-green-600/30 transition-all"
-            >
-              <MessageCircle className="w-5 h-5" />
-              Falar com a CineflixPayment
-            </button>
-            <button
-              onClick={() => setConfirmOpen(false)}
-              className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/70 text-sm font-medium transition-colors"
-            >
-              Agora não
-            </button>
+
+            <div className="mx-2 my-5 border-t border-dashed border-red-600/30" />
+
+            <div className="flex flex-col gap-2.5">
+              <button
+                onClick={() => { setConfirmOpen(false); goToWhatsapp(); }}
+                className="w-full py-3.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-red-600/40 transition-all duration-300 hover:scale-[1.02] uppercase tracking-wider text-sm"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Falar com a CineflixPayment
+              </button>
+              <button
+                onClick={() => setConfirmOpen(false)}
+                className="w-full py-2.5 rounded-xl bg-transparent border border-white/15 hover:border-red-600/50 text-white/70 hover:text-white text-xs font-semibold uppercase tracking-widest transition-colors"
+              >
+                Agora não
+              </button>
+            </div>
+          </div>
+
+          {/* Faixa cinematográfica inferior */}
+          <div className="h-3 bg-black flex items-center justify-around px-2 border-t border-red-600/40">
+            {Array.from({ length: 14 }).map((_, i) => (
+              <div key={i} className="w-1.5 h-1.5 rounded-sm bg-red-600/50" />
+            ))}
           </div>
         </DialogContent>
       </Dialog>
