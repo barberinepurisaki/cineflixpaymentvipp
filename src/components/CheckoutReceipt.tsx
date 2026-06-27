@@ -2,18 +2,33 @@ import { useEffect, useRef, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import {
   CheckCircle2, Clock, CreditCard, MessageCircle, ArrowLeft,
-  ShieldCheck, Ticket, Film, Lock, Headphones, Sparkles, Star, Calendar, Download,
+  ShieldCheck, Ticket, Film, Lock, Headphones, Sparkles, Star, Calendar, Download, Heart,
 } from 'lucide-react';
 import { plans, upsells, KIRVANO_LINKS, WHATSAPP_NUMBER } from '@/data/cineflix';
 import cineflixLogo from '@/assets/cineflix-logo.png';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+
+// Heurística simples para detectar gênero pelo primeiro nome (pt-BR)
+const detectGender = (fullName: string): 'f' | 'm' => {
+  const first = (fullName || '').trim().split(/\s+/)[0]?.toLowerCase() || '';
+  if (!first) return 'm';
+  const female = ['maria','ana','julia','júlia','beatriz','sophia','sofia','helena','laura','alice','manuela','luiza','luísa','luisa','valentina','isabella','isabela','heloisa','heloísa','lara','mariana','livia','lívia','rafaela','larissa','gabriela','leticia','letícia','amanda','camila','fernanda','patricia','patrícia','aline','andressa','adriana','vanessa','viviane','renata','tatiana','tatiane','daniele','daniela','priscila','elaine','ellen','ester','ellena','helen','michele','michelle','mirella','natalia','natália','nicole','rebeca','sara','sarah','tainá','tainara','vitória','vitoria','yasmin','agatha','ágata','marcia','márcia','rosana','rosa','silvana','sandra','soraia','simone','suelen','sueli','suzana','susana','teresa','terezinha','wanda','zilda','elisa','elis','aurora','aurea','áurea','carol','carolina','carla','cintia','cíntia','cris','cristina','denise','debora','débora','diana','edna','elaine','eliana','eliane','elis','flavia','flávia','gisele','giselle','irene','jaqueline','jacqueline','janaina','janaína','joana','joice','katia','kátia','keila','kelly','lais','laís','lidia','lídia','luana','lucia','lúcia','luciene','luana','marcela','marcelle','marcia','marcela','margarida','marta','melissa','milena','monica','mônica','nadia','nádia','olivia','olívia','paula','paulina','poliana','raquel','regina','rita','sabrina','silvia','sílvia','solange','sonia','sônia','tania','tânia','thais','thaís','valeria','valéria','vera','wilma','elena','helena','ellena','iara','ivone','ivonete','marlene','marília','marilia','rosangela','rosângela','rosemary','vania','vânia'];
+  if (female.includes(first)) return 'f';
+  // Sufixo: termina em "a" tende a ser feminino (com exceções básicas)
+  const maleEndingA = ['joshua','noa','dida','tica'];
+  if (/a$/.test(first) && !maleEndingA.includes(first)) return 'f';
+  if (/(elle|ette|ine|inne|yn|lyn)$/.test(first)) return 'f';
+  return 'm';
+};
 
 const CheckoutReceipt = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [downloading, setDownloading] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const ticketRef = useRef<HTMLDivElement>(null);
 
   const planId = searchParams.get('plano') || '';
@@ -68,10 +83,17 @@ const CheckoutReceipt = () => {
     ].filter(Boolean).join('\n');
   };
 
-  const handlePayCard = () => window.open(KIRVANO_LINKS[plan.id], '_blank');
-  const handlePayWhats = () => {
+  const gender = detectGender(nome);
+  const isF = gender === 'f';
+  const treat = isF ? 'minha querida' : 'meu querido';
+  const treatCap = isF ? 'Minha querida' : 'Meu querido';
+  const newClientLabel = isF ? 'minha nova cliente' : 'meu novo cliente';
+
+  const goToWhatsapp = () => {
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(buildWhatsMessage())}`, '_blank');
   };
+  const handlePayCard = () => setConfirmOpen(true);
+  const handlePayWhats = () => setConfirmOpen(true);
 
   const handleDownloadPDF = async () => {
     if (!ticketRef.current || downloading) return;
@@ -384,6 +406,43 @@ const CheckoutReceipt = () => {
           </button>
         </div>
       </div>
+
+      {/* POPUP: Conversa antes de finalizar */}
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="bg-gradient-to-b from-zinc-950 to-black border border-red-600/40 text-white sm:max-w-md shadow-[0_0_60px_rgba(220,38,38,0.35)]">
+          <DialogHeader>
+            <div className="mx-auto w-12 h-12 rounded-full bg-red-600/15 border border-red-500/40 flex items-center justify-center mb-2">
+              <Heart className="w-6 h-6 text-red-500" />
+            </div>
+            <DialogTitle className="text-center text-xl font-cinema tracking-wide">
+              Calma, {treat}!
+            </DialogTitle>
+            <DialogDescription className="text-white/75 text-center leading-relaxed pt-2">
+              Gostaria de conhecer {newClientLabel}. Saiba que eu prezo muito em ter uma boa relação com meus clientes — por isso{' '}
+              <span className="text-red-400 font-semibold">jamais vou receber algo seu sem antes conversar com você</span>.
+              <br /><br />
+              Me envie uma mensagem no <span className="text-green-400 font-semibold">WhatsApp</span> agora.
+              <br />
+              Cuida-te, {treatCap.toLowerCase()}, te aguardo lá.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-2 pt-2">
+            <button
+              onClick={() => { setConfirmOpen(false); goToWhatsapp(); }}
+              className="w-full py-3.5 rounded-xl bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-green-600/30 transition-all"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Falar com a CineflixPayment
+            </button>
+            <button
+              onClick={() => setConfirmOpen(false)}
+              className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/70 text-sm font-medium transition-colors"
+            >
+              Agora não
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
