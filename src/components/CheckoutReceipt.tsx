@@ -83,10 +83,17 @@ const CheckoutReceipt = () => {
     ].filter(Boolean).join('\n');
   };
 
-  const handlePayCard = () => window.open(KIRVANO_LINKS[plan.id], '_blank');
-  const handlePayWhats = () => {
+  const gender = detectGender(nome);
+  const isF = gender === 'f';
+  const treat = isF ? 'minha querida' : 'meu querido';
+  const treatCap = isF ? 'Minha querida' : 'Meu querido';
+  const newClientLabel = isF ? 'minha nova cliente' : 'meu novo cliente';
+
+  const goToWhatsapp = () => {
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(buildWhatsMessage())}`, '_blank');
   };
+  const handlePayCard = () => setConfirmOpen(true);
+  const handlePayWhats = () => setConfirmOpen(true);
 
   const handleDownloadPDF = async () => {
     if (!ticketRef.current || downloading) return;
