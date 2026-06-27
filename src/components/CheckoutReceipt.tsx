@@ -28,6 +28,7 @@ const CheckoutReceipt = () => {
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [downloading, setDownloading] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const ticketRef = useRef<HTMLDivElement>(null);
 
   const planId = searchParams.get('plano') || '';
