@@ -406,6 +406,43 @@ const CheckoutReceipt = () => {
           </button>
         </div>
       </div>
+
+      {/* POPUP: Conversa antes de finalizar */}
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="bg-gradient-to-b from-zinc-950 to-black border border-red-600/40 text-white sm:max-w-md shadow-[0_0_60px_rgba(220,38,38,0.35)]">
+          <DialogHeader>
+            <div className="mx-auto w-12 h-12 rounded-full bg-red-600/15 border border-red-500/40 flex items-center justify-center mb-2">
+              <Heart className="w-6 h-6 text-red-500" />
+            </div>
+            <DialogTitle className="text-center text-xl font-cinema tracking-wide">
+              Calma, {treat}!
+            </DialogTitle>
+            <DialogDescription className="text-white/75 text-center leading-relaxed pt-2">
+              Gostaria de conhecer {newClientLabel}. Saiba que eu prezo muito em ter uma boa relação com meus clientes — por isso{' '}
+              <span className="text-red-400 font-semibold">jamais vou receber algo seu sem antes conversar com você</span>.
+              <br /><br />
+              Me envie uma mensagem no <span className="text-green-400 font-semibold">WhatsApp</span> agora.
+              <br />
+              Cuida-te, {treatCap.toLowerCase()}, te aguardo lá.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-2 pt-2">
+            <button
+              onClick={() => { setConfirmOpen(false); goToWhatsapp(); }}
+              className="w-full py-3.5 rounded-xl bg-green-600 hover:bg-green-500 text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-green-600/30 transition-all"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Falar com a CineflixPayment
+            </button>
+            <button
+              onClick={() => setConfirmOpen(false)}
+              className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/70 text-sm font-medium transition-colors"
+            >
+              Agora não
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
