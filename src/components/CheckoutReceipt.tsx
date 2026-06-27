@@ -440,9 +440,11 @@ const CheckoutReceipt = () => {
               Gostaria de conhecer {newClientLabel}. Eu prezo muito em ter uma{' '}
               <span className="text-red-500 font-semibold">boa relação com meus clientes</span> — por isso jamais vou receber algo seu sem antes conversar com você.
               <br /><br />
-              Me envie uma mensagem agora.
-              <br />
-              <span className="text-white/60">Cuida-te, te aguardo lá.</span>
+              Você pode até encontrar algo mais barato, mas <span className="text-red-500 font-semibold">não presta</span>. O que estou te oferecendo não é um plano qualquer e nem uma assinatura comum — é uma <span className="text-red-500 font-semibold">experiência única</span>.
+              <br /><br />
+              Por isso preciso que você me chame agora no WhatsApp, para que eu possa te receber da melhor forma possível.
+              <br /><br />
+              <span className="text-white/70 italic">Um xeiro.</span>
             </DialogDescription>
 
             <div className="mx-2 my-5 border-t border-dashed border-red-600/30" />
