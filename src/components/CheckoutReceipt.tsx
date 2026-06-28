@@ -62,7 +62,6 @@ const CheckoutReceipt = () => {
 
   const validityLabel = (() => {
     const d = new Date(currentTime);
-    if (plan.id === 'apk') return 'Acesso vitalício';
     if (plan.id === 'anual') { d.setFullYear(d.getFullYear() + 1); return `Válido até ${d.toLocaleDateString('pt-BR')}`; }
     if (plan.id === 'trimestral') { d.setMonth(d.getMonth() + 3); return `Válido até ${d.toLocaleDateString('pt-BR')}`; }
     d.setMonth(d.getMonth() + 1); return `Válido até ${d.toLocaleDateString('pt-BR')}`;
