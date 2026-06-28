@@ -31,11 +31,11 @@ const scenes: Scene[] = [
     image: scene4,
     alt: 'Estudando a solução',
     chapter: 'Capítulo 4',
-    caption: 'Foi estudar o problema. E descobriu: se todos os filmes e séries do planeta estivessem em um só app, tudo mudaria.',
+    caption: 'Foi estudar o problema. E descobriu: se todos os filmes e séries do planeta estivessem em um só acesso, tudo mudaria.',
   },
   {
     image: scene5,
-    alt: 'App fácil, sem travamento',
+    alt: 'Acesso fácil, sem travamento',
     chapter: 'Capítulo 5',
     caption: 'Fácil de usar, sem anúncio, sem travamento — a praticidade de ter um cinema inteiro na palma da mão.',
   },
@@ -43,7 +43,7 @@ const scenes: Scene[] = [
     image: scene6,
     alt: 'CineflixPayment hoje',
     chapter: 'Hoje',
-    caption: 'A CineflixPayment opera no dia a dia da sua casa. Filmes, séries & muito + — a melhor do Brasil, por tão pouco.',
+    caption: 'A CineflixPayment opera no dia a dia da sua casa. FILMES SÉRIES & MUITO + — a melhor do Brasil, por tão pouco.',
   },
 ];
 
