@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
-import { Sparkles, Zap, Shield, Tv, Smartphone, Trophy, Infinity as InfinityIcon, Globe } from 'lucide-react';
+import { Sparkles, Zap, Shield, Tv, Smartphone, Trophy, ShieldCheck, Globe } from 'lucide-react';
 
 const features = [
   { icon: Tv, title: '+15.000 Títulos', desc: 'Filmes, séries, animes e novelas atualizados toda semana.' },
   { icon: Zap, title: '4K Ultra HD', desc: 'Qualidade cinematográfica com áudio Dolby imersivo.' },
   { icon: Smartphone, title: 'Multi-Telas', desc: 'TV, celular, tablet, PC e Smart TV — tudo sincronizado.' },
   { icon: Shield, title: 'Sem Anúncios', desc: 'Experiência limpa, sem interrupções, sem propaganda.' },
-  { icon: InfinityIcon, title: 'APK Vitalício', desc: 'Compre uma vez, use para sempre. Garantia de 360 dias.' },
+  { icon: ShieldCheck, title: 'Garantia 30 Dias', desc: 'Satisfação garantida ou seu dinheiro de volta.' },
   { icon: Globe, title: 'Catálogo Global', desc: 'Conteúdo do Brasil, Coreia, Japão, EUA e Europa.' },
 ];
 
