@@ -11,7 +11,6 @@ import { Input } from '@/components/ui/input';
 import planMensalIcon from '@/assets/plan-mensal-new.png';
 import planTrimestralIcon from '@/assets/plan-trimestral-new.png';
 import planAnualIcon from '@/assets/plan-anual-new.png';
-import planApkIcon from '@/assets/plan-apk-icon.png';
 
 const PlansSection = () => {
   const navigate = useNavigate();
@@ -90,7 +89,6 @@ const PlansSection = () => {
       case 'mensal': return planMensalIcon;
       case 'trimestral': return planTrimestralIcon;
       case 'anual': return planAnualIcon;
-      case 'apk': return planApkIcon;
       default: return planMensalIcon;
     }
   };

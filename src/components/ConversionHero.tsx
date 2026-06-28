@@ -32,9 +32,9 @@ const ConversionHero = () => {
 
         {/* Headline */}
         <h1 className="font-cinema text-4xl md:text-5xl font-extrabold leading-[1.05] tracking-tight mb-4">
-          Filmes, séries
+          FILMES SÉRIES
           <br />
-          e muito mais.
+          & MUITO +
         </h1>
 
         {/* Subhead */}

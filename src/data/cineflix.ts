@@ -135,5 +135,4 @@ export const KIRVANO_LINKS: Record<string, string> = {
   mensal_2telas: 'https://pay.cakto.com.br/kmz4m8v_878535',
   trimestral: 'https://pay.cakto.com.br/3f3gp73_878540',
   anual: 'https://pay.cakto.com.br/yxqbt2g_878541',
-  apk: 'https://pay.cakto.com.br/n8rrwfq_735392',
 };
