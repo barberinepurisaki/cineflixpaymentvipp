@@ -113,7 +113,7 @@ const SeuJoaoStory = () => {
           <p className="text-white/80 text-base md:text-lg mb-5 leading-relaxed">
             Hoje você não precisa mais sair de casa nem pagar caro.
             A <span className="text-cinema-red font-semibold">CineflixPayment</span> é
-            <span className="text-white font-semibold"> filmes, séries & muito +</span> num app só.
+            <span className="text-white font-semibold"> FILMES SÉRIES & MUITO +</span> numa só plataforma.
           </p>
           <button
             onClick={() => document.getElementById('planos')?.scrollIntoView({ behavior: 'smooth' })}
