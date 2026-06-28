@@ -31,11 +31,11 @@ const scenes: Scene[] = [
     image: scene4,
     alt: 'Estudando a solução',
     chapter: 'Capítulo 4',
-    caption: 'Foi estudar o problema. E descobriu: se todos os filmes e séries do planeta estivessem em um só app, tudo mudaria.',
+    caption: 'Foi estudar o problema. E descobriu: se todos os filmes e séries do planeta estivessem em um só acesso, tudo mudaria.',
   },
   {
     image: scene5,
-    alt: 'App fácil, sem travamento',
+    alt: 'Acesso fácil, sem travamento',
     chapter: 'Capítulo 5',
     caption: 'Fácil de usar, sem anúncio, sem travamento — a praticidade de ter um cinema inteiro na palma da mão.',
   },
@@ -43,7 +43,7 @@ const scenes: Scene[] = [
     image: scene6,
     alt: 'CineflixPayment hoje',
     chapter: 'Hoje',
-    caption: 'A CineflixPayment opera no dia a dia da sua casa. Filmes, séries & muito + — a melhor do Brasil, por tão pouco.',
+    caption: 'A CineflixPayment opera no dia a dia da sua casa. FILMES SÉRIES & MUITO + — a melhor do Brasil, por tão pouco.',
   },
 ];
 
@@ -113,7 +113,7 @@ const SeuJoaoStory = () => {
           <p className="text-white/80 text-base md:text-lg mb-5 leading-relaxed">
             Hoje você não precisa mais sair de casa nem pagar caro.
             A <span className="text-cinema-red font-semibold">CineflixPayment</span> é
-            <span className="text-white font-semibold"> filmes, séries & muito +</span> num app só.
+            <span className="text-white font-semibold"> FILMES SÉRIES & MUITO +</span> numa só plataforma.
           </p>
           <button
             onClick={() => document.getElementById('planos')?.scrollIntoView({ behavior: 'smooth' })}
