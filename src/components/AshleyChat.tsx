@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Send, X, Check } from 'lucide-react';
+import { Send, X, Check, Film, Tv, User, UserRound, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ChatMessage, Plan } from '@/types';
@@ -15,20 +15,26 @@ interface AshleyChatProps {
   initialMessage?: string;
 }
 
-type ChatStep = 'greeting' | 'name' | 'gender' | 'recommendations' | 'plans' | 'upsell' | 'checkout' | 'recovery' | 'freeChat';
+type ChatStep =
+  | 'greeting'
+  | 'name'
+  | 'gender'
+  | 'recommendations'
+  | 'plans'
+  | 'upsell'
+  | 'checkout'
+  | 'freeChat';
 type UserGender = 'male' | 'female' | null;
 
-const TYPING_DELAY = 1200;
-const MESSAGE_INTERVAL = 1500;
+const TYPING_DELAY = 900;
+const MESSAGE_INTERVAL = 800;
 const MAX_INPUT_LEN = 500;
 
-// Generate a unique message id (avoids collisions on fast sequential adds)
 let __msgSeq = 0;
 const uid = () => `m_${Date.now()}_${++__msgSeq}_${Math.random().toString(36).slice(2, 7)}`;
 
-// Strip Markdown from AI responses
-const cleanAIResponse = (text: string): string => {
-  return (text || '')
+const cleanAIResponse = (text: string): string =>
+  (text || '')
     .replace(/\*\*/g, '')
     .replace(/\*/g, '')
     .replace(/^[-•●▪]\s*/gm, '')
@@ -36,40 +42,31 @@ const cleanAIResponse = (text: string): string => {
     .replace(/#{1,6}\s/g, '')
     .replace(/`{1,3}/g, '')
     .trim();
-};
 
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
-// Name → gender dictionary (Brazilian common names). Returns null when ambiguous.
 const MALE_NAMES = new Set([
   'lucas','joao','joão','pedro','miguel','gabriel','arthur','davi','david','bernardo','heitor','theo','enzo','lorenzo',
-  'matheus','mateus','nicolas','nicholas','samuel','rafael','vitor','victor','leonardo','leo','gustavo','henrique',
-  'felipe','filipe','daniel','andre','andré','carlos','paulo','marcos','marcelo','rodrigo','ricardo','eduardo','duda',
-  'fernando','bruno','thiago','tiago','alexandre','antonio','antônio','hemerson','francisco','chico','jose','josé',
-  'luiz','luis','luís','sergio','sérgio','jorge','fabio','fábio','diego','douglas','igor','isaac','joaquim','julio',
-  'júlio','mario','mário','mauro','otavio','otávio','pablo','renan','ruan','sandro','vinicius','vinícius','wesley',
-  'william','yuri','hugo','ian','juan','kauã','kauan','kaique','levi','murilo','noah','ravi','raul','vicente',
-  'caio','breno','arnaldo','elias','edson','adriano','alan','alex','alvaro','álvaro','benicio','benício','cesar','césar',
-  'cristiano','cristian','danilo','everton','emerson','erick','erik','fabricio','fabrício','geraldo','gilberto',
-  'guilherme','heron','italo','ítalo','ivan','jeferson','jefferson','joel','jonas','julian','kaio','kayo','leandro',
-  'lincoln','lucca','luca','marcio','márcio','marlon','martin','mateo','natanael','nelson','otto','oscar','óscar',
-  'patrick','rafa','renato','reinaldo','robson','romario','romário','sebastian','silas','tales','vagner','wagner',
-  'walter','washington','wellington','yago','iago','iuri','dante','dener','denis','dênis','flavio','flávio'
+  'matheus','mateus','nicolas','samuel','rafael','vitor','victor','leonardo','leo','gustavo','henrique','felipe','filipe',
+  'daniel','andre','andré','carlos','paulo','marcos','marcelo','rodrigo','ricardo','eduardo','fernando','bruno','thiago',
+  'tiago','alexandre','antonio','antônio','francisco','jose','josé','luiz','luis','luís','sergio','sérgio','jorge','fabio',
+  'fábio','diego','douglas','igor','isaac','julio','júlio','mario','mário','otavio','otávio','pablo','renan','vinicius',
+  'vinícius','wesley','william','yuri','hugo','ian','juan','kauã','kauan','levi','murilo','ravi','raul','vicente','caio',
+  'breno','elias','edson','adriano','alan','alex','cesar','césar','cristiano','danilo','everton','emerson','erick','erik',
+  'guilherme','ivan','jefferson','joel','jonas','kaio','leandro','lincoln','lucca','luca','marcio','márcio','marlon',
+  'nelson','oscar','patrick','renato','robson','wagner','walter','wellington','iago','flavio','flávio'
 ]);
 
 const FEMALE_NAMES = new Set([
   'julia','júlia','juliana','maria','ana','sofia','sophia','alice','laura','isabella','isabela','manuela','helena',
-  'valentina','lorena','livia','lívia','beatriz','bia','mariana','gabriela','rafaela','larissa','jessica','jéssica',
-  'fernanda','camila','amanda','leticia','letícia','vanessa','patricia','patrícia','sandra','claudia','cláudia',
-  'monica','mônica','carla','daniela','raquel','renata','debora','débora','eduarda','heloisa','heloísa','joana','lara',
-  'lavinia','lavínia','luiza','luísa','melissa','nicole','olivia','olívia','pietra','sarah','sara','tatiana','yasmin',
-  'agatha','ágata','alicia','alícia','antonella','aurora','bianca','bruna','cecilia','cecília','clara','elisa','emily',
-  'esther','ester','gabrielly','giovanna','isadora','lais','laís','marcela','marina','milena','miriam','nayara','paula',
-  'priscila','regina','rebeca','simone','stella','vitoria','vitória','vivian','hannah','hadassa','ingrid','iris','íris',
-  'kelly','kethelyn','laisa','laisla','lais','liz','lorraine','lucia','lúcia','luana','lis','marta','marcia','márcia',
-  'monique','natalia','natália','nathalia','natasha','rita','rosa','rose','rosana','sabrina','samira','sheila','silvia',
-  'sílvia','sofia','soraia','suelen','suzana','tais','taís','talita','tamires','tatiane','teresa','vera','virginia',
-  'virgínia','viviane','wanda','zilda','elis','eloah','eloá','aline','andrea','andréa','angela','ângela','carolina','carol'
+  'valentina','lorena','livia','lívia','beatriz','mariana','gabriela','rafaela','larissa','jessica','jéssica','fernanda',
+  'camila','amanda','leticia','letícia','vanessa','patricia','patrícia','sandra','claudia','cláudia','monica','mônica',
+  'carla','daniela','raquel','renata','debora','débora','eduarda','heloisa','heloísa','joana','lara','luiza','luísa',
+  'melissa','nicole','olivia','olívia','sarah','sara','tatiana','yasmin','bianca','bruna','cecilia','cecília','clara',
+  'elisa','esther','ester','giovanna','isadora','laís','marcela','marina','milena','paula','priscila','rebeca','simone',
+  'stella','vitoria','vitória','viviane','ingrid','kelly','lucia','lúcia','luana','marta','márcia','natalia','natália',
+  'natasha','rita','rosa','rosana','sabrina','sheila','silvia','sílvia','talita','tamires','teresa','vera','virginia',
+  'aline','andrea','angela','ângela','carolina','carol'
 ]);
 
 const guessGenderFromName = (name: string): 'male' | 'female' | null => {
@@ -77,12 +74,9 @@ const guessGenderFromName = (name: string): 'male' | 'female' | null => {
   if (!n) return null;
   if (MALE_NAMES.has(n)) return 'male';
   if (FEMALE_NAMES.has(n)) return 'female';
-  // Heuristic fallback: most PT-BR names ending in "a" are feminine, in "o" or consonant masculine.
   const last = n.slice(-1);
-  const last2 = n.slice(-2);
-  if (['a','á'].includes(last) && !['joshua','luca','elias','jonas'].includes(n)) return 'female';
-  if (['o','ó'].includes(last)) return 'male';
-  if (['el','er','as','os','im','om','um','ir','or','ur','ez','iz','az','uz'].includes(last2)) return 'male';
+  if (last === 'a' || last === 'á') return 'female';
+  if (last === 'o' || last === 'ó') return 'male';
   return null;
 };
 
@@ -102,7 +96,7 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messageQueueRef = useRef<string[]>([]);
   const processingQueueRef = useRef(false);
-  const hasStartedRef = useRef(false); // Prevents double-greeting (StrictMode / re-opens)
+  const hasStartedRef = useRef(false);
   const isMountedRef = useRef(true);
 
   useEffect(() => {
@@ -120,20 +114,16 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
     scrollToBottom();
   }, [messages, isTyping, scrollToBottom]);
 
-  // Sequential queue → preserves order, prevents duplicates
   const processMessageQueue = useCallback(async () => {
     if (processingQueueRef.current) return;
     processingQueueRef.current = true;
-
     try {
       while (messageQueueRef.current.length > 0) {
         const content = messageQueueRef.current.shift()!;
         if (!isMountedRef.current) break;
-
         setIsTyping(true);
         await sleep(TYPING_DELAY);
         if (!isMountedRef.current) break;
-
         setIsTyping(false);
         const newMessage: ChatMessage = {
           id: uid(),
@@ -143,10 +133,7 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
         };
         setMessages((prev) => [...prev, newMessage]);
         setConversationHistory((prev) => [...prev, { role: 'assistant', content }]);
-
-        if (messageQueueRef.current.length > 0) {
-          await sleep(MESSAGE_INTERVAL);
-        }
+        if (messageQueueRef.current.length > 0) await sleep(MESSAGE_INTERVAL);
       }
     } finally {
       processingQueueRef.current = false;
@@ -163,9 +150,7 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
     [processMessageQueue]
   );
 
-  // Wait until the queue is fully drained (used before AI responses)
   const waitForQueueIdle = useCallback(async () => {
-    // Poll lightly — queue resolves on its own
     let safety = 0;
     while ((processingQueueRef.current || messageQueueRef.current.length > 0) && safety < 200) {
       await sleep(100);
@@ -184,52 +169,40 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
     setConversationHistory((prev) => [...prev, { role: 'user', content }]);
   };
 
-  // AI response — funneled through the same queue to keep order
   const getAIResponse = async (userMessage: string) => {
     if (isAiLoading) return;
     setIsAiLoading(true);
-
     try {
       await waitForQueueIdle();
-
       const { data, error } = await supabase.functions.invoke('ashley-chat', {
-        body: {
-          userMessage,
-          userName,
-          userGender,
-          conversationHistory,
-          step,
-        },
+        body: { userMessage, userName, userGender, conversationHistory, step },
       });
-
       if (error) throw error;
-
-      const raw = data?.response || 'Me conta um pouco mais sobre o que você procura? 😊';
-      const response = cleanAIResponse(raw) || 'Me conta um pouco mais sobre o que você procura? 😊';
+      const raw = data?.response || 'Me conta um pouco mais sobre o que você procura?';
+      const response = cleanAIResponse(raw) || 'Me conta um pouco mais sobre o que você procura?';
       addBotMessage(response);
     } catch (err) {
       console.error('Ashley AI error:', err);
-      addBotMessage('Tive um probleminha rapidinho aqui 😅. Pode repetir sua última mensagem?');
+      addBotMessage('Tive um probleminha rapidinho aqui. Pode repetir sua última mensagem?');
     } finally {
       if (isMountedRef.current) setIsAiLoading(false);
     }
   };
 
-  // Initial greeting — protected against double-run
   useEffect(() => {
     if (!isOpen) return;
     if (hasStartedRef.current) return;
     hasStartedRef.current = true;
 
     const startSequence = async () => {
-      await sleep(600);
+      await sleep(400);
       if (initialMessage) {
         addBotMessage(initialMessage);
-        addBotMessage('Sou Ashley da CineflixPayment! 👋 Me diz seu nome pra eu te ajudar melhor?');
+        addBotMessage('Sou Ashley, da CineflixPayment. Me diz seu nome pra eu te atender melhor?');
       } else {
-        addBotMessage('Olá! Sou Ashley da CineflixPayment! 👋');
-        addBotMessage('Vou te ajudar a escolher o melhor plano pra você 🎬');
-        addBotMessage('Qual é o seu nome? 😊');
+        addBotMessage('Olá! Sou Ashley, da CineflixPayment.');
+        addBotMessage('Vou te ajudar a escolher o melhor plano em menos de 1 minuto.');
+        addBotMessage('Como posso te chamar?');
       }
       setStep('name');
     };
@@ -262,6 +235,22 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
     return null;
   };
 
+  const showGenderRecommendations = async (gender: 'male' | 'female') => {
+    setStep('recommendations');
+    const intro =
+      gender === 'male'
+        ? `Show, ${userName}. Separei o catálogo ideal pra você:`
+        : `Perfeito, ${userName}. Preparei o conteúdo ideal pra você:`;
+    addBotMessage(intro);
+    const recs =
+      gender === 'male'
+        ? 'Ação, futebol ao vivo com Champions e Libertadores, super-heróis Marvel e DC, e sagas completas em 4K.'
+        : 'K-Dramas mais assistidos, séries românticas, reality shows, novelas turcas e muito mais.';
+    addBotMessage(recs);
+    addBotMessage('E tem muito além disso. Escolha seu plano abaixo pra liberar tudo:');
+    setStep('plans');
+  };
+
   const handleSend = async () => {
     const raw = input.trim();
     if (!raw || isAiLoading) return;
@@ -277,17 +266,16 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
       if (extractedName) {
         setUserName(extractedName);
         const guessed = guessGenderFromName(extractedName);
-        addBotMessage(`Prazer em te conhecer, ${extractedName}! 😊`);
+        addBotMessage(`Prazer em te conhecer, ${extractedName}.`);
         if (guessed) {
-          // Pula a pergunta de gênero — Ashley já deduziu pelo nome
           setUserGender(guessed);
           await showGenderRecommendations(guessed);
         } else {
-          addBotMessage('Pra eu te recomendar os melhores conteúdos: você curte mais conteúdo masculino ou feminino? 🤔');
+          addBotMessage('Você prefere conteúdo mais masculino ou feminino? Assim eu recomendo melhor.');
           setStep('gender');
         }
       } else {
-        addBotMessage('Não peguei seu nome 😅. Pode me dizer só seu primeiro nome?');
+        addBotMessage('Não peguei seu nome. Pode me dizer só seu primeiro nome?');
       }
       return;
     }
@@ -303,30 +291,12 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
         setUserGender('female');
         await showGenderRecommendations('female');
       } else {
-        addBotMessage('Me diz: você é homem ou mulher? 😊');
+        addBotMessage('Me diz: homem ou mulher?');
       }
       return;
     }
 
-    // Free conversation (recommendations / plans / freeChat / recovery)
     await getAIResponse(text);
-  };
-
-  const showGenderRecommendations = async (gender: 'male' | 'female') => {
-    setStep('recommendations');
-    const intro =
-      gender === 'male'
-        ? `Show, ${userName}! Olha o catálogo que separei pra você 🔥`
-        : `Perfeito, ${userName}! Preparei o conteúdo ideal pra você 💖`;
-    addBotMessage(intro);
-
-    const recs =
-      gender === 'male'
-        ? 'Temos filmes de ação, futebol ao vivo com Champions e Libertadores, super-heróis da Marvel e DC, e toda a saga Velozes e Furiosos em 4K! 🎬'
-        : 'Temos os K-Dramas mais assistidos, séries românticas, reality shows como BBB, e as novelas turcas que todo mundo ama! 💕';
-    addBotMessage(recs);
-    addBotMessage('E tem muito mais! Escolha seu plano abaixo pra desbloquear tudo 👇');
-    setStep('plans');
   };
 
   const handleSelectGender = (gender: 'male' | 'female') => {
@@ -340,8 +310,8 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
     if (isAiLoading) return;
     setSelectedPlan(plan);
     addUserMessage(`Quero o ${plan.name}`);
-    addBotMessage(`Excelente escolha, ${userName || 'amigo(a)'}! O ${plan.name} é perfeito! 🎉`);
-    addBotMessage('Quer turbinar sua experiência com adicionais exclusivos? 🚀');
+    addBotMessage(`Excelente escolha, ${userName || 'cliente'}. ${plan.name} é a pedida certa.`);
+    addBotMessage('Quer turbinar sua experiência com algum adicional? (opcional)');
     setStep('upsell');
   };
 
@@ -363,21 +333,14 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
   const handleConfirmUpsells = () => {
     if (!selectedPlan) return;
     setStep('checkout');
-
     const upsellParam = selectedUpsells.length > 0 ? `&upsells=${selectedUpsells.join(',')}` : '';
     const nomeParam = encodeURIComponent(userName || 'Cliente');
     const url = `/comprovante?plano=${selectedPlan.id}&nome=${nomeParam}${upsellParam}`;
-
-    addBotMessage(`Perfeito, ${userName || 'amigo(a)'}! Gerando seu comprovante oficial... 🎟️`);
+    addBotMessage(`Perfeito, ${userName || 'cliente'}. Gerando seu comprovante oficial...`);
     setTimeout(() => {
       navigate(url);
       onClose();
-    }, 1800);
-  };
-
-  const handleClose = () => {
-    // Stops timers/animations; we keep history so user can resume
-    onClose();
+    }, 1400);
   };
 
   if (!isOpen) return null;
@@ -385,154 +348,186 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
   const canType =
     step === 'name' ||
     step === 'gender' ||
-    step === 'recovery' ||
     step === 'freeChat' ||
     step === 'plans' ||
     step === 'recommendations';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
       <div
-        className="w-full max-w-md h-[85vh] max-h-[700px] bg-gradient-to-b from-cinema-panel to-cinema-dark rounded-2xl overflow-hidden flex flex-col shadow-2xl border border-white/5 animate-scale-in"
+        className="w-full sm:max-w-md h-[100dvh] sm:h-[80dvh] sm:max-h-[640px] bg-gradient-to-b from-cinema-panel to-cinema-dark sm:rounded-2xl overflow-hidden flex flex-col shadow-2xl border border-white/5 animate-scale-in text-[14px] leading-normal"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="bg-gradient-to-r from-cinema-red to-cinema-glow p-4 flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center overflow-hidden">
-            <img src={cineflixLogo} alt="Logo CineflixPayment" className="w-10 h-10 object-contain" />
+        {/* Header — compacto */}
+        <div className="bg-gradient-to-r from-cinema-red to-cinema-glow px-3 py-2.5 flex items-center gap-2.5 shrink-0">
+          <div className="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center overflow-hidden shrink-0">
+            <img src={cineflixLogo} alt="CineflixPayment" className="w-7 h-7 object-contain" />
           </div>
-          <div className="flex-1">
-            <h3 className="font-bold text-white">CineflixPayment</h3>
-            <p className="text-white/80 text-sm flex items-center gap-2">
-              Ashley — Assistente VIP
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-white text-[14px] leading-tight truncate">CineflixPayment</h3>
+            <p className="text-white/85 text-[11px] flex items-center gap-1.5 leading-tight">
+              Ashley — atendimento
+              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
             </p>
           </div>
           <button
-            onClick={handleClose}
+            onClick={onClose}
             aria-label="Fechar chat"
-            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors shrink-0"
           >
-            <X className="w-5 h-5 text-white" />
+            <X className="w-4 h-4 text-white" />
           </button>
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2.5">
           {messages.map((msg) => (
             <div
               key={msg.id}
               className={cn(
-                'max-w-[85%] p-3 rounded-2xl animate-fade-in whitespace-pre-wrap break-words',
+                'max-w-[85%] px-3 py-2 rounded-2xl text-[14px] leading-snug whitespace-pre-wrap break-words animate-fade-in',
                 msg.sender === 'bot'
-                  ? 'bg-cinema-panel text-white rounded-bl-none'
-                  : 'bg-cinema-red text-white ml-auto rounded-br-none'
+                  ? 'bg-cinema-panel text-white rounded-bl-sm'
+                  : 'bg-cinema-red text-white ml-auto rounded-br-sm'
               )}
             >
               {msg.content}
             </div>
           ))}
 
-          {/* Gender selection buttons */}
+          {/* Gender selection */}
           {step === 'gender' && !isTyping && (
-            <div className="flex gap-3 animate-slide-up">
+            <div className="flex gap-2 pt-1 animate-slide-up">
               <button
                 onClick={() => handleSelectGender('male')}
-                className="flex-1 p-4 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 transition-all"
+                className="flex-1 py-3 px-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cinema-red/60 transition-all flex flex-col items-center gap-1.5"
               >
-                <span className="text-3xl mb-2 block">👨</span>
-                <span className="font-semibold text-white">Sou Homem</span>
+                <User className="w-5 h-5 text-white/90" />
+                <span className="text-[13px] font-medium text-white">Sou homem</span>
               </button>
               <button
                 onClick={() => handleSelectGender('female')}
-                className="flex-1 p-4 rounded-xl bg-pink-600/20 hover:bg-pink-600/30 border border-pink-500/30 transition-all"
+                className="flex-1 py-3 px-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cinema-red/60 transition-all flex flex-col items-center gap-1.5"
               >
-                <span className="text-3xl mb-2 block">👩</span>
-                <span className="font-semibold text-white">Sou Mulher</span>
+                <UserRound className="w-5 h-5 text-white/90" />
+                <span className="text-[13px] font-medium text-white">Sou mulher</span>
               </button>
             </div>
           )}
 
-          {/* Plan selection */}
+          {/* Plan cards — compactos */}
           {step === 'plans' && !selectedPlan && !isTyping && (
-            <div className="space-y-3 animate-slide-up">
+            <div className="space-y-2 pt-1 animate-slide-up">
               {plans.map((plan) => (
-                <div
+                <button
                   key={plan.id}
-                  className={cn('plan-card cursor-pointer relative', plan.featured && 'featured')}
                   onClick={() => handleSelectPlan(plan)}
-                >
-                  {plan.discount && (
-                    <span className="absolute top-2 right-2 text-xs font-bold text-cinema-red bg-cinema-red/20 px-2 py-1 rounded">
-                      {plan.discount}
-                    </span>
+                  className={cn(
+                    'w-full text-left p-3 rounded-xl border transition-all',
+                    plan.featured
+                      ? 'bg-cinema-red/10 border-cinema-red/60 hover:bg-cinema-red/15'
+                      : 'bg-white/5 border-white/10 hover:border-white/25'
                   )}
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-2xl">{plan.icon}</span>
-                    <span className="font-bold">{plan.name}</span>
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1.5">
+                    <div className="flex items-center gap-2">
+                      {plan.featured ? (
+                        <Sparkles className="w-4 h-4 text-cinema-red" />
+                      ) : (
+                        <Tv className="w-4 h-4 text-white/70" />
+                      )}
+                      <span className="font-semibold text-white text-[13.5px]">{plan.name}</span>
+                    </div>
+                    {plan.discount && (
+                      <span className="text-[10px] font-bold text-cinema-red bg-cinema-red/15 px-1.5 py-0.5 rounded uppercase tracking-wide">
+                        {plan.discount}
+                      </span>
+                    )}
                   </div>
-                  <div className="text-2xl font-bold text-cinema-glow mb-2">
-                    R$ {plan.price.toFixed(2)}
-                    <span className="text-sm text-muted-foreground font-normal">{plan.period}</span>
+                  <div className="text-lg font-bold text-white mb-1.5">
+                    R$ {plan.price.toFixed(2).replace('.', ',')}
+                    <span className="text-[11px] text-white/60 font-normal ml-1">{plan.period}</span>
                   </div>
-                  <ul className="text-sm text-muted-foreground space-y-1">
+                  <ul className="text-[12px] text-white/70 space-y-1">
                     {plan.features.slice(0, 3).map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2">
-                        <Check className="w-3 h-3 text-cinema-red" />
-                        {feature}
+                      <li key={i} className="flex items-start gap-1.5">
+                        <Check className="w-3 h-3 text-cinema-red mt-0.5 shrink-0" />
+                        <span>{feature}</span>
                       </li>
                     ))}
                   </ul>
-                </div>
+                </button>
               ))}
             </div>
           )}
 
           {/* Upsell selection */}
           {step === 'upsell' && !isTyping && (
-            <div className="space-y-3 animate-slide-up">
-              {upsells.map((upsell) => (
-                <div
-                  key={upsell.id}
-                  className={cn('upsell-option', selectedUpsells.includes(upsell.id) && 'selected')}
-                  onClick={() => toggleUpsell(upsell.id)}
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedUpsells.includes(upsell.id)}
-                    onChange={() => {}}
-                    className="w-5 h-5 rounded border-white/20 bg-transparent text-cinema-red focus:ring-cinema-red"
-                  />
-                  <div className="flex-1">
-                    <div className="font-semibold">{upsell.name}</div>
-                    <div className="text-sm text-muted-foreground">{upsell.description}</div>
-                  </div>
-                  <span className="text-cinema-glow font-bold">R$ {upsell.price.toFixed(2)}</span>
-                </div>
-              ))}
+            <div className="space-y-2 pt-1 animate-slide-up">
+              {upsells.map((upsell) => {
+                const isSelected = selectedUpsells.includes(upsell.id);
+                return (
+                  <button
+                    key={upsell.id}
+                    type="button"
+                    onClick={() => toggleUpsell(upsell.id)}
+                    className={cn(
+                      'w-full flex items-center gap-2.5 p-3 rounded-xl border transition-all text-left',
+                      isSelected
+                        ? 'bg-cinema-red/10 border-cinema-red/60'
+                        : 'bg-white/5 border-white/10 hover:border-white/25'
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        'w-5 h-5 rounded border-2 flex items-center justify-center shrink-0',
+                        isSelected ? 'bg-cinema-red border-cinema-red' : 'border-white/30'
+                      )}
+                    >
+                      {isSelected && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-white text-[13px] leading-tight">{upsell.name}</div>
+                      <div className="text-[11px] text-white/60 leading-tight mt-0.5">{upsell.description}</div>
+                    </div>
+                    <span className="text-white font-bold text-[13px] shrink-0">
+                      + R$ {upsell.price.toFixed(2).replace('.', ',')}
+                    </span>
+                  </button>
+                );
+              })}
 
-              <div className="pt-4 border-t border-white/10">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-muted-foreground">Total:</span>
-                  <span className="text-2xl font-bold text-white">R$ {calculateTotal().toFixed(2)}</span>
+              <div className="pt-2 mt-1 border-t border-white/10">
+                <div className="flex justify-between items-center mb-2.5">
+                  <span className="text-white/60 text-[12px]">Total</span>
+                  <span className="text-lg font-bold text-white">
+                    R$ {calculateTotal().toFixed(2).replace('.', ',')}
+                  </span>
                 </div>
-                <Button variant="cinema" size="lg" className="w-full" onClick={handleConfirmUpsells}>
-                  ✅ CONFIRMAR ESCOLHAS
+                <Button variant="cinema" size="sm" className="w-full h-10 text-[13px]" onClick={handleConfirmUpsells}>
+                  <Film className="w-4 h-4 mr-1.5" />
+                  Continuar para o comprovante
                 </Button>
+                <button
+                  onClick={handleConfirmUpsells}
+                  className="w-full text-center text-[11px] text-white/50 hover:text-white/80 mt-2 underline underline-offset-2"
+                >
+                  Continuar sem adicionais
+                </button>
               </div>
             </div>
           )}
 
           {/* Typing indicator */}
           {(isTyping || isAiLoading) && (
-            <div className="max-w-[85%] p-4 rounded-2xl bg-cinema-panel rounded-bl-none">
-              <div className="flex items-center gap-2">
+            <div className="max-w-[70%] px-3 py-2.5 rounded-2xl bg-cinema-panel rounded-bl-sm">
+              <div className="flex items-center gap-1.5">
                 <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <div className="w-1.5 h-1.5 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <div className="w-1.5 h-1.5 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <div className="w-1.5 h-1.5 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
-                <span className="text-white/50 text-sm ml-2">Ashley está escrevendo...</span>
+                <span className="text-white/50 text-[11px] ml-1">Ashley está escrevendo</span>
               </div>
             </div>
           )}
@@ -542,7 +537,7 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
 
         {/* Input */}
         {canType && (
-          <div className="p-4 border-t border-white/5 bg-black/30">
+          <div className="p-2.5 border-t border-white/5 bg-black/40 shrink-0">
             <div className="flex gap-2">
               <Input
                 value={input}
@@ -555,23 +550,24 @@ const AshleyChat = ({ isOpen, onClose, initialMessage }: AshleyChatProps) => {
                 }}
                 placeholder={
                   step === 'name'
-                    ? 'Ex: Me chamo Lucas...'
+                    ? 'Seu primeiro nome'
                     : step === 'gender'
-                    ? 'Homem ou Mulher?'
-                    : 'Digite sua mensagem...'
+                    ? 'Homem ou mulher?'
+                    : 'Digite sua mensagem'
                 }
-                className="flex-1 bg-cinema-dark border-white/10 focus:border-cinema-red"
+                className="flex-1 h-10 text-[13px] bg-cinema-dark border-white/10 focus:border-cinema-red"
                 maxLength={MAX_INPUT_LEN}
                 disabled={isTyping || isAiLoading}
               />
               <Button
                 variant="cinema"
                 size="icon"
+                className="h-10 w-10 shrink-0"
                 onClick={() => void handleSend()}
                 disabled={isTyping || isAiLoading || !input.trim()}
                 aria-label="Enviar mensagem"
               >
-                <Send className="w-5 h-5" />
+                <Send className="w-4 h-4" />
               </Button>
             </div>
           </div>
