@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Play, Star } from 'lucide-react';
 import logoImg from '@/assets/cineflixpayment-logo.png';
-import heroTitle from '@/assets/hero-title.png.asset.json';
+import heroTitle from '@/assets/hero-title.png';
 import { openWhatsapp } from '@/lib/whatsapp';
 
 const ConversionHero = () => {
