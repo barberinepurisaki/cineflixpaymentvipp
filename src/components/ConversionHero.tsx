@@ -32,7 +32,7 @@ const ConversionHero = () => {
 
         {/* Cinematic title image (replaces plain headline for brand consistency) */}
         <img
-          src={heroTitle}
+          src={heroTitle.url}
           alt="Filmes, séries e muito mais"
           width={1280}
           height={640}
