@@ -1,18 +1,19 @@
 import { motion } from 'framer-motion';
 import { Play, Star } from 'lucide-react';
 import logoImg from '@/assets/cineflixpayment-logo.png';
+import heroTitle from '@/assets/hero-title.png';
 import { openWhatsapp } from '@/lib/whatsapp';
 
 const ConversionHero = () => {
   return (
     <section
       aria-label="Oferta principal"
-      className="relative bg-black text-white min-h-[88vh] md:min-h-[92vh] flex flex-col items-center justify-center px-6 pt-28 pb-16 overflow-hidden"
+      className="relative bg-black text-white flex flex-col items-center justify-center px-6 pt-24 pb-8 md:pt-28 md:pb-10 overflow-hidden"
     >
       {/* Subtle red radial glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(229,9,20,0.20),_transparent_60%)] pointer-events-none" />
       {/* Bottom fade into next section */}
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-black pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-black pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 12 }}
@@ -26,19 +27,20 @@ const ConversionHero = () => {
           alt="CineflixPayment"
           width={1696}
           height={608}
-          className="w-full max-w-[320px] md:max-w-md mb-10 select-none animate-logo-flash"
+          className="w-full max-w-[320px] md:max-w-md mb-6 select-none animate-logo-flash"
         />
 
-
-        {/* Headline */}
-        <h1 className="font-cinema text-4xl md:text-5xl font-extrabold leading-[1.05] tracking-tight mb-4">
-          FILMES SÉRIES
-          <br />
-          & MUITO +
-        </h1>
+        {/* Cinematic title image (replaces plain headline for brand consistency) */}
+        <img
+          src={heroTitle}
+          alt="Filmes, séries e muito mais"
+          width={1280}
+          height={640}
+          className="w-full max-w-[340px] md:max-w-md mb-5 select-none"
+        />
 
         {/* Subhead */}
-        <p className="text-base md:text-lg text-white/70 font-medium mb-8 max-w-xs">
+        <p className="text-base md:text-lg text-white/70 font-medium mb-6 max-w-xs">
           Assista onde quiser. Cancele quando quiser.
         </p>
 
@@ -52,7 +54,7 @@ const ConversionHero = () => {
         </button>
 
         {/* Micro trust */}
-        <div className="mt-6 inline-flex items-center gap-2 text-xs text-white/60">
+        <div className="mt-4 inline-flex items-center gap-2 text-xs text-white/60">
           <div className="flex gap-0.5">
             {[...Array(5)].map((_, i) => (
               <Star key={i} className="w-3.5 h-3.5 fill-cinema-gold text-cinema-gold" />
