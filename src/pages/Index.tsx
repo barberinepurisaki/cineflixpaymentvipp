@@ -47,7 +47,7 @@ const Index = () => {
         <ConversionHero />
 
         {/* 2. Catálogo */}
-        <section id="filmes" className="bg-cinema-dark pt-10 pb-6">
+        <section id="filmes" className="bg-cinema-dark pt-4 pb-6">
           <div className="container mx-auto px-4 mb-4">
             <p className="text-cinema-red text-xs font-semibold tracking-[0.22em] uppercase mb-2">
               Catálogo
